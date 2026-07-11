@@ -15,6 +15,8 @@
     "render:draft": "npm run build && tsx tools/render-draft.ts",
     "render:review": "npm run prepare:sources && npm run build && npx --yes hyperframes@0.7.49 render --fps 60 --quality high --output renders/preview/review.mp4",
     "render:master": "npm run build && tsx tools/render-master.ts",
+    "render:validation": "npm run prepare:sources && npm run build && tsx tools/render-validation.ts",
+    "build:validation": "npm run render:validation && npm run build && tsx tools/copy-validation-dist.ts",
     "prepare:sources": "tsx tools/prepare-sources.ts",
     "inspect:source": "tsx tools/inspect-source.ts",
     "normalize-source": "tsx tools/normalize-source.ts",

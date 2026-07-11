@@ -1,11 +1,19 @@
 node_modules/
 dist/
 snapshots/
-renders/
+renders/*
+!renders/validation/
+renders/validation/*
+!renders/validation/manual-review.md
 cache/prepared/
 compositions/.master.render.html
 .playwright-cli/
 .hf-integration-fixture/
+
+# Generated V0 validation artifacts (index.html is the only tracked file here)
+validation/anime-edit-validation.mp4
+validation/first-frame.png
+validation/validation-report.json
 
 # Source Plates are local project inputs. Keep original/reference footage out of Git.
 assets/sources/*
