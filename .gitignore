@@ -1,0 +1,9 @@
+node_modules/
+dist/
+snapshots/
+renders/
+.playwright-cli/
+
+# Source Plates are local project inputs. Keep original/reference footage out of Git.
+assets/sources/*
+!assets/sources/.gitkeep

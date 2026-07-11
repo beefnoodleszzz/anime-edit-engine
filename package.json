@@ -1,0 +1,34 @@
+{
+  "name": "anime-edit-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "dev": "npm run build && npx --yes hyperframes@0.7.49 preview",
+    "dev:no-open": "npm run build && npx --yes hyperframes@0.7.49 preview --no-open",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run build && npx --yes hyperframes@0.7.49 lint && npx --yes hyperframes@0.7.49 validate && npx --yes hyperframes@0.7.49 inspect",
+    "snapshot": "npm run build && npx --yes hyperframes@0.7.49 snapshot --frames 8",
+    "render:draft": "npm run build && npx --yes hyperframes@0.7.49 render --fps 30 --quality draft --output renders/preview/draft.mp4",
+    "render:review": "npm run build && npx --yes hyperframes@0.7.49 render --fps 60 --quality high --output renders/preview/review.mp4",
+    "render:master": "npm run build && tsx tools/render-master.ts",
+    "inspect:source": "tsx tools/inspect-source.ts",
+    "normalize-source": "tsx tools/normalize-source.ts",
+    "contact-sheet": "tsx tools/generate-contact-sheet.ts",
+    "detect-cuts": "tsx tools/detect-scene-change.ts",
+    "analyze-audio": "tsx tools/analyze-audio.ts"
+  },
+  "dependencies": {
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.13",
+    "@types/three": "^0.185.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}
