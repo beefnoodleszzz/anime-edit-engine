@@ -13,14 +13,13 @@ describe('planDecodeJobs', () => {
     const jobs = planDecodeJobs(['a', 'b'], (id) => (id === 'a' ? 'fp-a' : 'fp-b'));
     expect(jobs.size).toBe(2);
   });
-  it('collapses the five demo sourceIds that share assets/sources/wow-normalized.mp4 into a single decode job', () => {
+  it('plans exactly one decode job per unique physical file across the real 001-demo source list', () => {
     const typed = project as ProjectManifest;
-    const sharedFile = 'assets/sources/wow-normalized.mp4';
-    const sharedSourceIds = typed.sources.filter((source) => source.file === sharedFile).map((source) => source.id);
-    expect(sharedSourceIds).toEqual(['EYE_001', 'FACE_001', 'CAPE_TURN_001', 'CAPE_EXIT_001', 'DRAW_001']);
     const fingerprintOf = new Map(typed.sources.map((source) => [source.id, source.file] as const));
     const jobs = planDecodeJobs(typed.sources.map((source) => source.id), (id) => fingerprintOf.get(id)!);
-    expect(jobs.get(sharedFile)).toEqual(sharedSourceIds);
     expect(jobs.size).toBe(new Set(typed.sources.map((source) => source.file)).size);
+    for (const [file, sourceIds] of jobs) {
+      for (const sourceId of sourceIds) expect(fingerprintOf.get(sourceId)).toBe(file);
+    }
   });
 });

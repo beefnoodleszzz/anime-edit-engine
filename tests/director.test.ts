@@ -13,8 +13,9 @@ describe('Director', () => {
   it('maps source time inside the selected hero range', () => {
     const frame = director.resolve(2.7);
     expect(frame.shot.id).toBe('s03');
-    expect(frame.sourceTime).toBeGreaterThanOrEqual(8.9);
-    expect(frame.sourceTime).toBeLessThanOrEqual(11.2);
+    const heroRange = (project as ProjectManifest).sources.find((source) => source.id === frame.shot.source)!.heroRanges[frame.shot.rangeIndex]!;
+    expect(frame.sourceTime).toBeGreaterThanOrEqual(heroRange.start);
+    expect(frame.sourceTime).toBeLessThanOrEqual(heroRange.end);
   });
   it('calculates a 120 Hz frame index without playback state', () => {
     expect(director.resolve(6.2).frameIndex).toBe(744);

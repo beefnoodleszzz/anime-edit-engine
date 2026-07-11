@@ -1,152 +1,398 @@
 {
   "schemaVersion": 1,
   "character": "shaosiming",
-  "updatedAt": "2026-07-11T19:34:00Z",
+  "updatedAt": "2026-07-11T15:35:04.423Z",
   "clips": [
     {
       "id": "HERO_IDLE_003",
       "file": "assets/sources/HERO_IDLE_003.mp4",
       "migrationPending": true,
       "shotType": "HERO_IDLE",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "686faa799a5ca09b062153965b2fecb85bf9debc9cd2de82988dae178d9e53f1" },
-      "generation": { "generationId": "", "providerTaskId": "", "model": "", "requestPath": "" },
-      "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
-      "heroRanges": [{ "start": 0.8, "end": 4.35, "score": 92, "tags": ["face", "stable", "opening"] }],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "686faa799a5ca09b062153965b2fecb85bf9debc9cd2de82988dae178d9e53f1"
+      },
+      "generation": {
+        "generationId": "",
+        "providerTaskId": "",
+        "model": "",
+        "requestPath": ""
+      },
+      "sourceReferenceImages": [
+        "IMAGE_01_FRONT.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.8,
+          "end": 4.35,
+          "score": 92,
+          "tags": [
+            "face",
+            "stable",
+            "opening"
+          ]
+        }
+      ],
       "qc": {
         "status": "approved",
         "reviewedAt": "2026-07-11T12:08:17Z",
         "reviewedBy": "human",
         "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): clean, no watermark, camera transform reads correctly. Recommended heroRange above. Explicitly approved by the user in chat on 2026-07-11. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
-        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/"],
+        "issues": [
+          "no generation provenance (predates this registry)",
+          "physical file not yet migrated into materials/shaosiming/clips/"
+        ],
         "contactSheet": "materials/shaosiming/qc/HERO_IDLE_003-contact-sheet.jpg"
       },
-      "usedBy": [{ "project": "001-demo", "sourceId": "HERO_IDLE_003" }]
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "HERO_IDLE_003"
+        }
+      ]
     },
     {
       "id": "LOOK_BACK_002",
       "file": "assets/sources/LOOK_BACK_002.mp4",
       "migrationPending": true,
       "shotType": "LOOK_BACK",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "df2a54d1a0b32a61b9437f78943a2a93c4c1d098c3dfb65b6c36b768450f9d63" },
-      "generation": { "generationId": "", "providerTaskId": "", "model": "", "requestPath": "" },
-      "sourceReferenceImages": ["IMAGE_02_LEFT_45.png", "IMAGE_03_RIGHT_45.png"],
-      "heroRanges": [{ "start": 0.8, "end": 4.45, "score": 90, "tags": ["face-reveal", "stable"] }],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "df2a54d1a0b32a61b9437f78943a2a93c4c1d098c3dfb65b6c36b768450f9d63"
+      },
+      "generation": {
+        "generationId": "",
+        "providerTaskId": "",
+        "model": "",
+        "requestPath": ""
+      },
+      "sourceReferenceImages": [
+        "IMAGE_02_LEFT_45.png",
+        "IMAGE_03_RIGHT_45.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.8,
+          "end": 4.45,
+          "score": 90,
+          "tags": [
+            "face-reveal",
+            "stable"
+          ]
+        }
+      ],
       "qc": {
         "status": "approved",
         "reviewedAt": "2026-07-11T12:08:17Z",
         "reviewedBy": "human",
         "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): dynamic hair/turn motion reads well, no watermark. Recommended heroRange above. Explicitly approved by the user in chat on 2026-07-11. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
-        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/"],
+        "issues": [
+          "no generation provenance (predates this registry)",
+          "physical file not yet migrated into materials/shaosiming/clips/"
+        ],
         "contactSheet": "materials/shaosiming/qc/LOOK_BACK_002-contact-sheet.jpg"
       },
-      "usedBy": [{ "project": "001-demo", "sourceId": "LOOK_BACK_002" }]
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "LOOK_BACK_002"
+        }
+      ]
     },
     {
       "id": "DRAW_001",
       "file": "materials/shaosiming/clips/DRAW_001.mp4",
       "migrationPending": false,
       "shotType": "DRAW",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "f5e3b1cee3d35c2f9538fa3022543c490cc8994c2bca5a5f6b9bed96af295c95" },
-      "generation": { "generationId": "gen-0001", "providerTaskId": "AdwMTDbHR0gnaUn3o53WsyuBWZ8-F3bvmUKKDi6vm2ixZKwwbbySS1ZsMtlRk2y-IhaA6tI1", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0001/request.json" },
-      "sourceReferenceImages": ["IMAGE_04_FULL_BODY.png"],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "f5e3b1cee3d35c2f9538fa3022543c490cc8994c2bca5a5f6b9bed96af295c95"
+      },
+      "generation": {
+        "generationId": "gen-0001",
+        "providerTaskId": "AdwMTDbHR0gnaUn3o53WsyuBWZ8-F3bvmUKKDi6vm2ixZKwwbbySS1ZsMtlRk2y-IhaA6tI1",
+        "model": "kling-video-v3_0_omni",
+        "requestPath": "materials/shaosiming/generations/gen-0001/request.json"
+      },
+      "sourceReferenceImages": [
+        "IMAGE_04_FULL_BODY.png"
+      ],
       "heroRanges": [
-        { "start": 1.2, "end": 3.4, "score": 88, "tags": ["wings-spread", "energy-burst", "reveal", "climax", "primary"] },
-        { "start": 3.4, "end": 5.0, "score": 78, "tags": ["push-in", "face-closeup", "settle", "alternate"] }
+        {
+          "start": 1.2,
+          "end": 3.4,
+          "score": 88,
+          "tags": [
+            "wings-spread",
+            "energy-burst",
+            "reveal",
+            "climax",
+            "primary"
+          ]
+        },
+        {
+          "start": 3.4,
+          "end": 5,
+          "score": 78,
+          "tags": [
+            "push-in",
+            "face-closeup",
+            "settle",
+            "alternate"
+          ]
+        }
       ],
       "qc": {
         "status": "approved",
         "reviewedAt": "2026-07-11T14:43:42Z",
         "reviewedBy": "human",
-        "notes": "AI-assisted review via contact sheet + 4 full-resolution frame close-ups (materials/shaosiming/qc/DRAW_001-gen-0001-contact-sheet.jpg): character/costume/backdrop fully consistent with existing shaosiming footage, no watermark in any checked frame corner (downloaded urlWithoutWatermark), hands fully in-frame during the 3.4-5.0s fist close-up show correct 5-finger anatomy with no fusion/extra digits (hands are cut off at frame edges during the 1.2-3.4s wings-spread pose, so anatomy there is unverified but not flagged as suspicious). Motion: 0-1.2s static idle hold, 1.2-3.4s arms rise into a wings-spread pose with purple energy burst (strongest reveal moment, chosen as primary heroRange), 3.4-5.0s camera pushes in to a tight face+fist close-up (kept as alternate). Explicitly approved by the user in chat on 2026-07-11 after reviewing this AI-assisted QC. Flagged concern (unresolved, not a QC blocker): this clip has its own baked-in camera push-in, unlike the locked-off HERO_IDLE_003/LOOK_BACK_002 plates — combining with the timeline's REVERSE_ORBIT engine camera on this shot may double up motion; recommended a test render before finalizing, still pending.",
-        "issues": ["source clip has baked-in camera motion — verify interaction with REVERSE_ORBIT before/when rendering", "not yet wired into projects/001-demo/project.json"],
+        "notes": "AI-assisted review via contact sheet + 4 full-resolution frame close-ups (materials/shaosiming/qc/DRAW_001-gen-0001-contact-sheet.jpg): character/costume/backdrop fully consistent with existing shaosiming footage, no watermark in any checked frame corner (downloaded urlWithoutWatermark), hands fully in-frame during the 3.4-5.0s fist close-up show correct 5-finger anatomy with no fusion/extra digits. Motion: 0-1.2s static idle hold, 1.2-3.4s arms rise into a wings-spread pose with purple energy burst (strongest reveal moment, chosen as primary heroRange), 3.4-5.0s camera pushes in to a tight face+fist close-up (kept as alternate). Explicitly approved by the user in chat on 2026-07-11. Wired into project.json and test-rendered 2026-07-11 (renders/validation/anime-edit-validation.mp4, s07): the clip's own push-in plus the timeline's REVERSE_ORBIT engine camera combine into a smooth, continuous push-to-climax — no double-zoom artifact, ends on a strong non-black final frame. Concern resolved.",
+        "issues": [],
         "contactSheet": "materials/shaosiming/qc/DRAW_001-gen-0001-contact-sheet.jpg"
       },
-      "usedBy": []
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "DRAW_001"
+        }
+      ]
     },
     {
       "id": "EYE_001",
-      "file": "materials/shaosiming/generations/gen-0002/output.mp4",
+      "file": "materials/shaosiming/clips/EYE_001.mp4",
       "migrationPending": false,
       "shotType": "EYE",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "f096a1b497461984a6e9916508f1193c93570ede062b218fa87fb459ea3d4213" },
-      "generation": { "generationId": "gen-0002", "providerTaskId": "ASI6a20tCJ6vld7dwC0M3ZCPpV_9lqqEoXSyaYbGp0NRiwlFPbxZigQEspcc94vqG1Z2KSAT", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0002/request.json" },
-      "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "f096a1b497461984a6e9916508f1193c93570ede062b218fa87fb459ea3d4213"
+      },
+      "generation": {
+        "generationId": "gen-0002",
+        "providerTaskId": "ASI6a20tCJ6vld7dwC0M3ZCPpV_9lqqEoXSyaYbGp0NRiwlFPbxZigQEspcc94vqG1Z2KSAT",
+        "model": "kling-video-v3_0_omni",
+        "requestPath": "materials/shaosiming/generations/gen-0002/request.json"
+      },
+      "sourceReferenceImages": [
+        "IMAGE_01_FRONT.png"
+      ],
       "heroRanges": [
-        { "start": 1.0, "end": 2.6, "score": 90, "tags": ["eyes-opening", "gaze-rise", "primary"] },
-        { "start": 3.4, "end": 5.0, "score": 82, "tags": ["eye-macro", "push-in", "alternate"] }
+        {
+          "start": 1,
+          "end": 2.6,
+          "score": 90,
+          "tags": [
+            "eyes-opening",
+            "gaze-rise",
+            "primary"
+          ]
+        },
+        {
+          "start": 3.4,
+          "end": 5,
+          "score": 82,
+          "tags": [
+            "eye-macro",
+            "push-in",
+            "alternate"
+          ]
+        }
       ],
       "qc": {
-        "status": "pending-human",
-        "reviewedAt": "2026-07-11T15:05:30Z",
-        "reviewedBy": "ai-assisted",
-        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/EYE_001-gen-0002-contact-sheet.jpg): character consistent, no watermark. Motion: 0-1.0s eyes closed/lowered, 1.0-2.6s eyes gradually open with gaze rising to camera (primary heroRange — best matches the EYE_PUSH narrative beat), 2.6-5.0s continued push-in to an extreme single-eye macro close-up (alternate heroRange, more intense). Same flagged concern as DRAW_001: this clip has its own baked-in push-in, may double up with the timeline's EYE_PUSH engine camera on this shot.",
-        "issues": ["source clip has baked-in camera push-in — verify interaction with EYE_PUSH before/when rendering", "not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "status": "approved",
+        "reviewedAt": "2026-07-11T15:28:16Z",
+        "reviewedBy": "human",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/EYE_001-gen-0002-contact-sheet.jpg): character consistent, no watermark. Motion: 0-1.0s eyes closed/lowered, 1.0-2.6s eyes gradually open with gaze rising to camera (primary heroRange — best matches the EYE_PUSH narrative beat), 2.6-5.0s continued push-in to an extreme single-eye macro close-up (alternate heroRange, more intense). Explicitly approved by the user in chat on 2026-07-11 alongside FACE_001/CAPE_TURN_001/CAPE_EXIT_001. Wired into project.json and test-rendered 2026-07-11 (renders/validation/anime-edit-validation.mp4, s03): reads as a clean, controlled eye push, no visible double-zoom artifact. Concern resolved.",
+        "issues": [],
         "contactSheet": "materials/shaosiming/qc/EYE_001-gen-0002-contact-sheet.jpg"
       },
-      "usedBy": []
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "EYE_001"
+        }
+      ]
     },
     {
       "id": "FACE_001",
-      "file": "materials/shaosiming/generations/gen-0003/output.mp4",
+      "file": "materials/shaosiming/clips/FACE_001.mp4",
       "migrationPending": false,
       "shotType": "FACE",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "78ae5328a09c234c22c390b352e54b9529f4949ba2696d00c8137bb0acf725e2" },
-      "generation": { "generationId": "gen-0003", "providerTaskId": "AawWq9_aiYHtQMQ6RSo1RJt0_9cKbuH_aT9nyhlC642aRYkb4GhNm8V883WxnKMb5yjm2iLS", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0003/request.json" },
-      "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "78ae5328a09c234c22c390b352e54b9529f4949ba2696d00c8137bb0acf725e2"
+      },
+      "generation": {
+        "generationId": "gen-0003",
+        "providerTaskId": "AawWq9_aiYHtQMQ6RSo1RJt0_9cKbuH_aT9nyhlC642aRYkb4GhNm8V883WxnKMb5yjm2iLS",
+        "model": "kling-video-v3_0_omni",
+        "requestPath": "materials/shaosiming/generations/gen-0003/request.json"
+      },
+      "sourceReferenceImages": [
+        "IMAGE_01_FRONT.png"
+      ],
       "heroRanges": [
-        { "start": 1.5, "end": 4.5, "score": 80, "tags": ["face-reveal", "stable", "locked-camera"] }
+        {
+          "start": 1.5,
+          "end": 4.5,
+          "score": 80,
+          "tags": [
+            "face-reveal",
+            "stable",
+            "locked-camera"
+          ]
+        }
       ],
       "qc": {
-        "status": "pending-human",
-        "reviewedAt": "2026-07-11T15:07:30Z",
-        "reviewedBy": "ai-assisted",
-        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/FACE_001-gen-0003-contact-sheet.jpg): character consistent, no watermark, no artifacts. Weaker than requested — prompt asked for veil tremble / hair flow, but the result is essentially a single eyes-closed-to-open blink held static for the rest of the clip, with no camera motion. Upside: unlike DRAW_001/EYE_001/CAPE_EXIT_001, this clip has NO baked-in camera motion — it's a locked-off plate like HERO_IDLE_003/LOOK_BACK_002, so it composites cleanly under the timeline's FACE_CROSS_LEFT/FACE_CROSS_RIGHT engine camera with no double-motion risk. Any range after the eyes fully open works equally well since the tail is static.",
-        "issues": ["motion is weaker than the prompt requested — mostly static after the initial blink", "not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "status": "approved",
+        "reviewedAt": "2026-07-11T15:28:16Z",
+        "reviewedBy": "human",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/FACE_001-gen-0003-contact-sheet.jpg): character consistent, no watermark, no artifacts. Weaker than requested — prompt asked for veil tremble / hair flow, but the result is essentially a single eyes-closed-to-open blink held static for the rest of the clip, with no camera motion. Upside: unlike DRAW_001/EYE_001/CAPE_EXIT_001, this clip has NO baked-in camera motion — it's a locked-off plate like HERO_IDLE_003/LOOK_BACK_002, so it composites cleanly under the timeline's FACE_CROSS_LEFT/FACE_CROSS_RIGHT engine camera with no double-motion risk. Any range after the eyes fully open works equally well since the tail is static. Explicitly approved by the user in chat on 2026-07-11 alongside EYE_001/CAPE_TURN_001/CAPE_EXIT_001.",
+        "issues": [
+          "motion is weaker than the prompt requested — mostly static after the initial blink"
+        ],
         "contactSheet": "materials/shaosiming/qc/FACE_001-gen-0003-contact-sheet.jpg"
       },
-      "usedBy": []
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "FACE_001"
+        }
+      ]
     },
     {
       "id": "CAPE_TURN_001",
-      "file": "materials/shaosiming/generations/gen-0004/output.mp4",
+      "file": "materials/shaosiming/clips/CAPE_TURN_001.mp4",
       "migrationPending": false,
       "shotType": "CAPE_TURN",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "63f653632153fa65be3c3c764c8905ab37bb7fed852bdcfeec55383a7bdcabca" },
-      "generation": { "generationId": "gen-0004", "providerTaskId": "AU7qluzyOJmg_6tnDRLtNWT-iGFtmAuozl3BZuj8SQ9MR-WwPumQni7OWqZR42KdBQ-mH7nc", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0004/request.json" },
-      "sourceReferenceImages": ["IMAGE_02_LEFT_45.png", "IMAGE_03_RIGHT_45.png"],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "63f653632153fa65be3c3c764c8905ab37bb7fed852bdcfeec55383a7bdcabca"
+      },
+      "generation": {
+        "generationId": "gen-0004",
+        "providerTaskId": "AU7qluzyOJmg_6tnDRLtNWT-iGFtmAuozl3BZuj8SQ9MR-WwPumQni7OWqZR42KdBQ-mH7nc",
+        "model": "kling-video-v3_0_omni",
+        "requestPath": "materials/shaosiming/generations/gen-0004/request.json"
+      },
+      "sourceReferenceImages": [
+        "IMAGE_02_LEFT_45.png",
+        "IMAGE_03_RIGHT_45.png"
+      ],
       "heroRanges": [
-        { "start": 1.5, "end": 4.2, "score": 91, "tags": ["whip", "hair-flow", "petal", "turn"] }
+        {
+          "start": 1.5,
+          "end": 4.2,
+          "score": 91,
+          "tags": [
+            "whip",
+            "hair-flow",
+            "petal",
+            "turn"
+          ]
+        }
       ],
       "qc": {
-        "status": "pending-human",
-        "reviewedAt": "2026-07-11T15:14:30Z",
-        "reviewedBy": "ai-assisted",
-        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/CAPE_TURN_001-gen-0004-contact-sheet.jpg): character consistent, no watermark, no artifacts. Strong match for the requested whip-turn: dramatic hair/sleeve whip with real motion blur, a petal visibly crosses the foreground as requested in the prompt. No baked-in camera motion — the CHARACTER turns, camera is locked off, same convention as LOOK_BACK_002, so it composites cleanly under the timeline's WHIP_RIGHT engine camera with no double-motion risk. This is the strongest result of the batch so far.",
-        "issues": ["not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "status": "approved",
+        "reviewedAt": "2026-07-11T15:28:16Z",
+        "reviewedBy": "human",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/CAPE_TURN_001-gen-0004-contact-sheet.jpg): character consistent, no watermark, no artifacts. Strong match for the requested whip-turn: dramatic hair/sleeve whip with real motion blur, a petal visibly crosses the foreground as requested in the prompt. No baked-in camera motion — the CHARACTER turns, camera is locked off, same convention as LOOK_BACK_002, so it composites cleanly under the timeline's WHIP_RIGHT engine camera with no double-motion risk. This is the strongest result of the batch so far. Explicitly approved by the user in chat on 2026-07-11 alongside EYE_001/FACE_001/CAPE_EXIT_001. Wired into project.json and test-rendered 2026-07-11 (renders/validation/anime-edit-validation.mp4, s05). Test render also surfaced and fixed an unrelated bug: the s05->s06 COLOR_BRIDGE_CUT transition's bridge color was a hardcoded crimson tuned for the old wow-normalized.mp4 footage (engine/transitions/TransitionSystem.ts) — flashed red against this shot's purple palette until fixed to a measured color from the actual CAPE_TURN_001/CAPE_EXIT_001 frames.",
+        "issues": [],
         "contactSheet": "materials/shaosiming/qc/CAPE_TURN_001-gen-0004-contact-sheet.jpg"
       },
-      "usedBy": []
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "CAPE_TURN_001"
+        }
+      ]
     },
     {
       "id": "CAPE_EXIT_001",
-      "file": "materials/shaosiming/generations/gen-0005/output.mp4",
+      "file": "materials/shaosiming/clips/CAPE_EXIT_001.mp4",
       "migrationPending": false,
       "shotType": "CAPE_EXIT",
-      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "68d30a20c6e8e1cf9b1a3f5584149ae00a23aef61d2f31e7cef3304823c7c2a8" },
-      "generation": { "generationId": "gen-0005", "providerTaskId": "AduU5vDKPw3Kfvnvkjkc32x6Ga_O4Phlj-u5M8lkrmTJF_wrsJiPfZkeKfQra0hWRDx-y-U3", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0005/request.json" },
-      "sourceReferenceImages": ["IMAGE_03_RIGHT_45.png"],
+      "media": {
+        "durationSeconds": 5.041667,
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "68d30a20c6e8e1cf9b1a3f5584149ae00a23aef61d2f31e7cef3304823c7c2a8"
+      },
+      "generation": {
+        "generationId": "gen-0005",
+        "providerTaskId": "AduU5vDKPw3Kfvnvkjkc32x6Ga_O4Phlj-u5M8lkrmTJF_wrsJiPfZkeKfQra0hWRDx-y-U3",
+        "model": "kling-video-v3_0_omni",
+        "requestPath": "materials/shaosiming/generations/gen-0005/request.json"
+      },
+      "sourceReferenceImages": [
+        "IMAGE_03_RIGHT_45.png"
+      ],
       "heroRanges": [
-        { "start": 2.0, "end": 4.8, "score": 89, "tags": ["turn-away", "cape-flow", "camera-pull", "exit"] }
+        {
+          "start": 2,
+          "end": 4.8,
+          "score": 89,
+          "tags": [
+            "turn-away",
+            "cape-flow",
+            "camera-pull",
+            "exit"
+          ]
+        }
       ],
       "qc": {
-        "status": "pending-human",
-        "reviewedAt": "2026-07-11T15:16:30Z",
-        "reviewedBy": "ai-assisted",
-        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/CAPE_EXIT_001-gen-0005-contact-sheet.jpg): character consistent, no watermark, no artifacts. Strong match for the requested exit: turns back to camera, cape/hair flows dramatically, camera pulls back as she recedes into the distance. Same flagged concern as DRAW_001/EYE_001: this clip has its own baked-in camera pull-back, may double up with the timeline's REVERSE_PULL engine camera on this shot.",
-        "issues": ["source clip has baked-in camera pull-back — verify interaction with REVERSE_PULL before/when rendering", "not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "status": "approved",
+        "reviewedAt": "2026-07-11T15:28:16Z",
+        "reviewedBy": "human",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/CAPE_EXIT_001-gen-0005-contact-sheet.jpg): character consistent, no watermark, no artifacts. Strong match for the requested exit: turns back to camera, cape/hair flows dramatically, camera pulls back as she recedes into the distance. Explicitly approved by the user in chat on 2026-07-11 alongside EYE_001/FACE_001/CAPE_TURN_001. Wired into project.json and test-rendered 2026-07-11 (renders/validation/anime-edit-validation.mp4, s06). Same test render surfaced and fixed an unrelated bug: the s05->s06 COLOR_BRIDGE_CUT transition's bridge color was a hardcoded crimson tuned for the old wow-normalized.mp4 footage (engine/transitions/TransitionSystem.ts) — fixed to a measured color from the actual CAPE_TURN_001/CAPE_EXIT_001 frames. Baked-in camera pull-back reads fine combined with REVERSE_PULL, no double-motion artifact.",
+        "issues": [],
         "contactSheet": "materials/shaosiming/qc/CAPE_EXIT_001-gen-0005-contact-sheet.jpg"
       },
-      "usedBy": []
+      "usedBy": [
+        {
+          "project": "001-demo",
+          "sourceId": "CAPE_EXIT_001"
+        }
+      ]
     }
   ]
 }
