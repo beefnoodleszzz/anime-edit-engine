@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { AnimeEditEngine } from '../core/Engine';
 
-declare global { interface Window { __hfThreeTime?: number; THREE?: typeof THREE; } }
+declare global { interface Window { __hfThreeTime?: number; THREE?: typeof THREE; __animeEditDiagnostics?: boolean; } }
 
 /**
  * HyperFrames 0.7.49 real capture lifecycle, verified by reading the shipped runtime
@@ -50,6 +50,7 @@ export class HyperFramesAdapter {
   public install(): void {
     window.addEventListener('hf-seek', (event: Event) => {
       const seek = event as CustomEvent<{ time: number }>;
+      this.diagnostic(`hf-seek received time=${seek.detail.time}`);
       this.renderGated(seek.detail.time);
     });
   }
@@ -61,6 +62,7 @@ export class HyperFramesAdapter {
    * seam where itemStart/itemEnd should bracket the async work instead of this whole call.
    */
   public renderGated(time: number): void {
+    this.diagnostic(`render started time=${time}`);
     const manager = THREE.DefaultLoadingManager;
     manager.itemStart(HyperFramesAdapter.LOADING_KEY);
     try {
@@ -68,5 +70,18 @@ export class HyperFramesAdapter {
     } finally {
       manager.itemEnd(HyperFramesAdapter.LOADING_KEY);
     }
+    this.diagnostic(`render completed time=${time}`);
+  }
+
+  /**
+   * Opt-in event trace for the real-CLI integration test (tests/hyperframes-first-frame.
+   * integration.test.ts), which has no other way to observe in-page event ordering from a
+   * black-box `npx hyperframes render` subprocess — HyperFrames relays page console output to
+   * the CLI's own stdout, so this becomes parseable proof of hf-seek -> render ordering. Gated
+   * behind an explicit opt-in flag that production's engine/main.ts never sets, so this is a
+   * no-op (and produces zero console output) in every real render.
+   */
+  private diagnostic(message: string): void {
+    if (window.__animeEditDiagnostics) console.log(`[anime-edit-diagnostic] ${message}`);
   }
 }

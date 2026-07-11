@@ -3,7 +3,7 @@ import { HyperFramesAdapter } from '../../engine/hyperframes/HyperFramesAdapter'
 import { ProjectLoader } from '../../engine/core/ProjectLoader';
 import type { ProjectManifest, TimelineManifest } from '../../engine/types';
 
-declare global { interface Window { __hfThreeTime?: number; __hfCliEntryError?: string; } }
+declare global { interface Window { __hfThreeTime?: number; __hfCliEntryError?: string; __animeEditDiagnostics?: boolean; } }
 
 /**
  * Real HyperFrames CLI entry point (bundled and referenced from a generated index.html exactly
@@ -31,6 +31,10 @@ try {
   const video = document.querySelector<HTMLVideoElement>('[data-prepared-shot="s01"]');
   if (!canvas || !video) throw new Error('HyperFrames CLI fixture DOM is missing #stage or the prepared source video.');
   const engine = new AnimeEditEngine(config, mode, canvas, new Map([['s01', video]]));
+  // Console output from a real hf-seek listener is the only channel this test has into a
+  // black-box `npx hyperframes render` subprocess — HyperFrames relays page console lines to
+  // the CLI's own stdout. Never set by production's engine/main.ts.
+  window.__animeEditDiagnostics = true;
   const adapter = new HyperFramesAdapter(engine);
   adapter.install();
   adapter.renderGated(window.__hfThreeTime ?? 0);

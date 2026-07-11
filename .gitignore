@@ -5,6 +5,7 @@ renders/
 cache/prepared/
 compositions/.master.render.html
 .playwright-cli/
+.hf-integration-fixture/
 
 # Source Plates are local project inputs. Keep original/reference footage out of Git.
 assets/sources/*
