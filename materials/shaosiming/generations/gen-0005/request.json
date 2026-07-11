@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0005",
+  "character": "shaosiming",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0_omni",
+  "prompt": "图片1中的少司命,转身背对镜头快速离开,纱袍下摆大幅飘扬扫过镜头前景,镜头随之向后拉远",
+  "referenceImages": ["IMAGE_03_RIGHT_45.png"],
+  "arguments": {
+    "duration": "5",
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T15:00:57Z"
+}

@@ -62,6 +62,91 @@
         "contactSheet": "materials/shaosiming/qc/DRAW_001-gen-0001-contact-sheet.jpg"
       },
       "usedBy": []
+    },
+    {
+      "id": "EYE_001",
+      "file": "materials/shaosiming/generations/gen-0002/output.mp4",
+      "migrationPending": false,
+      "shotType": "EYE",
+      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "f096a1b497461984a6e9916508f1193c93570ede062b218fa87fb459ea3d4213" },
+      "generation": { "generationId": "gen-0002", "providerTaskId": "ASI6a20tCJ6vld7dwC0M3ZCPpV_9lqqEoXSyaYbGp0NRiwlFPbxZigQEspcc94vqG1Z2KSAT", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0002/request.json" },
+      "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
+      "heroRanges": [
+        { "start": 1.0, "end": 2.6, "score": 90, "tags": ["eyes-opening", "gaze-rise", "primary"] },
+        { "start": 3.4, "end": 5.0, "score": 82, "tags": ["eye-macro", "push-in", "alternate"] }
+      ],
+      "qc": {
+        "status": "pending-human",
+        "reviewedAt": "2026-07-11T15:05:30Z",
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/EYE_001-gen-0002-contact-sheet.jpg): character consistent, no watermark. Motion: 0-1.0s eyes closed/lowered, 1.0-2.6s eyes gradually open with gaze rising to camera (primary heroRange — best matches the EYE_PUSH narrative beat), 2.6-5.0s continued push-in to an extreme single-eye macro close-up (alternate heroRange, more intense). Same flagged concern as DRAW_001: this clip has its own baked-in push-in, may double up with the timeline's EYE_PUSH engine camera on this shot.",
+        "issues": ["source clip has baked-in camera push-in — verify interaction with EYE_PUSH before/when rendering", "not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "contactSheet": "materials/shaosiming/qc/EYE_001-gen-0002-contact-sheet.jpg"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "FACE_001",
+      "file": "materials/shaosiming/generations/gen-0003/output.mp4",
+      "migrationPending": false,
+      "shotType": "FACE",
+      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "78ae5328a09c234c22c390b352e54b9529f4949ba2696d00c8137bb0acf725e2" },
+      "generation": { "generationId": "gen-0003", "providerTaskId": "AawWq9_aiYHtQMQ6RSo1RJt0_9cKbuH_aT9nyhlC642aRYkb4GhNm8V883WxnKMb5yjm2iLS", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0003/request.json" },
+      "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
+      "heroRanges": [
+        { "start": 1.5, "end": 4.5, "score": 80, "tags": ["face-reveal", "stable", "locked-camera"] }
+      ],
+      "qc": {
+        "status": "pending-human",
+        "reviewedAt": "2026-07-11T15:07:30Z",
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/FACE_001-gen-0003-contact-sheet.jpg): character consistent, no watermark, no artifacts. Weaker than requested — prompt asked for veil tremble / hair flow, but the result is essentially a single eyes-closed-to-open blink held static for the rest of the clip, with no camera motion. Upside: unlike DRAW_001/EYE_001/CAPE_EXIT_001, this clip has NO baked-in camera motion — it's a locked-off plate like HERO_IDLE_003/LOOK_BACK_002, so it composites cleanly under the timeline's FACE_CROSS_LEFT/FACE_CROSS_RIGHT engine camera with no double-motion risk. Any range after the eyes fully open works equally well since the tail is static.",
+        "issues": ["motion is weaker than the prompt requested — mostly static after the initial blink", "not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "contactSheet": "materials/shaosiming/qc/FACE_001-gen-0003-contact-sheet.jpg"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "CAPE_TURN_001",
+      "file": "materials/shaosiming/generations/gen-0004/output.mp4",
+      "migrationPending": false,
+      "shotType": "CAPE_TURN",
+      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "63f653632153fa65be3c3c764c8905ab37bb7fed852bdcfeec55383a7bdcabca" },
+      "generation": { "generationId": "gen-0004", "providerTaskId": "AU7qluzyOJmg_6tnDRLtNWT-iGFtmAuozl3BZuj8SQ9MR-WwPumQni7OWqZR42KdBQ-mH7nc", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0004/request.json" },
+      "sourceReferenceImages": ["IMAGE_02_LEFT_45.png", "IMAGE_03_RIGHT_45.png"],
+      "heroRanges": [
+        { "start": 1.5, "end": 4.2, "score": 91, "tags": ["whip", "hair-flow", "petal", "turn"] }
+      ],
+      "qc": {
+        "status": "pending-human",
+        "reviewedAt": "2026-07-11T15:14:30Z",
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/CAPE_TURN_001-gen-0004-contact-sheet.jpg): character consistent, no watermark, no artifacts. Strong match for the requested whip-turn: dramatic hair/sleeve whip with real motion blur, a petal visibly crosses the foreground as requested in the prompt. No baked-in camera motion — the CHARACTER turns, camera is locked off, same convention as LOOK_BACK_002, so it composites cleanly under the timeline's WHIP_RIGHT engine camera with no double-motion risk. This is the strongest result of the batch so far.",
+        "issues": ["not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "contactSheet": "materials/shaosiming/qc/CAPE_TURN_001-gen-0004-contact-sheet.jpg"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "CAPE_EXIT_001",
+      "file": "materials/shaosiming/generations/gen-0005/output.mp4",
+      "migrationPending": false,
+      "shotType": "CAPE_EXIT",
+      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "68d30a20c6e8e1cf9b1a3f5584149ae00a23aef61d2f31e7cef3304823c7c2a8" },
+      "generation": { "generationId": "gen-0005", "providerTaskId": "AduU5vDKPw3Kfvnvkjkc32x6Ga_O4Phlj-u5M8lkrmTJF_wrsJiPfZkeKfQra0hWRDx-y-U3", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0005/request.json" },
+      "sourceReferenceImages": ["IMAGE_03_RIGHT_45.png"],
+      "heroRanges": [
+        { "start": 2.0, "end": 4.8, "score": 89, "tags": ["turn-away", "cape-flow", "camera-pull", "exit"] }
+      ],
+      "qc": {
+        "status": "pending-human",
+        "reviewedAt": "2026-07-11T15:16:30Z",
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/CAPE_EXIT_001-gen-0005-contact-sheet.jpg): character consistent, no watermark, no artifacts. Strong match for the requested exit: turns back to camera, cape/hair flows dramatically, camera pulls back as she recedes into the distance. Same flagged concern as DRAW_001/EYE_001: this clip has its own baked-in camera pull-back, may double up with the timeline's REVERSE_PULL engine camera on this shot.",
+        "issues": ["source clip has baked-in camera pull-back — verify interaction with REVERSE_PULL before/when rendering", "not yet wired into projects/001-demo/project.json", "awaiting human sign-off"],
+        "contactSheet": "materials/shaosiming/qc/CAPE_EXIT_001-gen-0005-contact-sheet.jpg"
+      },
+      "usedBy": []
     }
   ]
 }

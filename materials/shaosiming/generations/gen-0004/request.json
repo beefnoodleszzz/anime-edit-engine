@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0004",
+  "character": "shaosiming",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0_omni",
+  "prompt": "人物从图片1的侧身姿态猛然转向图片2的角度,紫色纱袍和长发大幅甩动,前景有花瓣略微掠过镜头,动作干脆有爆发力",
+  "referenceImages": ["IMAGE_02_LEFT_45.png", "IMAGE_03_RIGHT_45.png"],
+  "arguments": {
+    "duration": "5",
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T15:00:57Z"
+}

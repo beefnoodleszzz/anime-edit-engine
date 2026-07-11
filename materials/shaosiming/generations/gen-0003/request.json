@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0003",
+  "character": "shaosiming",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0_omni",
+  "prompt": "图片1中的少司命,面部中近景,面纱随风微颤,眼神从低垂缓缓抬起直视镜头,情绪从平静转为锐利,发丝有细微飘动",
+  "referenceImages": ["IMAGE_01_FRONT.png"],
+  "arguments": {
+    "duration": "5",
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T14:56:24Z"
+}
