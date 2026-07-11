@@ -13,17 +13,24 @@ export function validateMasterStream(stream: ProbeStream, context: RenderContext
   return { expectedFrameCount, isCfr: true };
 }
 
-export interface FirstFrameThresholds { minAlphaCoverage: number; minNonBlackPixelRatio: number; minLuminanceVariance: number; }
+export interface FirstFrameThresholds { minAlphaCoverage: number; minNonBlackPixelRatio: number; minMeanLuminance: number; minLuminanceVariance: number; }
 /**
  * A black PNG is not "empty bytes" — PNG header/IHDR/zlib framing/CRCs guarantee a non-zero,
  * non-trivial byte length even for a fully black image, so a byte-length/all-zero-bytes check
  * (the previous implementation) cannot detect a black first frame. These thresholds operate on
  * real decoded pixels instead.
+ *
+ * This is deliberately not an "is it bright" check — a legitimately dark anime frame (night
+ * scene, silhouette) can have most of its pixels near-black. What distinguishes that from a
+ * genuinely empty/failed capture is that it isn't *uniformly* empty: minNonBlackPixelRatio and
+ * minLuminanceVariance only require a small fraction of visible, non-flat detail, not overall
+ * brightness.
  */
-export const DEFAULT_FIRST_FRAME_THRESHOLDS: FirstFrameThresholds = { minAlphaCoverage: 0.99, minNonBlackPixelRatio: 0.5, minLuminanceVariance: 0.0005 };
+export const DEFAULT_FIRST_FRAME_THRESHOLDS: FirstFrameThresholds = { minAlphaCoverage: 0.99, minNonBlackPixelRatio: 0.01, minMeanLuminance: 0.002, minLuminanceVariance: 0.00005 };
 
 export function validateFirstFrame(analysis: PixelAnalysis, thresholds: FirstFrameThresholds = DEFAULT_FIRST_FRAME_THRESHOLDS): void {
   if (analysis.alphaCoverage < thresholds.minAlphaCoverage) throw new Error(`First master frame alpha coverage is too low: ${analysis.alphaCoverage} (need >= ${thresholds.minAlphaCoverage}).`);
   if (analysis.nonBlackPixelRatio < thresholds.minNonBlackPixelRatio) throw new Error(`First master frame is mostly black: nonBlackPixelRatio=${analysis.nonBlackPixelRatio} (need >= ${thresholds.minNonBlackPixelRatio}).`);
+  if (analysis.meanLuminance < thresholds.minMeanLuminance) throw new Error(`First master frame is too dim to be real content: meanLuminance=${analysis.meanLuminance} (need >= ${thresholds.minMeanLuminance}).`);
   if (analysis.luminanceVariance < thresholds.minLuminanceVariance) throw new Error(`First master frame has no visible detail: luminanceVariance=${analysis.luminanceVariance} (need >= ${thresholds.minLuminanceVariance}).`);
 }

@@ -110,8 +110,12 @@ export class Compositor {
       this.material.uniforms.uPivotPath!.value[index].set(path.pivotX, path.pivotY);
     }
     this.material.uniforms.uVelocity!.value.set(velocity.x, velocity.y, velocity.zoom, velocity.rotation);
-    const transitionBoost = this.transition.blurBoost(frame.transition);
-    this.material.uniforms.uSamples!.value = transitionBoost > 0 ? Math.max(frame.blur.samples, Math.min(mode.blurSamples, Math.ceil(frame.blur.samples + transitionBoost * (mode.blurSamples - frame.blur.samples)))) : frame.blur.samples;
+    // Director's resolveBlurProfile() is the single source of truth for sample count — it already
+    // folds transition blur into the motion score before building transformPath. Re-boosting
+    // uSamples here would desync it from uTransformPath's actual length (padded samples would
+    // repeat-sample the last transform instead of the shutter path).
+    if (frame.blur.samples !== frame.transformPath.length) throw new Error(`Blur sample/path mismatch for ${frame.shot.id} at frame ${frame.frameIndex}: blur.samples=${frame.blur.samples}, transformPath.length=${frame.transformPath.length}, transition=${frame.transition.kind ?? 'none'}.`);
+    this.material.uniforms.uSamples!.value = frame.blur.samples;
     this.material.uniforms.uGlow!.value = mode.postFX === 'full' ? postFX.glow : postFX.glow * 0.4;
     this.material.uniforms.uChromatic!.value = postFX.chromatic;
     this.material.uniforms.uGrain!.value = mode.postFX === 'full' ? postFX.grain : 0;

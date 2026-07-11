@@ -57,7 +57,22 @@ describe('Master validation — first frame pixels (real PNG decode, synthetic f
     expect(() => validateFirstFrame(analysis)).not.toThrow();
     expect(analysis.alphaCoverage).toBeCloseTo(1, 5);
     expect(analysis.nonBlackPixelRatio).toBeGreaterThan(DEFAULT_FIRST_FRAME_THRESHOLDS.minNonBlackPixelRatio);
+    expect(analysis.meanLuminance).toBeGreaterThan(DEFAULT_FIRST_FRAME_THRESHOLDS.minMeanLuminance);
     expect(analysis.luminanceVariance).toBeGreaterThan(DEFAULT_FIRST_FRAME_THRESHOLDS.minLuminanceVariance);
+  });
+  it('accepts a legitimately dark scene with a small lit detail region (old nonBlackPixelRatio >= 0.5 floor would have wrongly rejected this)', () => {
+    // 6/64 (~9%) bright detail pixels against a near-black background: a real dark shot, not an empty capture.
+    const nearBlackPng = encodePng((index) => (index < 6 ? [60, 45, 30, 255] : [2, 2, 1, 255]));
+    const analysis = analyzePngPixels(nearBlackPng, sha256);
+    expect(analysis.nonBlackPixelRatio).toBeCloseTo(6 / 64, 5);
+    expect(analysis.nonBlackPixelRatio).toBeLessThan(0.5); // would have failed the old floor
+    expect(() => validateFirstFrame(analysis)).not.toThrow();
+  });
+  it('rejects a uniformly near-black PNG with no lit pixels and no detail (a genuinely empty/failed capture)', () => {
+    const emptyDarkPng = encodePng(() => [2, 2, 1, 255]);
+    const analysis = analyzePngPixels(emptyDarkPng, sha256);
+    expect(analysis.nonBlackPixelRatio).toBe(0);
+    expect(() => validateFirstFrame(analysis)).toThrow('mostly black');
   });
   it('computes a stable pixel hash for identical pixels and a different hash for different pixels', () => {
     const a = analyzePngPixels(encodePng(() => [10, 20, 30, 255]), sha256);

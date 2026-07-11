@@ -45,11 +45,35 @@ const assertPrepared = (file: string, manifest: PreparedSourceManifest): void =>
 /** Reads the real decode-order presentation timestamp of every frame straight from the source container. */
 const probeFramePts = (file: string): readonly number[] => {
   const payload = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'frame=best_effort_timestamp_time', '-of', 'json', file], { encoding: 'utf8' })) as { frames: Array<{ best_effort_timestamp_time?: string }> };
-  return payload.frames.map((frame) => {
+  if (payload.frames.length === 0) throw new Error(`ffprobe returned no frames for ${file}`);
+  const pts = payload.frames.map((frame) => {
     const value = Number(frame.best_effort_timestamp_time);
     if (!Number.isFinite(value)) throw new Error(`ffprobe frame is missing best_effort_timestamp_time in ${file}`);
     return value;
   });
+  for (let index = 1; index < pts.length; index += 1) {
+    if (pts[index]! < pts[index - 1]!) throw new Error(`Non-monotonic PTS in ${file}: frame ${index} (${pts[index]}) precedes frame ${index - 1} (${pts[index - 1]}).`);
+  }
+  return pts;
+};
+
+interface SourceVideoMetadata {
+  codecName?: string; profile?: string; pixelFormat?: string; colorSpace?: string; colorTransfer?: string;
+  colorPrimaries?: string; colorRange?: string; bitsPerRawSample?: number; width: number; height: number;
+  rFrameRate: string; avgFrameRate: string;
+}
+/** One real ffprobe pass per unique physical source file — never hardcoded, never guessed. */
+const probeSourceVideoMetadata = (file: string): SourceVideoMetadata => {
+  const payload = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=codec_name,profile,pix_fmt,color_space,color_transfer,color_primaries,color_range,bits_per_raw_sample,width,height,r_frame_rate,avg_frame_rate', '-of', 'json', file], { encoding: 'utf8' })) as { streams: Array<Record<string, string | number | undefined>> };
+  const stream = payload.streams[0]; if (!stream) throw new Error(`No video stream in ${file}`);
+  const string = (key: string): string | undefined => (typeof stream[key] === 'string' && stream[key] !== 'unknown' && stream[key] !== 'N/A' ? stream[key] as string : undefined);
+  const optional = <K extends string, V>(key: K, value: V | undefined): { [P in K]?: V } => (value === undefined ? {} : ({ [key]: value } as { [P in K]?: V }));
+  return {
+    ...optional('codecName', string('codec_name')), ...optional('profile', string('profile')), ...optional('pixelFormat', string('pix_fmt')),
+    ...optional('colorSpace', string('color_space')), ...optional('colorTransfer', string('color_transfer')), ...optional('colorPrimaries', string('color_primaries')), ...optional('colorRange', string('color_range')),
+    ...optional('bitsPerRawSample', stream.bits_per_raw_sample !== undefined ? Number(stream.bits_per_raw_sample) : undefined),
+    width: Number(stream.width), height: Number(stream.height), rFrameRate: String(stream.r_frame_rate), avgFrameRate: String(stream.avg_frame_rate),
+  };
 };
 
 const linkOrCopy = async (source: string, destination: string): Promise<void> => {
@@ -82,20 +106,22 @@ await mkdir(root, { recursive: true });
 const sourceFingerprints = new Map(await Promise.all(config.project.sources.map(async (source) => [source.id, await fingerprint(source.file)] as const)));
 const decodeJobs = planDecodeJobs(config.project.sources.map((source) => source.id), (sourceId) => sourceFingerprints.get(sourceId)!);
 console.log(`${config.project.sources.length} sources map to ${decodeJobs.size} unique physical file(s) to decode.`);
-const decodedByFingerprint = new Map<string, { directory: string; framePts: readonly number[] }>();
+const decodedByFingerprint = new Map<string, { directory: string; framePts: readonly number[]; metadata: SourceVideoMetadata }>();
 for (const [sourceFingerprint, sourceIds] of decodeJobs) {
   const sourceFile = config.project.sources.find((candidate) => candidate.id === sourceIds[0])!.file;
-  decodedByFingerprint.set(sourceFingerprint, await decodeOnce(sourceFile, sourceFingerprint));
+  const decoded = await decodeOnce(sourceFile, sourceFingerprint);
+  decodedByFingerprint.set(sourceFingerprint, { ...decoded, metadata: probeSourceVideoMetadata(sourceFile) });
 }
 
 for (const shot of config.timeline.shots) {
   const source = config.project.sources.find((candidate) => candidate.id === shot.source)!;
   const sourceFingerprint = sourceFingerprints.get(source.id)!;
-  const { directory: decoded, framePts } = decodedByFingerprint.get(sourceFingerprint)!;
+  const { directory: decoded, framePts, metadata: sourceMetadata } = decodedByFingerprint.get(sourceFingerprint)!;
+  if (sourceMetadata.pixelFormat && sourceMetadata.pixelFormat !== 'yuv420p') console.warn(`${shot.id}: source pixel format is ${sourceMetadata.pixelFormat}, not yuv420p — the prepared intermediate re-encodes to yuv420p for Chrome <video> decodability, which is an additional chroma-subsampling pass for this source. Real PSNR is still measured and enforced below.`);
   const manifest = planner.planShot(config.project, config.timeline, context, shot.id, sourceFingerprint, framePts);
-  const directory = join(root, shot.id); const video = join(directory, `${shot.id}.mp4`); const manifestPath = join(directory, `${shot.id}.manifest.json`);
+  const directory = join(root, shot.id); const video = join(directory, `${shot.id}.mp4`); const manifestPath = join(directory, `${shot.id}.manifest.json`); const colorFidelityPath = join(directory, `${shot.id}.color-fidelity.json`);
   let valid = false;
-  if (!force && existsSync(video) && existsSync(manifestPath)) {
+  if (!force && existsSync(video) && existsSync(manifestPath) && existsSync(colorFidelityPath)) {
     try { planner.assertValid(JSON.parse(await readFile(manifestPath, 'utf8')), config.project, config.timeline, context, sourceFingerprint, framePts); assertPrepared(video, manifest); valid = true; } catch { valid = false; }
   }
   if (valid) continue;
@@ -110,7 +136,13 @@ for (const shot of config.timeline.shots) {
   console.log(`${shot.id}: yuv420p round-trip PSNR (frame 0) = ${firstFramePsnrDb.toFixed(2)} dB`);
   if (firstFramePsnrDb < COLOR_FIDELITY_MIN_PSNR_DB) throw new Error(`${shot.id}: color fidelity check failed — round-trip PSNR ${firstFramePsnrDb.toFixed(2)} dB is below the ${COLOR_FIDELITY_MIN_PSNR_DB} dB floor (possible frame misalignment, not just chroma subsampling).`);
   await writeFile(join(staging, `${shot.id}.manifest.json`), `${JSON.stringify(manifest, null, 2)}\n`);
-  await writeFile(join(staging, `${shot.id}.color-fidelity.json`), `${JSON.stringify({ shotId: shot.id, sourcePixFmt: 'yuv420p', intermediatePixFmt: 'yuv420p', crf: 0, firstFramePsnrDb, minAcceptablePsnrDb: COLOR_FIDELITY_MIN_PSNR_DB }, null, 2)}\n`);
+  await writeFile(join(staging, `${shot.id}.color-fidelity.json`), `${JSON.stringify({
+    shotId: shot.id, sourceFingerprint,
+    sourceCodec: sourceMetadata.codecName, sourceProfile: sourceMetadata.profile, sourcePixFmt: sourceMetadata.pixelFormat,
+    sourceColorSpace: sourceMetadata.colorSpace, sourceColorTransfer: sourceMetadata.colorTransfer, sourceColorPrimaries: sourceMetadata.colorPrimaries, sourceColorRange: sourceMetadata.colorRange,
+    intermediateCodec: 'h264', intermediatePixFmt: 'yuv420p', crf: 0, gop: 1,
+    firstFramePsnrDb, minAcceptablePsnrDb: COLOR_FIDELITY_MIN_PSNR_DB, passed: firstFramePsnrDb >= COLOR_FIDELITY_MIN_PSNR_DB,
+  }, null, 2)}\n`);
   // Only the encoded shot, its manifest, and the fidelity report are kept; the staged PNG
   // sequence is disposable once the encode is validated (raw decoded PNGs remain cached under
   // _decoded/<fingerprint>).

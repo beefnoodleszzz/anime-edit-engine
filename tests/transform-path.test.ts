@@ -16,6 +16,33 @@ describe('Director transform path (integration)', () => {
   it('samples a full transform path for a whip', () => { const frame = director.resolve(4.7); expect(frame.transformPath.length).toBeGreaterThan(1); expect(frame.transformPath[0]).not.toEqual(frame.transformPath.at(-1)); });
 });
 
+describe('Blur samples stay locked to the transform path length (no Compositor-side transition re-boost)', () => {
+  // s05 -> s06 (COLOR_BRIDGE_CUT) is this project's only real transition; sample at rest, mid-shot
+  // motion, and squarely inside the outgoing/incoming transition edges, across every render mode.
+  const times = { rest: 2.7, whip: 4.7, transitionOut: 4.9, transitionIn: 5.05 };
+  for (const mode of ['draft', 'review', 'master'] as const) {
+    it(`blur.samples === transformPath.length in every phase (${mode})`, () => {
+      const director = new Director(project as ProjectManifest, timeline as TimelineManifest, createRenderContext(project as ProjectManifest, mode));
+      for (const time of Object.values(times)) {
+        const frame = director.resolve(time);
+        expect(frame.transformPath).toHaveLength(frame.blur.samples);
+      }
+      const transitionFrame = director.resolve(times.transitionOut);
+      expect(transitionFrame.transition.kind).toBe('COLOR_BRIDGE_CUT');
+    });
+  }
+
+  it('transform path samples are centered symmetrically around the current frame in shutter time', () => {
+    const director = new Director(project as ProjectManifest, timeline as TimelineManifest, createRenderContext(project as ProjectManifest, 'master'));
+    const frame = director.resolve(times.whip);
+    expect(frame.transformPath.length).toBeGreaterThan(2);
+    const first = frame.transformPath[0]!; const last = frame.transformPath.at(-1)!;
+    const center = frame.transformPath[Math.floor((frame.transformPath.length - 1) / 2)]!;
+    // Symmetric shutter sampling: first/last endpoints are equidistant (in scale-space) from center.
+    expect(Math.abs(Math.log(first.scale / center.scale))).toBeCloseTo(Math.abs(Math.log(last.scale / center.scale)), 2);
+  });
+});
+
 describe('sourceUv CPU reference (mirrors the fragment shader sourceUv())', () => {
   it('zero motion maps every sample UV to itself', () => {
     for (const uv of [[0.5, 0.5], [0.1, 0.9], [0.8, 0.2]] as const) {

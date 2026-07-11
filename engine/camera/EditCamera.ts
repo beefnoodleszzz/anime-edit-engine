@@ -18,8 +18,10 @@ const PRESETS: Record<CameraPresetName, readonly Keyframe[]> = {
 };
 
 const lerp = (a: number, b: number, progress: number): number => a + (b - a) * progress;
+/** Shortest signed delta from a to b in degrees, wrapped to (-180, 180]. */
+export const shortestAngleDelta = (a: number, b: number): number => ((((b - a + 180) % 360) + 360) % 360) - 180;
 /** Shortest-arc angle interpolation: the swept path never exceeds 180 degrees either direction. */
-export const angleLerp = (a: number, b: number, progress: number): number => a + ((((b - a + 180) % 360) + 360) % 360 - 180) * progress;
+export const angleLerp = (a: number, b: number, progress: number): number => a + shortestAngleDelta(a, b) * progress;
 export class EditCamera {
   public resolve(name: CameraPresetName, progress: number): EditTransform {
     const points = PRESETS[name];
@@ -38,7 +40,7 @@ export class EditCamera {
     const elapsedSeconds = Math.max(Math.min(1, progress + progressDelta) - Math.max(0, progress - progressDelta), 0.000001) * shotDurationSeconds;
     const x = (b.x - a.x) / elapsedSeconds; const y = (b.y - a.y) / elapsedSeconds;
     const zoom = Math.log(Math.max(b.scale, 0.000001) / Math.max(a.scale, 0.000001)) / elapsedSeconds;
-    const rotation = (b.rotation - a.rotation) / elapsedSeconds;
+    const rotation = shortestAngleDelta(a.rotation, b.rotation) / elapsedSeconds;
     const magnitude = Math.min(1, Math.hypot(x, y, zoom * 0.2, rotation * 0.015));
     const planar = Math.hypot(x, y) || 1;
     return { x, y, zoom, rotation, magnitude, directionX: x / planar, directionY: y / planar };
