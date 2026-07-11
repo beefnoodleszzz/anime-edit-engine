@@ -40,6 +40,28 @@
         "contactSheet": "materials/shaosiming/qc/LOOK_BACK_002-contact-sheet.jpg"
       },
       "usedBy": [{ "project": "001-demo", "sourceId": "LOOK_BACK_002" }]
+    },
+    {
+      "id": "DRAW_001",
+      "file": "materials/shaosiming/generations/gen-0001/output.mp4",
+      "migrationPending": false,
+      "shotType": "DRAW",
+      "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "f5e3b1cee3d35c2f9538fa3022543c490cc8994c2bca5a5f6b9bed96af295c95" },
+      "generation": { "generationId": "gen-0001", "providerTaskId": "AdwMTDbHR0gnaUn3o53WsyuBWZ8-F3bvmUKKDi6vm2ixZKwwbbySS1ZsMtlRk2y-IhaA6tI1", "model": "kling-video-v3_0_omni", "requestPath": "materials/shaosiming/generations/gen-0001/request.json" },
+      "sourceReferenceImages": ["IMAGE_04_FULL_BODY.png"],
+      "heroRanges": [
+        { "start": 1.2, "end": 3.4, "score": 88, "tags": ["wings-spread", "energy-burst", "reveal", "climax"] },
+        { "start": 3.4, "end": 5.0, "score": 78, "tags": ["push-in", "face-closeup", "settle"] }
+      ],
+      "qc": {
+        "status": "pending-human",
+        "reviewedAt": "2026-07-11T12:31:00Z",
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via contact sheet (materials/shaosiming/qc/DRAW_001-gen-0001-contact-sheet.jpg): character/costume/backdrop fully consistent with existing shaosiming footage, no watermark (downloaded urlWithoutWatermark), no visible anatomical artifacts. Motion: 0-1.2s static idle hold, 1.2-3.4s arms rise into a wings-spread pose with purple energy burst (strongest reveal moment), 3.4-5.0s camera pushes in to a tight face+fist close-up. Two candidate heroRanges proposed above (primary: the energy-burst climax; alternate: the closing push-in). Flagged concern: this clip has its own baked-in camera push-in, unlike the locked-off HERO_IDLE_003/LOOK_BACK_002 plates — combining with the timeline's REVERSE_ORBIT engine camera on this shot may double up motion; worth a test render before finalizing which heroRange to use.",
+        "issues": ["awaiting human sign-off", "not yet copied into materials/shaosiming/clips/ (Promote step happens after approval)", "source clip has baked-in camera motion — verify interaction with REVERSE_ORBIT before committing to a heroRange"],
+        "contactSheet": "materials/shaosiming/qc/DRAW_001-gen-0001-contact-sheet.jpg"
+      },
+      "usedBy": []
     }
   ]
 }
