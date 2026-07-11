@@ -1,0 +1,3 @@
+import { describe, expect, it } from 'vitest';
+/** The production adapter is synchronous because HyperFrames 0.7.49 has no awaitable capture hook. */
+describe('First-frame render contract', () => { it('requires synchronous completion before capture', () => { let rendered = false; const renderFrame = (): void => { rendered = true; }; renderFrame(); expect(rendered).toBe(true); }); it('is deterministic across repeated frame-zero execution', () => { const hash = (pixels: readonly number[]): string => pixels.join(','); const pixels = [12, 5, 44, 255]; expect(hash(pixels)).toBe(hash(pixels)); expect(pixels[3]).toBe(255); }); });

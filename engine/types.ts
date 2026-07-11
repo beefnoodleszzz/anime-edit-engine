@@ -8,10 +8,10 @@ export type TimeWarpName = 'crash' | 'steady' | 'hold' | 'accelerate' | 'whip' |
 export type TransitionName = 'COLOR_BRIDGE_CUT' | 'FOREGROUND_OCCLUSION_WIPE' | 'VELOCITY_CUT' | 'WHIP';
 
 export interface HeroRange { start: number; end: number; score: number; tags: string[]; }
-export interface OcclusionCoverage { outgoing: number; incoming: number; }
+export interface TransitionMetadata { dominantColor?: [number, number, number]; estimatedCoveragePeak?: number; direction?: 'left' | 'right' | 'up' | 'down'; }
 export interface SourceClip {
   id: string; type: SourceType; file: string; width: number; height: number; fps: number; duration: number;
-  heroRanges: HeroRange[]; tags: string[]; faceStability?: number; edgeStability?: number; motionQuality?: number; occlusionCoverage?: OcclusionCoverage;
+  heroRanges: HeroRange[]; tags: string[]; faceStability?: number; edgeStability?: number; motionQuality?: number; transitionMetadata?: TransitionMetadata;
 }
 export interface RenderMode { width: number; height: number; fps: number; blurSamples: number; postFX: 'reduced' | 'full'; }
 export interface RenderContext extends RenderMode { mode: RenderModeName; frameDeltaSeconds: number; }

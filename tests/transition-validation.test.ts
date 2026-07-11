@@ -1,0 +1,4 @@
+import { describe, expect, it } from 'vitest';
+import { ProjectLoader } from '../engine/core/ProjectLoader';
+import project from '../projects/001-demo/project.json'; import timeline from '../projects/001-demo/timeline.json'; import type { ProjectManifest, TimelineManifest } from '../engine/types';
+describe('Transition validation', () => { it('requires 0.8 foreground coverage', () => { const p = structuredClone(project) as ProjectManifest; const t = structuredClone(timeline) as TimelineManifest; t.shots[4]!.transitionOut = 'FOREGROUND_OCCLUSION_WIPE'; expect(() => ProjectLoader.validate({ project: p, timeline: t })).toThrow('Outgoing occlusion'); }); it('reports timeline epsilon details', () => { const t = structuredClone(timeline) as TimelineManifest; t.shots[1]!.start += 0.01; expect(() => ProjectLoader.validate({ project: project as ProjectManifest, timeline: t })).toThrow('difference='); }); });

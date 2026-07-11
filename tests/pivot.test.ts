@@ -1,0 +1,2 @@
+import { describe, expect, it } from 'vitest'; import { EditCamera } from '../engine/camera/EditCamera';
+describe('Camera pivot', () => { it('preserves the authored eye pivot', () => { const camera = new EditCamera(); expect(camera.resolve('EYE_PUSH', 0.5).pivotY).toBeCloseTo(0.42); }); it('interpolates rotation using the shortest arc', () => { const camera = new EditCamera(); const transform = camera.resolve('FACE_CROSS_LEFT', 0.5); expect(Math.abs(transform.rotation)).toBeLessThan(3); }); });

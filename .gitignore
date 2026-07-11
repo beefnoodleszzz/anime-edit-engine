@@ -3,6 +3,7 @@ dist/
 snapshots/
 renders/
 cache/prepared/
+compositions/.master.render.html
 .playwright-cli/
 
 # Source Plates are local project inputs. Keep original/reference footage out of Git.

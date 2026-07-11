@@ -14,7 +14,6 @@ const fragmentShader = /* glsl */`
   uniform vec4 uTransformPath[24];
   uniform vec2 uPivotPath[24];
   uniform vec4 uVelocity;
-  uniform float uBlur;
   uniform float uSamples;
   uniform float uGlow;
   uniform float uChromatic;
@@ -61,7 +60,8 @@ const fragmentShader = /* glsl */`
     float glowMask = smoothstep(0.82, 0.98, luma(color)) * smoothstep(0.08, 0.35, max(max(color.r, color.g), color.b) - min(min(color.r, color.g), color.b));
     color += color * glowMask * uGlow;
     vec2 texel = 1.0 / uOutputSize;
-    vec3 blur = (sampleSource(vUv + vec2(texel.x, 0.0), 0) + sampleSource(vUv - vec2(texel.x, 0.0), 0) + sampleSource(vUv + vec2(0.0, texel.y), 0) + sampleSource(vUv - vec2(0.0, texel.y), 0)) * 0.25;
+    int centerIndex = int(max(0.0, floor((uSamples - 1.0) * 0.5)));
+    vec3 blur = (sampleSource(vUv + vec2(texel.x, 0.0), centerIndex) + sampleSource(vUv - vec2(texel.x, 0.0), centerIndex) + sampleSource(vUv + vec2(0.0, texel.y), centerIndex) + sampleSource(vUv - vec2(0.0, texel.y), centerIndex)) * 0.25;
     color += (color - blur) * uSharpen;
     color += (hash(vUv * uOutputSize) - 0.5) * uGrain;
     color = mix(color, uBridgeColor, uBridgeAlpha);
@@ -73,22 +73,25 @@ export class Compositor {
   private readonly renderer: THREE.WebGLRenderer;
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.Camera();
-  private readonly texture: THREE.VideoTexture;
+  private readonly textures = new Map<string, THREE.VideoTexture>();
   private readonly material: THREE.ShaderMaterial;
   private readonly transition = new TransitionSystem();
 
-  public constructor(canvas: HTMLCanvasElement, video: HTMLVideoElement, mode: RenderMode) {
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
-    this.renderer.setClearColor(0x000000, 0);
+  public constructor(canvas: HTMLCanvasElement, preparedVideos: ReadonlyMap<string, HTMLVideoElement>, mode: RenderMode) {
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+    this.renderer.setClearColor(0x000000, 1);
     this.renderer.setPixelRatio(1);
     this.renderer.setSize(mode.width, mode.height, false);
     canvas.width = mode.width; canvas.height = mode.height;
-    this.texture = new THREE.VideoTexture(video);
-    this.texture.colorSpace = THREE.SRGBColorSpace;
-    this.texture.minFilter = THREE.LinearFilter; this.texture.magFilter = THREE.LinearFilter;
+    for (const [shotId, video] of preparedVideos) {
+      const texture = new THREE.VideoTexture(video); texture.colorSpace = THREE.SRGBColorSpace;
+      texture.minFilter = THREE.LinearFilter; texture.magFilter = THREE.LinearFilter; this.textures.set(shotId, texture);
+    }
+    const firstTexture = this.textures.values().next().value as THREE.VideoTexture | undefined;
+    if (!firstTexture) throw new Error('No prepared source videos are available.');
     this.material = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms: {
-      uSource: { value: this.texture }, uSourceSize: { value: new THREE.Vector2(720, 1280) }, uOutputSize: { value: new THREE.Vector2(mode.width, mode.height) },
-      uTransformPath: { value: Array.from({ length: 24 }, () => new THREE.Vector4(1, 0, 0, 0)) }, uPivotPath: { value: Array.from({ length: 24 }, () => new THREE.Vector2(0.5, 0.5)) }, uVelocity: { value: new THREE.Vector4() }, uBlur: { value: 0 }, uSamples: { value: mode.blurSamples },
+      uSource: { value: firstTexture }, uSourceSize: { value: new THREE.Vector2(720, 1280) }, uOutputSize: { value: new THREE.Vector2(mode.width, mode.height) },
+      uTransformPath: { value: Array.from({ length: 24 }, () => new THREE.Vector4(1, 0, 0, 0)) }, uPivotPath: { value: Array.from({ length: 24 }, () => new THREE.Vector2(0.5, 0.5)) }, uVelocity: { value: new THREE.Vector4() }, uSamples: { value: mode.blurSamples },
       uGlow: { value: 0 }, uChromatic: { value: 0 }, uGrain: { value: 0 }, uSharpen: { value: 0 }, uFrame: { value: 0 },
       uBridgeColor: { value: new THREE.Color(0, 0, 0) }, uBridgeAlpha: { value: 0 },
     } });
@@ -97,6 +100,9 @@ export class Compositor {
 
   public render(frame: FrameContext, mode: RenderMode): void {
     const { transform, velocity, postFX } = frame;
+    const texture = this.textures.get(frame.shot.id);
+    if (!texture) throw new Error(`Prepared source is missing for ${frame.shot.id}.`);
+    this.material.uniforms.uSource!.value = texture;
     this.material.uniforms.uSourceSize!.value.set(frame.source.width, frame.source.height);
     for (let index = 0; index < 24; index += 1) {
       const path = frame.transformPath[Math.min(index, frame.transformPath.length - 1)] ?? transform;
@@ -104,8 +110,8 @@ export class Compositor {
       this.material.uniforms.uPivotPath!.value[index].set(path.pivotX, path.pivotY);
     }
     this.material.uniforms.uVelocity!.value.set(velocity.x, velocity.y, velocity.zoom, velocity.rotation);
-    this.material.uniforms.uBlur!.value = Math.min(1, frame.blur.strength + this.transition.blurBoost(frame.transition) * 0.9);
-    this.material.uniforms.uSamples!.value = frame.blur.samples;
+    const transitionBoost = this.transition.blurBoost(frame.transition);
+    this.material.uniforms.uSamples!.value = transitionBoost > 0 ? Math.max(frame.blur.samples, Math.min(mode.blurSamples, Math.ceil(frame.blur.samples + transitionBoost * (mode.blurSamples - frame.blur.samples)))) : frame.blur.samples;
     this.material.uniforms.uGlow!.value = mode.postFX === 'full' ? postFX.glow : postFX.glow * 0.4;
     this.material.uniforms.uChromatic!.value = postFX.chromatic;
     this.material.uniforms.uGrain!.value = mode.postFX === 'full' ? postFX.grain : 0;
@@ -113,11 +119,11 @@ export class Compositor {
     this.material.uniforms.uFrame!.value = frame.frameIndex;
     this.material.uniforms.uBridgeColor!.value.setRGB(...this.transition.bridgeColor(frame.transition));
     this.material.uniforms.uBridgeAlpha!.value = frame.transition.colorBridgeAlpha;
-    // SourceVideo has already waited for the decoded frame. Force this exact frame into
-    // the GPU texture now; VideoTexture's own callback can otherwise arrive after render.
-    this.texture.needsUpdate = true;
+    // HyperFrames' video frame injector patches texImage2D synchronously. Updating the
+    // selected shot texture in this handler guarantees canvas-only output before capture.
+    texture.needsUpdate = true;
     this.renderer.render(this.scene, this.camera);
   }
 
-  public dispose(): void { this.texture.dispose(); this.material.dispose(); this.renderer.dispose(); }
+  public dispose(): void { this.textures.forEach((texture) => texture.dispose()); this.material.dispose(); this.renderer.dispose(); }
 }

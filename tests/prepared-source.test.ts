@@ -8,19 +8,18 @@ import type { ProjectManifest, TimelineManifest } from '../engine/types';
 describe('PreparedSourcePlanner', () => {
   const typedProject = project as ProjectManifest; const typedTimeline = timeline as TimelineManifest;
   const context = createRenderContext(typedProject, 'master');
-  const fingerprints = Object.fromEntries(typedProject.sources.map((source) => [source.file, `fingerprint:${source.file}`]));
-  it('creates a deterministic linear 960-frame master mapping', () => {
-    const planner = new PreparedSourcePlanner(); const manifest = planner.plan(typedProject, typedTimeline, context, fingerprints);
-    expect(manifest.frameCount).toBe(960);
-    expect(manifest.frames).toHaveLength(960);
-    expect(manifest.frames[0]?.outputFrame).toBe(0);
-    expect(manifest.frames.at(-1)?.outputFrame).toBe(959);
-    expect(manifest.frames.every((frame) => frame.sourceFrame >= 0)).toBe(true);
-    planner.assertValid(manifest, typedProject, typedTimeline, context, fingerprints);
+  it('creates deterministic, independently cacheable frame maps for every shot', () => {
+    const planner = new PreparedSourcePlanner(); const manifest = planner.planShot(typedProject, typedTimeline, context, 's01', 'source-fingerprint', 121);
+    expect(manifest.frameCount).toBe(144);
+    expect(manifest.sourceFrameMap).toHaveLength(144);
+    expect(manifest.sourceFrameMap[0]?.outputFrame).toBe(0);
+    expect(manifest.sourceFrameMap.at(-1)?.outputFrame).toBe(143);
+    expect(manifest.sourceFrameMap.every((frame) => frame.sourceFrame >= 0)).toBe(true);
+    planner.assertValid(manifest, typedProject, typedTimeline, context, 'source-fingerprint', 121);
   });
   it('rejects a stale prepared manifest', () => {
-    const planner = new PreparedSourcePlanner(); const manifest = structuredClone(planner.plan(typedProject, typedTimeline, context, fingerprints));
+    const planner = new PreparedSourcePlanner(); const manifest = structuredClone(planner.planShot(typedProject, typedTimeline, context, 's01', 'source-fingerprint', 121));
     manifest.fps = 60;
-    expect(() => planner.assertValid(manifest, typedProject, typedTimeline, context, fingerprints)).toThrow('stale');
+    expect(() => planner.assertValid(manifest, typedProject, typedTimeline, context, 'source-fingerprint', 121)).toThrow('stale');
   });
 });

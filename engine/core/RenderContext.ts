@@ -7,14 +7,9 @@ export function createRenderContext(project: ProjectManifest, mode: RenderModeNa
   return Object.freeze({ mode, ...settings, frameDeltaSeconds: 1 / settings.fps });
 }
 
-export function assertRenderParity(context: RenderContext, root: HTMLElement): void {
+export function assertRenderParity(context: RenderContext, root: HTMLElement, documentFps = Number(document.documentElement.dataset.fps)): void {
   const width = Number(root.dataset.width);
   const height = Number(root.dataset.height);
-  const requestedFps = Number(document.documentElement.dataset.fps);
-  // The authoring composition is review-sized. Master is resized by HyperFrames, but it
-  // must still advertise the same cadence to avoid silently mixing frame deltas.
-  if (context.mode !== 'master' && (width !== context.width || height !== context.height)) {
-    throw new Error(`HyperFrames dimensions ${width}×${height} do not match ${context.mode} context ${context.width}×${context.height}.`);
-  }
-  if (requestedFps && requestedFps !== context.fps) throw new Error(`HyperFrames fps ${requestedFps} does not match ${context.mode} context ${context.fps}.`);
+  const mismatches = [`mode=${context.mode}`, `HyperFrames=${width}×${height}@${documentFps}`, `Engine=${context.width}×${context.height}@${context.fps}`, `blurSamples=${context.blurSamples}`];
+  if (width !== context.width || height !== context.height || documentFps !== context.fps) throw new Error(`RenderContext mismatch: ${mismatches.join(', ')}.`);
 }
