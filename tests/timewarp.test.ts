@@ -13,4 +13,11 @@ describe('VelocityEnvelope', () => {
       for (let frame = 0; frame <= 120; frame += 1) { const value = envelope.map(kind, frame / 120); expect(value).toBeGreaterThanOrEqual(previous); previous = value; }
     }
   });
+  it('generates exact, deterministic 4096-sample LUTs', () => {
+    const once = envelope.lut('whip'); const twice = envelope.lut('whip');
+    expect(once).toHaveLength(4096);
+    expect(once).toBe(twice);
+    expect(once[0]).toBe(0);
+    expect(once.at(-1)).toBe(1);
+  });
 });

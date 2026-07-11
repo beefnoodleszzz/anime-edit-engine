@@ -28,11 +28,14 @@ export class EditCamera {
     return { scale: lerp(left.scale, right.scale, segment), x: lerp(left.x, right.x, segment), y: lerp(left.y, right.y, segment), rotation: lerp(left.rotation, right.rotation, segment), pivotX: lerp(left.pivotX, right.pivotX, segment), pivotY: lerp(left.pivotY, right.pivotY, segment) };
   }
 
-  public velocity(name: CameraPresetName, progress: number, delta: number): CameraVelocity {
-    const a = this.resolve(name, Math.max(0, progress - delta));
-    const b = this.resolve(name, Math.min(1, progress + delta));
-    const divisor = Math.max(delta * 2, 0.000001);
-    const x = (b.x - a.x) / divisor; const y = (b.y - a.y) / divisor; const zoom = (b.scale - a.scale) / divisor; const rotation = (b.rotation - a.rotation) / divisor;
+  public velocity(name: CameraPresetName, progress: number, frameDeltaSeconds: number, shotDurationSeconds: number): CameraVelocity {
+    const progressDelta = frameDeltaSeconds / Math.max(shotDurationSeconds, 0.000001);
+    const a = this.resolve(name, Math.max(0, progress - progressDelta));
+    const b = this.resolve(name, Math.min(1, progress + progressDelta));
+    const elapsedSeconds = Math.max(Math.min(1, progress + progressDelta) - Math.max(0, progress - progressDelta), 0.000001) * shotDurationSeconds;
+    const x = (b.x - a.x) / elapsedSeconds; const y = (b.y - a.y) / elapsedSeconds;
+    const zoom = Math.log(Math.max(b.scale, 0.000001) / Math.max(a.scale, 0.000001)) / elapsedSeconds;
+    const rotation = (b.rotation - a.rotation) / elapsedSeconds;
     const magnitude = Math.min(1, Math.hypot(x, y, zoom * 0.2, rotation * 0.015));
     const planar = Math.hypot(x, y) || 1;
     return { x, y, zoom, rotation, magnitude, directionX: x / planar, directionY: y / planar };

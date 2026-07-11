@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-resolution="portrait" data-fps="60">
+<html lang="zh-CN" data-resolution="portrait" data-render-mode="review" data-fps="60">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, height=1920">
@@ -9,14 +9,14 @@
       * { box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
-      #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; background: #000; }
-      #source-video { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+      #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+      #source-video { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; object-fit: cover; pointer-events: none; }
     </style>
   </head>
   <body>
     <div data-hf-id="hf-9ro9" id="root" data-composition-id="anime-edit-engine" data-start="0" data-duration="8" data-width="1080" data-height="1920">
-      <!-- HyperFrames registers this direct child; the engine re-seeks it to Hero Range + Time Warp time in every hf-seek callback. -->
-      <video data-hf-id="hf-288w" id="source-video" class="clip" src="assets/sources/wow-normalized.mp4" data-start="0" data-duration="8" data-track-index="0" muted playsinline preload="auto"></video>
+      <!-- A compiled linear CFR timeline lets HyperFrames inject the exact frame without raw-source seeking. -->
+      <video data-hf-id="hf-288w" id="source-video" class="clip" src="cache/prepared/001-demo/master.mp4" data-start="0" data-duration="8" data-track-index="0" muted playsinline preload="auto"></video>
       <canvas data-hf-id="hf-2ymb" id="stage" class="clip" data-start="0" data-duration="8" data-track-index="1" aria-label="Deterministic anime edit render"></canvas>
     </div>
     <script>

@@ -11,7 +11,8 @@ const fragmentShader = /* glsl */`
   uniform sampler2D uSource;
   uniform vec2 uSourceSize;
   uniform vec2 uOutputSize;
-  uniform vec4 uTransform;
+  uniform vec4 uTransformPath[24];
+  uniform vec2 uPivotPath[24];
   uniform vec4 uVelocity;
   uniform float uBlur;
   uniform float uSamples;
@@ -27,38 +28,40 @@ const fragmentShader = /* glsl */`
 
   float luma(vec3 c) { return dot(c, vec3(0.2126, 0.7152, 0.0722)); }
   float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233)) + uFrame * 0.618) * 43758.5453); }
-  vec2 sourceUv(vec2 uv) {
-    vec2 p = uv - 0.5;
-    float c = cos(radians(uTransform.w)); float s = sin(radians(uTransform.w));
+  vec2 sourceUv(vec2 uv, int sampleIndex) {
+    vec4 transform = uTransformPath[sampleIndex];
+    vec2 pivot = uPivotPath[sampleIndex];
+    vec2 p = uv - pivot;
+    float c = cos(radians(transform.w)); float s = sin(radians(transform.w));
     p = mat2(c, -s, s, c) * p;
-    p = p / max(uTransform.x, 0.001) + vec2(uTransform.y, uTransform.z);
+    p = p / max(transform.x, 0.001) + vec2(transform.y, transform.z);
     float sourceAspect = uSourceSize.x / uSourceSize.y;
     float outputAspect = uOutputSize.x / uOutputSize.y;
     if (sourceAspect > outputAspect) p.x *= outputAspect / sourceAspect;
     else p.y *= sourceAspect / outputAspect;
-    return p + 0.5;
+    return p + pivot;
   }
-  vec3 sampleSource(vec2 uv) {
-    vec2 coord = sourceUv(uv);
+  vec3 sampleSource(vec2 uv, int sampleIndex) {
+    vec2 coord = sourceUv(uv, sampleIndex);
     vec2 ca = vec2(uVelocity.x, -uVelocity.y) * uChromatic * 0.11;
     return vec3(texture2D(uSource, coord + ca).r, texture2D(uSource, coord).g, texture2D(uSource, coord - ca).b);
   }
   void main() {
-    vec2 motion = vec2(uVelocity.x, -uVelocity.y) * 0.024 + normalize(vec2(uVelocity.z, uVelocity.w) + vec2(0.0001)) * abs(uVelocity.z + uVelocity.w * 0.01) * 0.003;
     vec3 color = vec3(0.0); float weight = 0.0;
     for (int i = 0; i < 24; i++) {
       float fi = float(i);
       if (fi >= uSamples) break;
+      int sampleIndex = int(fi);
       float t = uSamples <= 1.0 ? 0.0 : fi / (uSamples - 1.0) - 0.5;
       float w = 1.0 - abs(t) * 1.2;
-      color += sampleSource(vUv + motion * t * uBlur) * w;
+      color += sampleSource(vUv, sampleIndex) * w;
       weight += w;
     }
     color /= max(weight, 0.0001);
     float glowMask = smoothstep(0.82, 0.98, luma(color)) * smoothstep(0.08, 0.35, max(max(color.r, color.g), color.b) - min(min(color.r, color.g), color.b));
     color += color * glowMask * uGlow;
     vec2 texel = 1.0 / uOutputSize;
-    vec3 blur = (sampleSource(vUv + vec2(texel.x, 0.0)) + sampleSource(vUv - vec2(texel.x, 0.0)) + sampleSource(vUv + vec2(0.0, texel.y)) + sampleSource(vUv - vec2(0.0, texel.y))) * 0.25;
+    vec3 blur = (sampleSource(vUv + vec2(texel.x, 0.0), 0) + sampleSource(vUv - vec2(texel.x, 0.0), 0) + sampleSource(vUv + vec2(0.0, texel.y), 0) + sampleSource(vUv - vec2(0.0, texel.y), 0)) * 0.25;
     color += (color - blur) * uSharpen;
     color += (hash(vUv * uOutputSize) - 0.5) * uGrain;
     color = mix(color, uBridgeColor, uBridgeAlpha);
@@ -75,7 +78,8 @@ export class Compositor {
   private readonly transition = new TransitionSystem();
 
   public constructor(canvas: HTMLCanvasElement, video: HTMLVideoElement, mode: RenderMode) {
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+    this.renderer.setClearColor(0x000000, 0);
     this.renderer.setPixelRatio(1);
     this.renderer.setSize(mode.width, mode.height, false);
     canvas.width = mode.width; canvas.height = mode.height;
@@ -84,7 +88,7 @@ export class Compositor {
     this.texture.minFilter = THREE.LinearFilter; this.texture.magFilter = THREE.LinearFilter;
     this.material = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms: {
       uSource: { value: this.texture }, uSourceSize: { value: new THREE.Vector2(720, 1280) }, uOutputSize: { value: new THREE.Vector2(mode.width, mode.height) },
-      uTransform: { value: new THREE.Vector4(1, 0, 0, 0) }, uVelocity: { value: new THREE.Vector4() }, uBlur: { value: 0 }, uSamples: { value: mode.blurSamples },
+      uTransformPath: { value: Array.from({ length: 24 }, () => new THREE.Vector4(1, 0, 0, 0)) }, uPivotPath: { value: Array.from({ length: 24 }, () => new THREE.Vector2(0.5, 0.5)) }, uVelocity: { value: new THREE.Vector4() }, uBlur: { value: 0 }, uSamples: { value: mode.blurSamples },
       uGlow: { value: 0 }, uChromatic: { value: 0 }, uGrain: { value: 0 }, uSharpen: { value: 0 }, uFrame: { value: 0 },
       uBridgeColor: { value: new THREE.Color(0, 0, 0) }, uBridgeAlpha: { value: 0 },
     } });
@@ -94,10 +98,14 @@ export class Compositor {
   public render(frame: FrameContext, mode: RenderMode): void {
     const { transform, velocity, postFX } = frame;
     this.material.uniforms.uSourceSize!.value.set(frame.source.width, frame.source.height);
-    this.material.uniforms.uTransform!.value.set(transform.scale, transform.x, transform.y, transform.rotation);
+    for (let index = 0; index < 24; index += 1) {
+      const path = frame.transformPath[Math.min(index, frame.transformPath.length - 1)] ?? transform;
+      this.material.uniforms.uTransformPath!.value[index].set(path.scale, path.x, path.y, path.rotation);
+      this.material.uniforms.uPivotPath!.value[index].set(path.pivotX, path.pivotY);
+    }
     this.material.uniforms.uVelocity!.value.set(velocity.x, velocity.y, velocity.zoom, velocity.rotation);
-    this.material.uniforms.uBlur!.value = Math.min(1, velocity.magnitude * 1.35 + this.transition.blurBoost(frame.transition) * 0.9);
-    this.material.uniforms.uSamples!.value = velocity.magnitude < 0.03 ? 1 : mode.blurSamples;
+    this.material.uniforms.uBlur!.value = Math.min(1, frame.blur.strength + this.transition.blurBoost(frame.transition) * 0.9);
+    this.material.uniforms.uSamples!.value = frame.blur.samples;
     this.material.uniforms.uGlow!.value = mode.postFX === 'full' ? postFX.glow : postFX.glow * 0.4;
     this.material.uniforms.uChromatic!.value = postFX.chromatic;
     this.material.uniforms.uGrain!.value = mode.postFX === 'full' ? postFX.grain : 0;

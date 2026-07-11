@@ -5,9 +5,10 @@
 ## 已实现的 V1 核心
 
 - `hf-seek` 绝对时间驱动；每一帧由 `Director.resolve(time)` 重建，未使用 `Date.now`、`performance.now`、rAF 累积状态或随机数。
-- Source Library、Hero Range、精确 Source Video seek、Beat Timeline 与积分归一化 Time Warp。
-- 数据驱动的 Edit Camera：Crash In、Face Cross、Eye Push、Whip、Reverse Pull、Reverse Orbit；含逐帧速度计算。
-- WebGL 2D compositor：相机变换、多采样速度路径 blur、CAPE_WIPE 色彩桥、选择性 glow、速度驱动色差、确定性 grain、微锐化。
+- Source Library、Hero Range、精确 Source Video seek、Beat Timeline 与由 4096 点积分 LUT 驱动的 Velocity-envelope Time Warp。
+- 数据驱动的 Edit Camera：Crash In、Face Cross、Eye Push、Whip、Reverse Pull、Reverse Orbit；速度以真实秒为单位计算，缩放采用对数速度。
+- WebGL 2D compositor：真实 pivot 相机变换、相机路径多采样 blur、`COLOR_BRIDGE_CUT`、选择性 glow、速度驱动色差、确定性 grain、微锐化。
+- Master 先把原始镜头编译为线性 CFR prepared source（并通过 manifest、输入指纹和帧映射校验）；HyperFrames 不再在 Master 中对原片作非线性 seek。
 - DRAFT / REVIEW / MASTER 三档参数；MASTER 输出为 2160×3840、120FPS PNG sequence。
 - 单元测试覆盖项目连续性、确定性 Director、Hero Range、Time Warp 单调性和镜头速度。
 
@@ -21,6 +22,7 @@
 npm install
 npm run test
 npm run check
+npm run prepare:sources
 npm run dev
 ```
 
@@ -34,7 +36,7 @@ npm run render:review
 npm run render:master
 ```
 
-`render:master` 输出 960 张 PNG 到 `renders/frames/`，随后以高质量 H.264 编码为 `renders/master/master-4k-120.mp4`。
+`render:master` 先生成 `cache/prepared/001-demo/master.mp4` 和 manifest，再输出 960 张 PNG 到隔离的 `renders/frames/`，随后以强制 CFR 的高质量 H.264 编码为 `renders/master/master-4k-120.mp4`，并写入 `renders/master/master-report.json`。
 
 ## 素材工具
 

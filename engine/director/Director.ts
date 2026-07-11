@@ -1,5 +1,5 @@
-import type { CameraVelocity, FrameContext, ProjectManifest, TimelineManifest, TransitionState } from '../types';
-import { RenderClock } from '../core/RenderClock';
+import type { BlurProfile, CameraVelocity, FrameContext, ProjectManifest, TimelineManifest, TransitionState } from '../types';
+import type { RenderContext } from '../types';
 import { assertFrameContext } from '../core/FrameContext';
 import { EditCamera } from '../camera/EditCamera';
 import { SourceLibrary } from '../source/SourceLibrary';
@@ -9,14 +9,14 @@ import { ShotTimeline } from './ShotTimeline';
 export class Director {
   private readonly timeline: ShotTimeline;
   private readonly sourceLibrary: SourceLibrary;
-  private readonly clock: RenderClock;
+  private readonly context: RenderContext;
   private readonly warp = new VelocityEnvelope();
   private readonly camera = new EditCamera();
 
-  public constructor(project: ProjectManifest, timeline: TimelineManifest, fps: number) {
+  public constructor(project: ProjectManifest, timeline: TimelineManifest, context: RenderContext) {
     this.timeline = new ShotTimeline(timeline.shots);
     this.sourceLibrary = new SourceLibrary(project.sources);
-    this.clock = new RenderClock(fps);
+    this.context = context;
   }
 
   public resolve(time: number): FrameContext {
@@ -27,11 +27,28 @@ export class Director {
     const progress = this.timeline.progress(shot, time);
     const sourceTime = range.start + this.warp.map(shot.timeWarp, progress) * (range.end - range.start);
     const transform = this.camera.resolve(shot.camera, progress);
-    const velocity = this.camera.velocity(shot.camera, progress, this.clock.delta());
+    const shotDuration = shot.end - shot.start;
+    const velocity = this.camera.velocity(shot.camera, progress, this.context.frameDeltaSeconds, shotDuration);
+    const blur = this.blurProfile(velocity);
+    const transformPath = this.transformPath(shot.camera, progress, shotDuration, blur);
     const transition = this.transition(shot.transitionIn, shot.transitionOut, progress);
-    const frame: FrameContext = { time, frameIndex: this.clock.frameAt(time), shot, source, sourceTime, transform, velocity, transition,
+    const frame: FrameContext = { time, frameIndex: Math.round(time * this.context.fps), shot, source, sourceTime, transform, transformPath, velocity, blur, transition,
       postFX: { glow: 0.18, chromatic: Math.min(0.006, velocity.magnitude * 0.0035), grain: 0.016, sharpen: velocity.magnitude < 0.15 ? 0.13 : 0.08 } };
     return assertFrameContext(frame);
+  }
+
+  private blurProfile(velocity: CameraVelocity): BlurProfile {
+    const strength = Math.min(1, Math.max(0, (velocity.magnitude - 0.025) / 0.75));
+    const samples = strength < 0.015 ? 1 : Math.max(2, Math.min(this.context.blurSamples, 2 + Math.round(strength * (this.context.blurSamples - 2))));
+    return { strength, samples, shutterSeconds: this.context.frameDeltaSeconds * (0.25 + strength * 0.75) };
+  }
+
+  private transformPath(camera: FrameContext['shot']['camera'], progress: number, duration: number, blur: BlurProfile): readonly FrameContext['transform'][] {
+    if (blur.samples === 1) return [this.camera.resolve(camera, progress)];
+    return Array.from({ length: blur.samples }, (_, index) => {
+      const fraction = index / (blur.samples - 1) - 0.5;
+      return this.camera.resolve(camera, progress + fraction * blur.shutterSeconds / duration);
+    });
   }
 
   private transition(incoming: FrameContext['shot']['transitionIn'], outgoing: FrameContext['shot']['transitionOut'], progress: number): TransitionState {
