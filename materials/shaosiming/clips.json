@@ -6,17 +6,18 @@
     {
       "id": "HERO_IDLE_003",
       "file": "assets/sources/HERO_IDLE_003.mp4",
+      "migrationPending": true,
       "shotType": "HERO_IDLE",
       "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "686faa799a5ca09b062153965b2fecb85bf9debc9cd2de82988dae178d9e53f1" },
       "generation": { "generationId": "", "providerTaskId": "", "model": "", "requestPath": "" },
       "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
       "heroRanges": [{ "start": 0.8, "end": 4.35, "score": 92, "tags": ["face", "stable", "opening"] }],
       "qc": {
-        "status": "approved",
+        "status": "pending-human",
         "reviewedAt": "2026-07-11T18:45:00Z",
-        "reviewedBy": "human",
-        "notes": "Reviewed via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): clean, no watermark, camera transform reads correctly. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
-        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/"],
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): clean, no watermark, camera transform reads correctly. Recommended heroRange above. Awaiting explicit human sign-off before this can be marked approved. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
+        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/", "awaiting human sign-off"],
         "contactSheet": "materials/shaosiming/qc/HERO_IDLE_003-contact-sheet.jpg"
       },
       "usedBy": [{ "project": "001-demo", "sourceId": "HERO_IDLE_003" }]
@@ -24,17 +25,18 @@
     {
       "id": "LOOK_BACK_002",
       "file": "assets/sources/LOOK_BACK_002.mp4",
+      "migrationPending": true,
       "shotType": "LOOK_BACK",
       "media": { "durationSeconds": 5.041667, "width": 1080, "height": 1920, "fps": 24, "codec": "h264", "pixelFormat": "yuv420p", "hasAudio": false, "sha256": "df2a54d1a0b32a61b9437f78943a2a93c4c1d098c3dfb65b6c36b768450f9d63" },
       "generation": { "generationId": "", "providerTaskId": "", "model": "", "requestPath": "" },
       "sourceReferenceImages": ["IMAGE_02_LEFT_45.png", "IMAGE_03_RIGHT_45.png"],
       "heroRanges": [{ "start": 0.8, "end": 4.45, "score": 90, "tags": ["face-reveal", "stable"] }],
       "qc": {
-        "status": "approved",
+        "status": "pending-human",
         "reviewedAt": "2026-07-11T18:45:00Z",
-        "reviewedBy": "human",
-        "notes": "Reviewed via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): dynamic hair/turn motion reads well, no watermark. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
-        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/"],
+        "reviewedBy": "ai-assisted",
+        "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): dynamic hair/turn motion reads well, no watermark. Recommended heroRange above. Awaiting explicit human sign-off before this can be marked approved. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
+        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/", "awaiting human sign-off"],
         "contactSheet": "materials/shaosiming/qc/LOOK_BACK_002-contact-sheet.jpg"
       },
       "usedBy": [{ "project": "001-demo", "sourceId": "LOOK_BACK_002" }]
