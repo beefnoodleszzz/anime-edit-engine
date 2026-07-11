@@ -13,11 +13,11 @@
       "sourceReferenceImages": ["IMAGE_01_FRONT.png"],
       "heroRanges": [{ "start": 0.8, "end": 4.35, "score": 92, "tags": ["face", "stable", "opening"] }],
       "qc": {
-        "status": "pending-human",
-        "reviewedAt": "2026-07-11T18:45:00Z",
-        "reviewedBy": "ai-assisted",
-        "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): clean, no watermark, camera transform reads correctly. Recommended heroRange above. Awaiting explicit human sign-off before this can be marked approved. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
-        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/", "awaiting human sign-off"],
+        "status": "approved",
+        "reviewedAt": "2026-07-11T12:08:17Z",
+        "reviewedBy": "human",
+        "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): clean, no watermark, camera transform reads correctly. Recommended heroRange above. Explicitly approved by the user in chat on 2026-07-11. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
+        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/"],
         "contactSheet": "materials/shaosiming/qc/HERO_IDLE_003-contact-sheet.jpg"
       },
       "usedBy": [{ "project": "001-demo", "sourceId": "HERO_IDLE_003" }]
@@ -32,11 +32,11 @@
       "sourceReferenceImages": ["IMAGE_02_LEFT_45.png", "IMAGE_03_RIGHT_45.png"],
       "heroRanges": [{ "start": 0.8, "end": 4.45, "score": 90, "tags": ["face-reveal", "stable"] }],
       "qc": {
-        "status": "pending-human",
-        "reviewedAt": "2026-07-11T18:45:00Z",
-        "reviewedBy": "ai-assisted",
-        "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): dynamic hair/turn motion reads well, no watermark. Recommended heroRange above. Awaiting explicit human sign-off before this can be marked approved. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
-        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/", "awaiting human sign-off"],
+        "status": "approved",
+        "reviewedAt": "2026-07-11T12:08:17Z",
+        "reviewedBy": "human",
+        "notes": "AI-assisted review via full-video contact sheet during V0 validation render (renders/validation/manual-review.md): dynamic hair/turn motion reads well, no watermark. Recommended heroRange above. Explicitly approved by the user in chat on 2026-07-11. Predates this provenance system — no generation record exists; file still lives in assets/sources/, not yet migrated to materials/shaosiming/clips/.",
+        "issues": ["no generation provenance (predates this registry)", "physical file not yet migrated into materials/shaosiming/clips/"],
         "contactSheet": "materials/shaosiming/qc/LOOK_BACK_002-contact-sheet.jpg"
       },
       "usedBy": [{ "project": "001-demo", "sourceId": "LOOK_BACK_002" }]

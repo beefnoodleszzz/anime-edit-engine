@@ -71,16 +71,14 @@
     "no modern clothing or props"
   ],
   "currentInventorySummary": {
-    "approvedClips": 0,
+    "approvedClips": 2,
     "missingShotTypes": [
       "CAPE_EXIT",
       "CAPE_TURN",
       "DRAW",
       "EYE",
-      "FACE",
-      "HERO_IDLE",
-      "LOOK_BACK"
+      "FACE"
     ]
   },
-  "updatedAt": "2026-07-11T12:01:59.600Z"
+  "updatedAt": "2026-07-11T12:09:23.713Z"
 }
