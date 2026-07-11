@@ -13,11 +13,14 @@ const preparedVideos = new Map(Array.from(document.querySelectorAll<HTMLVideoEle
 if (!canvas || preparedVideos.size !== config.timeline.shots.length) throw new Error('Anime Edit Engine prepared sources are missing.');
 if (!(mode in config.project.renderModes)) throw new Error(`Unknown render mode: ${mode}`);
 assertRenderParity(createRenderContext(config.project, mode), document.querySelector<HTMLElement>('#root') ?? document.body);
+
 const engine = new AnimeEditEngine(config, mode, canvas, preparedVideos);
-const initialTime = window.__hfThreeTime ?? 0;
-engine.renderFrame(initialTime);
-window.__animeEngineReady = Promise.resolve();
-new HyperFramesAdapter(engine).install();
-// The runtime can publish its initial media frame in the same task that loads this module.
-// A microtask observes that completed injection without relying on an arbitrary delay.
-queueMicrotask(() => engine.renderFrame(window.__hfThreeTime ?? initialTime));
+const adapter = new HyperFramesAdapter(engine);
+// Install before issuing any render: HyperFrames' own bootstrap can dispatch the first
+// `hf-seek` before this module would otherwise react, and every render — including the very
+// first — must go through the same window.__renderReady-gated path (see HyperFramesAdapter).
+adapter.install();
+// Cold-start paint. Harmless if HyperFrames' bootstrap already dispatched hf-seek(0) first
+// (renderFrame is a pure function of time, so re-rendering the same time is a no-op repaint);
+// necessary if this module runs before that bootstrap fires.
+adapter.renderGated(window.__hfThreeTime ?? 0);

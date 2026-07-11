@@ -3,7 +3,8 @@ import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process';
 import project from '../projects/001-demo/project.json';
 import { createRenderContext } from '../engine/core/RenderContext';
-import { validateMasterStream, type ProbeStream } from '../engine/core/MasterValidation';
+import { validateMasterStream, validateFirstFrame, type ProbeStream } from '../engine/core/MasterValidation';
+import { analyzePngPixels } from '../engine/core/PngPixels';
 import type { ProjectManifest } from '../engine/types';
 
 const context = createRenderContext(project as ProjectManifest, 'master'); const frames = 'renders/frames'; const master = 'renders/master/master-4k-120.mp4';
@@ -17,10 +18,17 @@ try { execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--compositi
 finally { await rm(entry, { force: true }); }
 const pngs = (await readdir(frames)).filter((file) => /^frame_\d{6}\.png$/.test(file)).sort();
 if (pngs.length !== expectedFrameCount) throw new Error(`PNG frame count mismatch: expected ${expectedFrameCount}, got ${pngs.length}.`);
-const firstFrame = await readFile(`${frames}/frame_000000.png`); const firstFrameValid = firstFrame.length > 100 && !firstFrame.every((byte) => byte === 0);
-if (!firstFrameValid) throw new Error('First master frame is empty or black.');
+const firstFramePng = await readFile(`${frames}/frame_000000.png`);
+const firstFrameAnalysis = analyzePngPixels(firstFramePng, (data) => createHash('sha256').update(data).digest('hex'));
+validateFirstFrame(firstFrameAnalysis);
 execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', '0', '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount), '-vsync', 'cfr', '-c:v', 'libx264', '-preset', 'slow', '-crf', '10', '-pix_fmt', 'yuv420p', master], { stdio: 'inherit' });
 const ffprobe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-count_frames', '-show_entries', 'stream=width,height,r_frame_rate,avg_frame_rate,nb_read_frames,duration,codec_name', '-of', 'json', master], { encoding: 'utf8' })) as { streams: ProbeStream[] };
 const stream = ffprobe.streams[0]; if (!stream) throw new Error('ffprobe found no video stream.'); const result = validateMasterStream(stream, context, (project as ProjectManifest).duration, pngs.length);
-const report = { mode: context.mode, width: context.width, height: context.height, fps: context.fps, durationSeconds: (project as ProjectManifest).duration, expectedFrameCount: result.expectedFrameCount, pngFrameCount: pngs.length, encodedFrameCount: Number(stream.nb_read_frames), codec: stream.codec_name, isCfr: result.isCfr, firstFrameValid, firstFrameHash: createHash('sha256').update(firstFrame).digest('hex'), hyperFramesConfig: { composition: 'generated compositions/.master.render.html', width: 2160, height: 3840, fps: 120 }, engineRenderContext: context, preparedSources: (project as ProjectManifest).id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size };
+const report = {
+  mode: context.mode, width: context.width, height: context.height, fps: context.fps, durationSeconds: (project as ProjectManifest).duration,
+  expectedFrameCount: result.expectedFrameCount, pngFrameCount: pngs.length, encodedFrameCount: Number(stream.nb_read_frames), codec: stream.codec_name,
+  isCfr: result.isCfr, firstFrameValid: true, firstFrameAnalysis,
+  hyperFramesConfig: { composition: 'generated compositions/.master.render.html', width: 2160, height: 3840, fps: 120 },
+  engineRenderContext: context, preparedSources: (project as ProjectManifest).id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size,
+};
 await writeFile('renders/master/master-report.json', `${JSON.stringify(report, null, 2)}\n`);

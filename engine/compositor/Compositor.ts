@@ -119,8 +119,10 @@ export class Compositor {
     this.material.uniforms.uFrame!.value = frame.frameIndex;
     this.material.uniforms.uBridgeColor!.value.setRGB(...this.transition.bridgeColor(frame.transition));
     this.material.uniforms.uBridgeAlpha!.value = frame.transition.colorBridgeAlpha;
-    // HyperFrames' video frame injector patches texImage2D synchronously. Updating the
-    // selected shot texture in this handler guarantees canvas-only output before capture.
+    // HyperFrames patches texImage2D/texSubImage2D so a texture upload sourced from this
+    // <video> element transparently substitutes its injected, frame-exact still image during
+    // capture (see HyperFramesAdapter for the verified source paths). needsUpdate must stay
+    // true so THREE re-issues that upload call on every render, not just the first.
     texture.needsUpdate = true;
     this.renderer.render(this.scene, this.camera);
   }

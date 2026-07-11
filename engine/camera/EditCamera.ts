@@ -18,7 +18,8 @@ const PRESETS: Record<CameraPresetName, readonly Keyframe[]> = {
 };
 
 const lerp = (a: number, b: number, progress: number): number => a + (b - a) * progress;
-const angleLerp = (a: number, b: number, progress: number): number => a + ((((b - a + 180) % 360) + 360) % 360 - 180) * progress;
+/** Shortest-arc angle interpolation: the swept path never exceeds 180 degrees either direction. */
+export const angleLerp = (a: number, b: number, progress: number): number => a + ((((b - a + 180) % 360) + 360) % 360 - 180) * progress;
 export class EditCamera {
   public resolve(name: CameraPresetName, progress: number): EditTransform {
     const points = PRESETS[name];
