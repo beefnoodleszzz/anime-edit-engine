@@ -41,7 +41,7 @@ const outDir = 'renders/validation';
 const outputMp4 = `${outDir}/anime-edit-validation.mp4`;
 await mkdir(outDir, { recursive: true });
 
-execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', '.', '--fps', String(context.fps), '--quality', 'high', '--format', 'mp4', '--output', outputMp4], { stdio: 'inherit' });
+execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', '.', '--fps', String(context.fps), '--quality', 'high', '--format', 'mp4', '--video-frame-format', 'png', '--output', outputMp4], { stdio: 'inherit' });
 
 const durationSeconds = config.project.duration;
 const expectedFrameCount = Math.round(durationSeconds * context.fps);

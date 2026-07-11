@@ -26,6 +26,13 @@ Before submitting any Kling job, draft a storyboard for the user's confirmation:
 
 Default target duration for a new review-mode project is **16s** (not the 8s used for the 001-demo validation pass) unless the user says otherwise — scope the shot list accordingly.
 
+### Resolution and framing policy
+
+- A demo / validation project may use 1080P source plates, but Engine Camera zoom is a light second-pass treatment, never permission to crop 1080P indefinitely.
+- For 1080P plates, keep EYE / extreme-close camera scale at `<= 1.20` (prefer `<= 1.18`), FACE / half-face at `<= 1.25`, WHIP / dynamic moves at `<= 1.30`, and other regular moves generally at `<= 1.25`.
+- New formal projects default to 16s+ and higher-resolution source. If the edit needs an obvious crop, push, or orbit, prefer a 4K generation route.
+- Generate to the final framing: create an eye-close plate for an eye close-up and a half-body close plate for a pressured half-body shot. The engine adds light secondary camera design; it must not turn a distant plate into a high-quality close-up.
+
 ## 5. Generate (every job is billed — confirm with the user first)
 1. Discover the Kling connector's actual identity/submit/query/download tools for this session (they may be named `who_am_i` / `image_to_video` / `query_tasks` or differently) — don't call a remembered tool name or invent parameters; if unsure, look them up first.
 2. Default model: **`kling-video-v3_0`** (single `first_image`/optional `tail_image`, resolution up to `4k`) — chosen over `kling-video-v3_0_omni` (multi-image reference, capped at 1080p) specifically to give the Engine's camera zoom/crop real pixel detail to draw from; the 001-demo shaosiming clips were generated at 1080p with `_omni` and visibly soften wherever the timeline's camera scales past 1x (see `renders/validation/manual-review.md` history). This trades away multi-angle reference consistency for resolution — lean harder on describing the character's identity in the prompt text to compensate, and flag in QC if character drift shows up more than it did with `_omni`.

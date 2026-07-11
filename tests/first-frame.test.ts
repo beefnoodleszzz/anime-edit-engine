@@ -124,7 +124,7 @@ describe.skipIf(!chromePath)('First-frame render contract (real headless Chromiu
   });
 
   it('frame 0 reflects the camera transform applied on top of the source, not a pass-through of the raw video', async () => {
-    // FACE_CROSS_LEFT at progress=0 is exact (zero blur, single sample): scale=1.32, x=-0.13,
+    // FACE_CROSS_LEFT at progress=0 is exact (zero blur, single sample): scale=1.14, x=-0.13,
     // pivot=(0.5,0.5). Since the canvas center samples uv=pivot, rotation/scale cancel out and
     // the sampled source UV is exactly (0.5 + x, 0.5) = (0.37, 0.5) — inside the fixture's red
     // (left) half. A pass-through render of the raw video would show a mixed red/blue seam

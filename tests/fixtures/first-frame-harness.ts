@@ -14,7 +14,7 @@ declare global {
 // A minimal synthetic project: one shot, one source, a long shot duration so the camera's
 // finite-difference velocity at progress=0 is effectively zero (true zero-blur, single exact
 // transform sample — see tests/first-frame.test.ts for why this makes the expected sample UV
-// solvable by hand). FACE_CROSS_LEFT's first keyframe is exact at progress=0: scale=1.32,
+// solvable by hand). FACE_CROSS_LEFT's first keyframe is exact at progress=0: scale=1.14,
 // x=-0.13, y=0, rotation=-2.4, pivot=(0.5,0.5).
 const project: ProjectManifest = {
   id: 'first-frame-fixture', name: 'First Frame Fixture', duration: 40, seed: 1,

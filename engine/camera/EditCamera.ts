@@ -7,14 +7,14 @@ const ease = (name: Easing, value: number): number => { const t = clamp01(value)
 const base = (at: number, partial: Partial<EditTransform> & Partial<Pick<Keyframe, 'easing'>>): Keyframe => ({ at, scale: 1, x: 0, y: 0, rotation: 0, pivotX: 0.5, pivotY: 0.5, ...partial });
 
 const PRESETS: Record<CameraPresetName, readonly Keyframe[]> = {
-  HERO_CRASH_IN: [base(0, { scale: 1.04, y: 0.02, easing: 'expoOut' }), base(0.10, { scale: 1.54, y: -0.04, easing: 'power4Out' }), base(0.65, { scale: 1.39, y: -0.02, easing: 'hold' }), base(0.85, { scale: 1.39, y: -0.02, easing: 'expoIn' }), base(1, { scale: 1.48, y: -0.035, easing: 'expoIn' })],
-  FACE_CROSS_LEFT: [base(0, { scale: 1.32, x: -0.13, rotation: -2.4 }), base(0.55, { scale: 1.52, x: 0.035, rotation: 0.3 }), base(1, { scale: 1.49, x: 0.04 })],
-  FACE_CROSS_RIGHT: [base(0, { scale: 1.43, x: 0.11, rotation: 1.2 }), base(0.74, { scale: 1.54, x: -0.04, rotation: -0.8 }), base(1, { scale: 1.62, x: -0.14, rotation: -2.8 })],
+  HERO_CRASH_IN: [base(0, { scale: 1.04, y: 0.02, easing: 'expoOut' }), base(0.10, { scale: 1.24, y: -0.04, easing: 'power4Out' }), base(0.65, { scale: 1.19, y: -0.02, easing: 'hold' }), base(0.85, { scale: 1.19, y: -0.02, easing: 'expoIn' }), base(1, { scale: 1.24, y: -0.035, easing: 'expoIn' })],
+  FACE_CROSS_LEFT: [base(0, { scale: 1.14, x: -0.13, rotation: -2.4 }), base(0.55, { scale: 1.24, x: 0.035, rotation: 0.3 }), base(1, { scale: 1.22, x: 0.04 })],
+  FACE_CROSS_RIGHT: [base(0, { scale: 1.16, x: 0.11, rotation: 1.2 }), base(0.74, { scale: 1.24, x: -0.04, rotation: -0.8 }), base(1, { scale: 1.25, x: -0.14, rotation: -2.8 })],
   // Kept deliberately slow: this is the sharp visual hold in SHARP → SMEAR → SHARP.
-  EYE_PUSH: [base(0, { scale: 1.7, pivotY: 0.42 }), base(1, { scale: 1.82, pivotY: 0.42 })],
-  WHIP_RIGHT: [base(0, { scale: 1.35, x: -0.08, rotation: -1, easing: 'power4In' }), base(0.3, { scale: 1.43, x: -0.02, rotation: 0.5, easing: 'linear' }), base(1, { scale: 1.78, x: 0.28, rotation: 8, easing: 'linear' })],
-  REVERSE_PULL: [base(0, { scale: 1.66, x: 0.12, rotation: 2.6 }), base(0.55, { scale: 1.28, x: 0.01, rotation: 0.2 }), base(1, { scale: 1.22 })],
-  REVERSE_ORBIT: [base(0, { scale: 1.45, x: 0.08, rotation: 2.5 }), base(0.75, { scale: 1.31, x: -0.03, rotation: -0.4 }), base(1, { scale: 1.29, x: 0, rotation: 0 })],
+  EYE_PUSH: [base(0, { scale: 1.06, pivotY: 0.42 }), base(1, { scale: 1.18, pivotY: 0.42 })],
+  WHIP_RIGHT: [base(0, { scale: 1.14, x: -0.08, rotation: -1, easing: 'power4In' }), base(0.3, { scale: 1.22, x: -0.02, rotation: 0.5, easing: 'linear' }), base(1, { scale: 1.30, x: 0.28, rotation: 8, easing: 'linear' })],
+  REVERSE_PULL: [base(0, { scale: 1.25, x: 0.12, rotation: 2.6 }), base(0.55, { scale: 1.18, x: 0.01, rotation: 0.2 }), base(1, { scale: 1.14 })],
+  REVERSE_ORBIT: [base(0, { scale: 1.20, x: 0.08, rotation: 2.5 }), base(0.75, { scale: 1.14, x: -0.03, rotation: -0.4 }), base(1, { scale: 1.12, x: 0, rotation: 0 })],
 };
 
 const lerp = (a: number, b: number, progress: number): number => a + (b - a) * progress;

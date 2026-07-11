@@ -16,6 +16,13 @@
 
 `assets/sources/wow.mp4` 已保留原始参考；`assets/sources/wow-normalized.mp4` 是供 Chrome/WebGL 精确 seek 的高质量 H.264 Source Intermediate。配置将其切分为 7 个 demo Source。替换为正式 Kling 资产时，只需替换 `projects/001-demo/project.json` 的 Source Clip 文件与 Hero Range，不改引擎。
 
+## 清晰度与景别规则
+
+- demo / validation 可以使用 1080P source plate，但 Engine Camera 只能做轻度二次设计；不得把 1080P plate 当作可无限裁切的素材。
+- 当 source 为 1080P：EYE / 极近景建议不高于 `1.18–1.20`，FACE / 半脸不高于 `1.25`，WHIP / 动态镜头不高于 `1.30`，其他常规镜头一般不高于 `1.25`。
+- 正式项目默认目标为 16 秒以上并优先更高分辨率 source；若镜头需要明显 crop、push 或 orbit，优先使用 4K 级别生成路线。
+- 按最终景别生成 source plate：眼部特写直接生成眼部近景，半身压迫感直接生成半身特写。引擎负责轻度二次镜头设计，不负责把远景变成高质量特写。
+
 ## 工作流
 
 ```bash

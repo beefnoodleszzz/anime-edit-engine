@@ -62,7 +62,7 @@ const html = (compositionId: string, videoSrc: string): string => `<!DOCTYPE htm
 
 /** Real CLI invocation (not puppeteer-core): HyperFrames manages its own headless browser. */
 const runHyperFramesRender = (compositionRelPath: string, outputRelPath: string): string => {
-  const result = spawnSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', compositionRelPath, '--fps', '4', '--format', 'png-sequence', '--output', outputRelPath], { cwd: projectRoot, encoding: 'utf8' });
+  const result = spawnSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', compositionRelPath, '--fps', '4', '--format', 'png-sequence', '--video-frame-format', 'png', '--output', outputRelPath], { cwd: projectRoot, encoding: 'utf8' });
   const combined = `${result.stdout ?? ''}\n${result.stderr ?? ''}`;
   if (result.status !== 0) throw new Error(`hyperframes render failed (exit ${result.status}):\n${combined}`);
   return combined;
@@ -161,7 +161,7 @@ describe.skipIf(!shouldRun)('Real HyperFrames CLI integration (npx hyperframes r
   });
 
   it('frame 0 (progress=0, an exact camera keyframe) reflects the camera transform, not a raw pass-through of the source', async () => {
-    // FACE_CROSS_LEFT at progress=0 is exact: scale=1.32, x=-0.13, pivot=(0.5,0.5). Canvas
+    // FACE_CROSS_LEFT at progress=0 is exact: scale=1.14, x=-0.13, pivot=(0.5,0.5). Canvas
     // center samples uv=pivot, so rotation/scale cancel and the sampled source UV x is exactly
     // 0.5 + x = 0.37 — inside the fixture's red (left) half. A raw pass-through would show a
     // mixed red/blue seam at the canvas center instead.

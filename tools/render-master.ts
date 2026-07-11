@@ -14,7 +14,7 @@ execFileSync('npx', ['tsx', 'tools/prepare-sources.ts'], { stdio: 'inherit' });
 const entry = 'compositions/.master.render.html'; await mkdir('compositions', { recursive: true }); const reviewEntry = await readFile('index.html', 'utf8');
 const masterEntry = reviewEntry.replace('data-resolution="portrait" data-render-mode="review" data-fps="60"', 'data-resolution="portrait-4k" data-render-mode="master" data-fps="120"').replaceAll('width=1080, height=1920', 'width=2160, height=3840').replaceAll('1080px', '2160px').replaceAll('1920px', '3840px').replace('data-width="1080" data-height="1920"', 'data-width="2160" data-height="3840"').replaceAll('src="cache/', 'src="../cache/').replace('src="dist/main.js"', 'src="../dist/main.js"');
 await writeFile(entry, masterEntry);
-try { execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', entry, '--fps', '120', '--format', 'png-sequence', '--output', frames], { stdio: 'inherit' }); }
+try { execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', entry, '--fps', '120', '--format', 'png-sequence', '--video-frame-format', 'png', '--output', frames], { stdio: 'inherit' }); }
 finally { await rm(entry, { force: true }); }
 const pngs = (await readdir(frames)).filter((file) => /^frame_\d{6}\.png$/.test(file)).sort();
 if (pngs.length !== expectedFrameCount) throw new Error(`PNG frame count mismatch: expected ${expectedFrameCount}, got ${pngs.length}.`);

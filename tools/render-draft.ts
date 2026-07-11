@@ -28,7 +28,7 @@ const draftEntry = reviewEntry
 await writeFile(entry, draftEntry);
 await mkdir('renders/preview', { recursive: true });
 try {
-  execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', entry, '--fps', String(context.fps), '--quality', 'draft', '--output', 'renders/preview/draft.mp4'], { stdio: 'inherit' });
+  execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', entry, '--fps', String(context.fps), '--quality', 'draft', '--video-frame-format', 'png', '--output', 'renders/preview/draft.mp4'], { stdio: 'inherit' });
 } finally {
   await rm(entry, { force: true });
 }

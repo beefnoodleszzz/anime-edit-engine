@@ -115,11 +115,11 @@ describe('sourceUv CPU reference (mirrors the fragment shader sourceUv())', () =
 describe('EditCamera log-space scale interpolation', () => {
   it('interpolates scale as a geometric mean under linear easing (log-space, not linear-space)', () => {
     const camera = new EditCamera();
-    // WHIP_RIGHT's second segment (0.3 -> 1) is linear easing: scale 1.43 -> 1.78.
+    // WHIP_RIGHT's second segment (0.3 -> 1) is linear easing: scale 1.22 -> 1.30.
     const midpoint = camera.resolve('WHIP_RIGHT', 0.65).scale; // t = (0.65-0.3)/(1-0.3) = 0.5
-    const geometricMean = Math.sqrt(1.43 * 1.78);
-    const arithmeticMean = (1.43 + 1.78) / 2;
+    const geometricMean = Math.sqrt(1.22 * 1.30);
+    const arithmeticMean = (1.22 + 1.30) / 2;
     expect(midpoint).toBeCloseTo(geometricMean, 3);
-    expect(Math.abs(midpoint - arithmeticMean)).toBeGreaterThan(0.001);
+    expect(Math.abs(midpoint - arithmeticMean)).toBeGreaterThan(0.0001);
   });
 });
