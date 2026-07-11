@@ -18,10 +18,16 @@ try { execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--compositi
 finally { await rm(entry, { force: true }); }
 const pngs = (await readdir(frames)).filter((file) => /^frame_\d{6}\.png$/.test(file)).sort();
 if (pngs.length !== expectedFrameCount) throw new Error(`PNG frame count mismatch: expected ${expectedFrameCount}, got ${pngs.length}.`);
-const firstFramePng = await readFile(`${frames}/frame_000000.png`);
+// The HyperFrames CLI's own png-sequence writer numbers frames starting at 1
+// (frame_000001.png .. frame_NNNNNN.png), unlike this project's own frame_%06d convention
+// (prepare-sources.ts / render-draft.ts) which is 0-indexed. Never hardcode a filename or a
+// -start_number here — derive both from the real, sorted directory listing.
+const firstFrameName = pngs[0]!;
+const startNumber = Number(firstFrameName.match(/^frame_(\d{6})\.png$/)![1]);
+const firstFramePng = await readFile(`${frames}/${firstFrameName}`);
 const firstFrameAnalysis = analyzePngPixels(firstFramePng, (data) => createHash('sha256').update(data).digest('hex'));
 validateFirstFrame(firstFrameAnalysis);
-execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', '0', '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount), '-vsync', 'cfr', '-c:v', 'libx264', '-preset', 'slow', '-crf', '10', '-pix_fmt', 'yuv420p', master], { stdio: 'inherit' });
+execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', String(startNumber), '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount), '-vsync', 'cfr', '-c:v', 'libx264', '-preset', 'slow', '-crf', '10', '-pix_fmt', 'yuv420p', master], { stdio: 'inherit' });
 const ffprobe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-count_frames', '-show_entries', 'stream=width,height,r_frame_rate,avg_frame_rate,nb_read_frames,duration,codec_name', '-of', 'json', master], { encoding: 'utf8' })) as { streams: ProbeStream[] };
 const stream = ffprobe.streams[0]; if (!stream) throw new Error('ffprobe found no video stream.'); const result = validateMasterStream(stream, context, (project as ProjectManifest).duration, pngs.length);
 const report = {
