@@ -18,6 +18,7 @@
     "render:validation": "npm run prepare:sources && npm run build && tsx tools/render-validation.ts",
     "build:validation": "npm run render:validation && npm run build && tsx tools/copy-validation-dist.ts",
     "prepare:sources": "tsx tools/prepare-sources.ts",
+    "materials:validate": "tsx tools/materials-validate.ts",
     "inspect:source": "tsx tools/inspect-source.ts",
     "normalize-source": "tsx tools/normalize-source.ts",
     "contact-sheet": "tsx tools/generate-contact-sheet.ts",

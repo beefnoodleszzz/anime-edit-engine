@@ -18,3 +18,11 @@ validation/validation-report.json
 # Source Plates are local project inputs. Keep original/reference footage out of Git.
 assets/sources/*
 !assets/sources/.gitkeep
+
+# materials/<character>/ registry: keep provenance (character.json, references/*, clips.json,
+# generations/*/request.json + result.json) in Git; large/regeneratable binaries stay local.
+materials/*/generations/*/output.mp4
+materials/*/generations/*/runtime.json
+materials/*/clips/*.mp4
+materials/*/qc/*.jpg
+materials/*/qc/*.png
