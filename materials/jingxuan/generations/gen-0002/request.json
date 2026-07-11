@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0002",
+  "kind": "image_to_image",
+  "model": "kling-image-v3_0",
+  "referenceImage": "/Users/zhangxiaolong/Downloads/ChatGPT Image 2026年7月12日 02_03_31.png",
+  "prompt": "以图片1为唯一角色身份与服装设计参考，保持同一位男性角色的脸型、五官比例、黑色长发、发饰、白色与青蓝色古风长袍、银色刺绣、肩部装饰和腰封；生成正式的 IMAGE_01_FRONT 正面身份基准图。正面视角，身体仅轻微偏转 5 到 10 度，半身构图，从头顶到腰部完整可见，双眼清晰直视镜头，表情平静坚定。背景为干净、低对比的雾蓝灰纯色渐变，柔和均匀的冷色棚拍光，无风、无动作、无剧情特效。高级国产 3D 动画角色立绘质感，清晰瞳孔、精细发丝、布料、刺绣与皮肤材质。不要改变角色身份，不要巨大头冠、角、翅膀、面具、武器、其他人物、文字、水印、边框、模糊、额外肢体。",
+  "arguments": {
+    "imgResolution": "2k",
+    "aspectRatio": "3:4",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T18:06:16Z",
+  "providerTaskId": "AfC-YzdpAlUmLAn8-R8aouRqCA3xiwNV_i2_7NRjKSskO6c924XoUYLdP5gR5zM5JGECCQ5M",
+  "status": "QUEUING",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab"
+}

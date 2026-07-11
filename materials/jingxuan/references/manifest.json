@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "character": "jingxuan",
+  "references": [
+    {
+      "id": "IMAGE_01_FRONT",
+      "file": "IMAGE_01_FRONT.png",
+      "sha256": "6dae44a9caa6bd19801e201267abbf842ca06cba1dc586d3b7c21862384d874a",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["face-identity", "hair-crown", "costume-detail", "neutral-lighting"],
+      "recommendedFor": ["EYE", "FACE", "FRONT_CLOSEUP", "PORTRAIT"],
+      "avoidFor": ["BACK_VIEW", "FULL_BODY_MOTION"],
+      "notes": "Human-approved 2K front identity anchor generated from the user-provided reference image via Kling image-to-image."
+    },
+    {
+      "id": "IMAGE_02_LEFT_45",
+      "file": "IMAGE_02_LEFT_45.png",
+      "sha256": "8219ad2ef18ee95d79c18e688b4df821f123e887a0a9c8f408d9cc195a34fc72",
+      "view": "left-45",
+      "framing": "portrait",
+      "strengths": ["left-profile", "hair-silhouette", "costume-detail"],
+      "recommendedFor": ["LOOK_BACK", "PROFILE_CLOSEUP", "CAPE_TURN"],
+      "avoidFor": ["FRONT_CLOSEUP", "BACK_VIEW"],
+      "notes": "Human-approved 2K left-45 identity reference generated from IMAGE_01_FRONT via Kling image-to-image."
+    },
+    {
+      "id": "IMAGE_03_RIGHT_45",
+      "file": "IMAGE_03_RIGHT_45.png",
+      "sha256": "efaa5166cb331b2a4c49791f5006c888ae710634b01e487814b9c42336e697ab",
+      "view": "right-45",
+      "framing": "portrait",
+      "strengths": ["right-profile", "hair-silhouette", "costume-detail"],
+      "recommendedFor": ["LOOK_BACK", "PROFILE_CLOSEUP", "CAPE_EXIT"],
+      "avoidFor": ["FRONT_CLOSEUP", "BACK_VIEW"],
+      "notes": "Human-approved 2K right-45 identity reference generated from IMAGE_01_FRONT via Kling image-to-image."
+    },
+    {
+      "id": "IMAGE_04_FULL_BODY",
+      "file": "IMAGE_04_FULL_BODY.png",
+      "sha256": "5921bfc2cd6c72a3de7c1158d3cee33575f909e4077312dce6254c60c65ce3a8",
+      "view": "full-body",
+      "framing": "full-body",
+      "strengths": ["full-costume", "wide-sleeves", "belt-detail", "shoe-visibility"],
+      "recommendedFor": ["FULL_BODY", "DRAW", "ESTABLISHING"],
+      "avoidFor": ["EYE", "FACE"],
+      "notes": "Human-approved 2K full-body identity reference generated from IMAGE_01_FRONT via Kling image-to-image."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "generationId": "gen-0004",
+  "kind": "image_to_image",
+  "model": "kling-image-v3_0",
+  "referenceImage": "materials/jingxuan/references/IMAGE_01_FRONT.png",
+  "prompt": "以图片1为唯一角色身份与服装参考，生成同一位镜玄的 IMAGE_03_RIGHT_45 右侧四十五度身份参考图。保持图片1中完全一致的脸型、五官比例、灰蓝眼睛、黑色半束长发、浅青银色发冠、白色与青蓝色古风长袍、银色肩部装饰、腰封与材质。角色头部和身体向画面右侧转约四十五度，脸仍清晰可见，半身构图，从头顶到腰部完整可见，克制平静表情。干净雾蓝灰纯色渐变背景，均匀冷色棚拍光，无风、无动作、无剧情特效。高级国产3D动画角色立绘质感。不要改变人物身份或服装，不要正面镜头，不要背身，不要巨大头冠、角、翅膀、面具、武器、其他人物、文字、水印、边框、模糊、额外肢体。",
+  "arguments": { "imgResolution": "2k", "aspectRatio": "3:4", "imageCount": "1" },
+  "submittedAt": "2026-07-11T18:11:30Z",
+  "providerTaskId": "ARXtoTvNuGVJgGtLY0sTh2qWn6gXsa3QRhqMYF9zrdTzxW9KCAyBZb6kMvk0il1LafJiWEEb",
+  "status": "QUEUING",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab"
+}

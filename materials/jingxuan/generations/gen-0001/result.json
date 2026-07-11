@@ -1,0 +1,12 @@
+{
+  "generationId": "gen-0001",
+  "providerTaskId": "AUHi93wsW13JHNLUP7U2YWlA3gtJ4vQygdS-HjIBx7Bc0hq03f71bDhF9XgG4B8OCaA_VREX",
+  "status": "succeeded",
+  "outputFile": "materials/jingxuan/generations/gen-0001/output.png",
+  "outputSha256": "279f05c253b35426e638c0d69b3f0e05466227b45bdca97447431722906c7a55",
+  "width": 1536,
+  "height": 2720,
+  "pixelFormat": "rgb8",
+  "urlWithoutWatermark": "https://s15-kling.klingai.com/kimg/EMXN1y8qngEKBnVwbG9hZBIOeWxhYi1zdHVudC1zZ3AagwFLbGluZ0FJX0tvbG9ycy12Ml82LXQyaS1vbW5pLXJlZmluZXItdjNfU0dQX1BST0RfYWlfd2ViXzMxNTc2MzgyNTUwNzgxN18zZjNhZWU3MTMxYmQxNzBmYzMyNDcyZjY0ODVjOWEwNDBqMHR3LnBuZw.origin?x-kcdn-pid=112372",
+  "completedAt": "2026-07-11T17:53:15Z"
+}

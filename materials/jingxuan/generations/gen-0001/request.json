@@ -1,0 +1,15 @@
+{
+  "generationId": "gen-0001",
+  "kind": "text_to_image",
+  "model": "kling-image-v3_0",
+  "prompt": "《眷思量》镜玄，正面略微三分之二侧身的半身角色主视觉，清冷俊美的东方面孔，修长黑发、精致发冠与垂坠发饰，白色与青蓝色层叠古风长袍，细密银色纹样、深青内衬、轻披风，衣袂被海风轻轻吹起。月夜海崖与薄雾云海背景，冷月边光，克制而坚定的凝视，电影级构图，顶级中国 3D 国漫质感，精细发丝、布料、刺绣和皮肤材质，干净高对比、无文字、无水印、无其他人物、无多余肢体。",
+  "arguments": {
+    "imgResolution": "2k",
+    "aspectRatio": "9:16",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T17:51:58Z",
+  "providerTaskId": "AUHi93wsW13JHNLUP7U2YWlA3gtJ4vQygdS-HjIBx7Bc0hq03f71bDhF9XgG4B8OCaA_VREX",
+  "status": "QUEUING",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab"
+}
