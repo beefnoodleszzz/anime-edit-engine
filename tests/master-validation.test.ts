@@ -3,7 +3,7 @@ import { PNG } from 'pngjs';
 import { describe, expect, it } from 'vitest';
 import project from '../projects/001-demo/project.json';
 import { createRenderContext } from '../engine/core/RenderContext';
-import { DEFAULT_FIRST_FRAME_THRESHOLDS, validateFirstFrame, validateMasterStream } from '../engine/core/MasterValidation';
+import { DEFAULT_FIRST_FRAME_THRESHOLDS, validateFirstFrame, validateMasterStream, validateDeliveryDuration } from '../engine/core/MasterValidation';
 import { analyzePngPixels } from '../engine/core/PngPixels';
 import type { ProjectManifest } from '../engine/types';
 
@@ -37,6 +37,30 @@ describe('Master validation — stream (mock ffprobe JSON, no real 4K render)', 
     expect(() => validateMasterStream(deliveredStream, context, 8, 480, 60)).toThrow('PNG frame count mismatch');
     expect(() => validateMasterStream({ ...deliveredStream, r_frame_rate: '120/1' }, context, 8, 960, 60)).toThrow('strict CFR');
     expect(() => validateMasterStream({ ...deliveredStream, nb_read_frames: '960' }, context, 8, 960, 60)).toThrow('Encoded frame count mismatch');
+  });
+
+  it('rejects an H.264 level above the broad-playback ceiling (default 5.2)', () => {
+    const deliveredStream = { width: 2160, height: 3840, r_frame_rate: '60/1', avg_frame_rate: '60/1', nb_read_frames: '480', duration: '8.000000', level: 60 };
+    expect(() => validateMasterStream(deliveredStream, context, 8, 960, 60)).toThrow('level too high');
+    expect(validateMasterStream({ ...deliveredStream, level: 52 }, context, 8, 960, 60)).toMatchObject({ isCfr: true });
+  });
+});
+
+describe('Master validation — delivery duration (16s x 60fps = 960 frames)', () => {
+  it('accepts stream and format durations within one delivery frame of the declared project duration', () => {
+    expect(() => validateDeliveryDuration(16.0, 16.0, 16, 60)).not.toThrow();
+    expect(() => validateDeliveryDuration(16.0 - 1 / 120, 16.0, 16, 60)).not.toThrow();
+  });
+  it('rejects a stream duration that drifts from the declared project duration', () => {
+    expect(() => validateDeliveryDuration(48.0, 16.0, 16, 60)).toThrow('stream duration mismatch');
+  });
+  it('rejects a format (container-level) duration that drifts from the declared project duration', () => {
+    expect(() => validateDeliveryDuration(16.0, 48.0, 16, 60)).toThrow('format duration mismatch');
+  });
+  it('validates 60fps delivery independently of the 120fps internal capture rate', () => {
+    // 960 delivery frames at 60fps is 16s; the same 960 frames misread at 120fps would be 8s —
+    // this must fail against the real duration even though 960 is also a valid frame count at 120fps.
+    expect(() => validateDeliveryDuration(8.0, 8.0, 16, 60)).toThrow('stream duration mismatch');
   });
 });
 

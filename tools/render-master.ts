@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { createRenderContext } from '../engine/core/RenderContext';
-import { validateMasterStream, validateFirstFrame, type ProbeStream } from '../engine/core/MasterValidation';
+import { validateMasterStream, validateFirstFrame, validateDeliveryDuration, type ProbeStream } from '../engine/core/MasterValidation';
 import { analyzePngPixels } from '../engine/core/PngPixels';
 import { resolveProjectId, loadProjectConfig } from './project-io';
 
@@ -39,18 +39,33 @@ validateFirstFrame(firstFrameAnalysis);
 // select=not(mod(n,ratio)) drops every frame but the first of each `ratio`-sized run, which is
 // exactly the internal capture's own upsampling pattern in reverse (prepare-sources.ts maps each
 // ~24fps source frame onto `ratio` consecutive 120fps output frames) — this discards duplicate
-// frames losslessly rather than blending or re-timing anything. -maxrate/-bufsize/-level keep the
-// encoded stream within a level real hardware decoders actually implement (see MASTER_DELIVERY_FPS
-// comment above); CRF 18 matches prepare-sources.ts's own "visually lossless" floor (~50dB PSNR
-// margin over the 20dB floor at CRF 14) while cutting bitrate roughly an order of magnitude from
-// the CRF 10 this replaced.
-execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', String(startNumber), '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount), '-vf', `select='not(mod(n\\,${deliveryFrameRatio}))'`, '-vsync', 'vfr', '-r', String(MASTER_DELIVERY_FPS), '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-maxrate', '80M', '-bufsize', '160M', '-level', '5.2', '-pix_fmt', 'yuv420p', master], { stdio: 'inherit' });
-const ffprobe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-count_frames', '-show_entries', 'stream=width,height,r_frame_rate,avg_frame_rate,nb_read_frames,duration,codec_name', '-of', 'json', master], { encoding: 'utf8' })) as { streams: ProbeStream[] };
+// frames losslessly rather than blending or re-timing anything. setpts=N/(60*TB) re-derives clean,
+// evenly-spaced 60fps presentation timestamps from the output frame index instead of leaving gaps
+// from the dropped input PTS; -fps_mode cfr (not the deprecated/contradictory -vsync vfr, which
+// ffmpeg 8.x rejects alongside an explicit -r) makes that strict CFR explicit rather than assumed.
+// -maxrate/-bufsize/-profile/-level keep the encoded stream within a level real hardware decoders
+// actually implement (see MASTER_DELIVERY_FPS comment above); CRF 18 matches prepare-sources.ts's
+// own "visually lossless" floor (~50dB PSNR margin over the 20dB floor at CRF 14) while cutting
+// bitrate roughly an order of magnitude from the CRF 10 this replaced. -video_track_timescale
+// 60000 keeps the container's declared timescale a clean multiple of the delivery fps instead of
+// inheriting one sized for the 120fps capture stage; +faststart moves the moov atom for streaming.
+execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', String(startNumber), '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount),
+  '-vf', `select='not(mod(n\\,${deliveryFrameRatio}))',setpts=N/(${MASTER_DELIVERY_FPS}*TB)`, '-r', String(MASTER_DELIVERY_FPS), '-fps_mode', 'cfr',
+  '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-maxrate', '80M', '-bufsize', '160M', '-profile:v', 'high', '-level:v', '5.2', '-pix_fmt', 'yuv420p',
+  '-video_track_timescale', '60000', '-movflags', '+faststart', master], { stdio: 'inherit' });
+const ffprobe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-count_frames',
+  '-show_entries', 'stream=width,height,r_frame_rate,avg_frame_rate,time_base,duration_ts,duration,nb_frames,nb_read_frames,codec_name,profile,level,pix_fmt,bit_rate:format=duration,bit_rate',
+  '-of', 'json', master], { encoding: 'utf8' })) as { streams: ProbeStream[]; format?: { duration?: string; bit_rate?: string } };
 const stream = ffprobe.streams[0]; if (!stream) throw new Error('ffprobe found no video stream.'); const result = validateMasterStream(stream, context, project.duration, pngs.length, MASTER_DELIVERY_FPS);
+const streamDuration = Number(stream.duration); const formatDuration = Number(ffprobe.format?.duration);
+validateDeliveryDuration(streamDuration, formatDuration, project.duration, MASTER_DELIVERY_FPS);
 const report = {
   mode: context.mode, width: context.width, height: context.height, captureFps: context.fps, deliveryFps: MASTER_DELIVERY_FPS, durationSeconds: project.duration,
   expectedFrameCount: result.expectedFrameCount, pngFrameCount: pngs.length, deliveryFrameCount: result.deliveryFrameCount, encodedFrameCount: Number(stream.nb_read_frames), codec: stream.codec_name,
   isCfr: result.isCfr, firstFrameValid: true, firstFrameAnalysis,
+  streamDuration, formatDuration, timeBase: stream.time_base, profile: stream.profile,
+  level: stream.level, pixelFormat: stream.pix_fmt, bitRate: Number(stream.bit_rate ?? ffprobe.format?.bit_rate),
+  rFrameRate: stream.r_frame_rate, avgFrameRate: stream.avg_frame_rate,
   hyperFramesConfig: { composition: 'generated compositions/.master.render.html', width: 2160, height: 3840, fps: 120 },
   engineRenderContext: context, preparedSources: project.id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size,
 };

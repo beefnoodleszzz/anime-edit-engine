@@ -10,6 +10,7 @@ export class ProjectLoader {
     if (project.duration <= 0 || !Number.isFinite(project.duration)) throw new Error('Project duration must be positive.');
     if (timeline.shots.length === 0) throw new Error('Timeline requires at least one shot.');
     const sourceIds = new Set(project.sources.map((source) => source.id));
+    const maxBlurSamples = Math.max(...Object.values(project.renderModes).map((mode) => mode.blurSamples));
     const epsilon = 0.000001; let previousEnd = 0; let previousId = 'start';
     for (const shot of timeline.shots) {
       const source = project.sources.find((candidate) => candidate.id === shot.source);
@@ -17,11 +18,22 @@ export class ProjectLoader {
       if (Math.abs(shot.start - previousEnd) > epsilon || shot.end <= shot.start) throw new Error(`Timeline is not contiguous: previous=${previousId}, current=${shot.id}, expected=${previousEnd}, actual=${shot.start}, difference=${Math.abs(shot.start - previousEnd)}, epsilon=${epsilon}.`);
       const range = source.heroRanges[shot.rangeIndex];
       if (!range || range.start < 0 || range.end > source.duration || range.end <= range.start) throw new Error(`Invalid hero range for ${shot.id}.`);
+      this.validateBlurOverride(shot, maxBlurSamples);
       previousEnd = shot.end; previousId = shot.id;
     }
     if (Math.abs(previousEnd - project.duration) > 0.0001) throw new Error('Timeline must end at project duration.');
     this.validateTransitions(project, timeline);
     return config;
+  }
+
+  /** maxSamples is checked against the highest blurSamples ceiling across all render modes (not just the mode being rendered right now) so a shot's override is valid regardless of which mode later renders it. */
+  private static validateBlurOverride(shot: TimelineShot, maxBlurSamples: number): void {
+    const blur = shot.blur;
+    if (!blur) return;
+    if (blur.scale !== undefined && (blur.scale < 0 || blur.scale > 1)) throw new Error(`Invalid blur.scale for ${shot.id}: ${blur.scale} (must be within [0, 1]).`);
+    if (blur.maxSamples !== undefined && (blur.maxSamples < 1 || blur.maxSamples > maxBlurSamples)) throw new Error(`Invalid blur.maxSamples for ${shot.id}: ${blur.maxSamples} (must be within [1, ${maxBlurSamples}]).`);
+    if (blur.edgeFade !== undefined && (blur.edgeFade < 0 || blur.edgeFade >= 0.5)) throw new Error(`Invalid blur.edgeFade for ${shot.id}: ${blur.edgeFade} (must be within [0, 0.5)).`);
+    if (blur.maxShutterSeconds !== undefined && blur.maxShutterSeconds < 0) throw new Error(`Invalid blur.maxShutterSeconds for ${shot.id}: ${blur.maxShutterSeconds} (must be >= 0).`);
   }
 
   /**

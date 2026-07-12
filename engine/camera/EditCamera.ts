@@ -15,6 +15,12 @@ const PRESETS: Record<CameraPresetName, readonly Keyframe[]> = {
   WHIP_RIGHT: [base(0, { scale: 1.14, x: -0.08, rotation: -1, easing: 'power4In' }), base(0.3, { scale: 1.22, x: -0.02, rotation: 0.5, easing: 'linear' }), base(1, { scale: 1.30, x: 0.28, rotation: 8, easing: 'linear' })],
   REVERSE_PULL: [base(0, { scale: 1.25, x: 0.12, rotation: 2.6 }), base(0.55, { scale: 1.18, x: 0.01, rotation: 0.2 }), base(1, { scale: 1.14 })],
   REVERSE_ORBIT: [base(0, { scale: 1.20, x: 0.08, rotation: 2.5 }), base(0.75, { scale: 1.14, x: -0.03, rotation: -0.4 }), base(1, { scale: 1.12, x: 0, rotation: 0 })],
+  // A restrained WHIP_RIGHT: for shots where the source plate's own gesture (a raised ward/hand
+  // motion) already carries the energy, the engine only needs to lean into it, not repeat it.
+  WARD_PUSH: [base(0, { scale: 1.04, x: -0.02, rotation: -0.5 }), base(1, { scale: 1.12, x: 0.04, rotation: 1.2 })],
+  // For plates with baked-in sleeve-sweep motion blur: a light push/drift so the engine isn't
+  // stacking a second full pan on top of footage that's already selling the speed.
+  SLEEVE_PASS: [base(0, { scale: 1.04, x: -0.03, rotation: -0.4, easing: 'power4In' }), base(0.5, { scale: 1.08, x: 0.02, rotation: 0.4, easing: 'linear' }), base(1, { scale: 1.12, x: 0.07, rotation: 1.4, easing: 'power4Out' })],
 };
 
 const lerp = (a: number, b: number, progress: number): number => a + (b - a) * progress;

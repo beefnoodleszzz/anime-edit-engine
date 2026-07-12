@@ -37,7 +37,14 @@
       "end": 1.8,
       "rangeIndex": 0,
       "camera": "HERO_CRASH_IN",
-      "timeWarp": "crash"
+      "timeWarp": "crash",
+      "blur": {
+        "scale": 0.55,
+        "maxSamples": 8,
+        "maxShutterSeconds": 0.005,
+        "edgeFade": 0.08,
+        "disableAtStart": true
+      }
     },
     {
       "id": "s02",
@@ -63,8 +70,15 @@
       "start": 5.0,
       "end": 6.8,
       "rangeIndex": 0,
-      "camera": "WHIP_RIGHT",
-      "timeWarp": "whip"
+      "camera": "WARD_PUSH",
+      "timeWarp": "whip",
+      "blur": {
+        "scale": 0.45,
+        "maxSamples": 8,
+        "maxShutterSeconds": 0.005,
+        "edgeFade": 0.06,
+        "disableAtEnd": true
+      }
     },
     {
       "id": "s05",
@@ -82,7 +96,13 @@
       "end": 10.8,
       "rangeIndex": 0,
       "camera": "FACE_CROSS_RIGHT",
-      "timeWarp": "release"
+      "timeWarp": "release",
+      "blur": {
+        "scale": 0.45,
+        "maxSamples": 6,
+        "maxShutterSeconds": 0.0045,
+        "edgeFade": 0.05
+      }
     },
     {
       "id": "s07",
@@ -90,8 +110,16 @@
       "start": 10.8,
       "end": 12.8,
       "rangeIndex": 0,
-      "camera": "WHIP_RIGHT",
-      "timeWarp": "whip"
+      "camera": "SLEEVE_PASS",
+      "timeWarp": "accelerate",
+      "blur": {
+        "scale": 0.2,
+        "maxSamples": 4,
+        "maxShutterSeconds": 0.003,
+        "edgeFade": 0.08,
+        "disableAtStart": true,
+        "disableAtEnd": true
+      }
     },
     {
       "id": "s08",

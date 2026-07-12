@@ -1,7 +1,10 @@
 import type { RenderContext } from '../types';
 import type { PixelAnalysis } from './PngPixels';
 
-export interface ProbeStream { width: number; height: number; r_frame_rate: string; avg_frame_rate: string; nb_read_frames: string; duration: string; codec_name?: string; }
+export interface ProbeStream {
+  width: number; height: number; r_frame_rate: string; avg_frame_rate: string; nb_read_frames: string; duration: string; codec_name?: string;
+  profile?: string; level?: number; pix_fmt?: string; bit_rate?: string; time_base?: string; duration_ts?: number; nb_frames?: string;
+}
 /**
  * context.fps (120) is the internal capture/motion-blur sampling rate, not necessarily what gets
  * delivered: the Kling source plates are native ~24fps, so a naive 120fps CFR export is >4x
@@ -9,7 +12,7 @@ export interface ProbeStream { width: number; height: number; r_frame_rate: stri
  * at the internal rate) lets the encoded-stream checks target a lower, real-world-playable output
  * rate while pngFrameCount/expectedFrameCount still validate the internal capture stage.
  */
-export function validateMasterStream(stream: ProbeStream, context: RenderContext, durationSeconds: number, pngFrameCount: number, deliveryFps: number = context.fps): { expectedFrameCount: number; deliveryFrameCount: number; isCfr: boolean } {
+export function validateMasterStream(stream: ProbeStream, context: RenderContext, durationSeconds: number, pngFrameCount: number, deliveryFps: number = context.fps, maxLevel = 52): { expectedFrameCount: number; deliveryFrameCount: number; isCfr: boolean } {
   const expectedFrameCount = Math.round(durationSeconds * context.fps);
   const deliveryFrameCount = Math.round(durationSeconds * deliveryFps);
   if (context.mode !== 'master') throw new Error('Master validation requires master RenderContext.');
@@ -18,7 +21,23 @@ export function validateMasterStream(stream: ProbeStream, context: RenderContext
   if (stream.r_frame_rate !== `${deliveryFps}/1` || stream.avg_frame_rate !== `${deliveryFps}/1`) throw new Error(`Master is not strict CFR ${deliveryFps}/1.`);
   if (Number(stream.nb_read_frames) !== deliveryFrameCount) throw new Error(`Encoded frame count mismatch: ${stream.nb_read_frames}.`);
   if (Math.abs(Number(stream.duration) - durationSeconds) > 1 / deliveryFps) throw new Error(`Master duration mismatch: ${stream.duration}.`);
+  // libx264 reports level as level*10 (52 = Level 5.2) — the ceiling real hardware decoders
+  // widely implement; Level 6.0+ streams silently fail to decode on most phones/players (see the
+  // 258-280 Mbps / level=6.0 files this pipeline produced before deliveryFps/CRF were fixed).
+  if (stream.level !== undefined && stream.level > maxLevel) throw new Error(`Master H.264 level too high for broad playback: ${stream.level} (need <= ${maxLevel}).`);
   return { expectedFrameCount, deliveryFrameCount, isCfr: true };
+}
+
+/**
+ * ffprobe's stream-level duration (derived from the video stream's own timestamps) and the
+ * container's format-level duration (derived from the moov atom) can diverge if an encode step
+ * mishandles PTS — checked independently of validateMasterStream so a duration mismatch surfaces
+ * as its own failure, not folded into the CFR/frame-count checks above.
+ */
+export function validateDeliveryDuration(streamDuration: number, formatDuration: number, durationSeconds: number, deliveryFps: number): void {
+  const tolerance = 1 / deliveryFps;
+  if (!Number.isFinite(streamDuration) || Math.abs(streamDuration - durationSeconds) > tolerance) throw new Error(`Master stream duration mismatch: ${streamDuration} (expected ~${durationSeconds}).`);
+  if (!Number.isFinite(formatDuration) || Math.abs(formatDuration - durationSeconds) > tolerance) throw new Error(`Master format duration mismatch: ${formatDuration} (expected ~${durationSeconds}).`);
 }
 
 export interface FirstFrameThresholds { minAlphaCoverage: number; minNonBlackPixelRatio: number; minMeanLuminance: number; minLuminanceVariance: number; }
