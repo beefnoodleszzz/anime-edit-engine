@@ -9,24 +9,73 @@
     "world": "eastern-fantasy"
   },
   "visualAnchors": {
-    "face": ["refined, pale East Asian male face", "straight brows", "calm, cool grey-blue gaze"],
-    "eyes": ["clear grey-blue irises", "composed direct gaze"],
-    "hair": ["long black hair", "half-up topknot", "loose lengths over the shoulders"],
-    "costume": ["layered white robe", "pale cyan and deep teal inner layers", "restrained silver embroidery", "structured silver shoulder pieces"],
-    "accessories": ["pale-cyan silver hair crown", "silver-blue hanging tassels", "silver waist clasp"],
-    "silhouette": ["slender upright male figure", "wide flowing sleeves", "long layered robe"]
+    "face": [
+      "refined, pale East Asian male face",
+      "straight brows",
+      "calm, cool grey-blue gaze"
+    ],
+    "eyes": [
+      "clear grey-blue irises",
+      "composed direct gaze"
+    ],
+    "hair": [
+      "long black hair",
+      "half-up topknot",
+      "loose lengths over the shoulders"
+    ],
+    "costume": [
+      "layered white robe",
+      "pale cyan and deep teal inner layers",
+      "restrained silver embroidery",
+      "structured silver shoulder pieces"
+    ],
+    "accessories": [
+      "pale-cyan silver hair crown",
+      "silver-blue hanging tassels",
+      "silver waist clasp"
+    ],
+    "silhouette": [
+      "slender upright male figure",
+      "wide flowing sleeves",
+      "long layered robe"
+    ]
   },
-  "styleKeywords": ["premium-donghua", "eastern-fantasy", "cool-toned", "elegant", "cinematic"],
+  "styleKeywords": [
+    "premium-donghua",
+    "eastern-fantasy",
+    "cool-toned",
+    "elegant",
+    "cinematic"
+  ],
   "colorPalette": {
-    "primary": ["#edf3f7", "#dce9ef"],
-    "secondary": ["#244757", "#0f1c25"],
-    "accent": ["#8bb8ca", "#b8c4cc"]
+    "primary": [
+      "#edf3f7",
+      "#dce9ef"
+    ],
+    "secondary": [
+      "#244757",
+      "#0f1c25"
+    ],
+    "accent": [
+      "#8bb8ca",
+      "#b8c4cc"
+    ]
   },
-  "continuityRules": ["keep the black half-up long-hair silhouette", "preserve the white, pale-cyan, deep-teal and silver costume palette", "preserve the pale-cyan silver hair crown and silver waist clasp", "keep the restrained, composed expression"],
-  "forbiddenChanges": ["no other character in frame", "no oversized crown, horns, wings or mask", "no warm dominant palette", "no modern clothing or props"],
+  "continuityRules": [
+    "keep the black half-up long-hair silhouette",
+    "preserve the white, pale-cyan, deep-teal and silver costume palette",
+    "preserve the pale-cyan silver hair crown and silver waist clasp",
+    "keep the restrained, composed expression"
+  ],
+  "forbiddenChanges": [
+    "no other character in frame",
+    "no oversized crown, horns, wings or mask",
+    "no warm dominant palette",
+    "no modern clothing or props"
+  ],
   "currentInventorySummary": {
-    "approvedClips": 0,
+    "approvedClips": 9,
     "missingShotTypes": []
   },
-  "updatedAt": "2026-07-11T18:17:16Z"
+  "updatedAt": "2026-07-11T21:09:19.485Z"
 }

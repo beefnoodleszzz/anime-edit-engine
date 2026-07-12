@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0018",
+  "providerTaskId": "AX4ikw5FMQVG3WDEKVLIhzjKMg0EW29LRtZHc7Ycpa9x3xOg8pK93Y6-OyS7b-1X5yuah2uY",
+  "status": "succeeded",
+  "outputSha256": "f1724af4587990067da807b17dc24a9ca0703832ba7b220693cc1aa67c18909c",
+  "completedAt": "2026-07-11T20:54:28Z",
+  "media": {
+    "width": 2160,
+    "height": 3836,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "fps": 24,
+    "durationSeconds": 3.041667
+  },
+  "downloadedFrom": "urlWithoutWatermark"
+}

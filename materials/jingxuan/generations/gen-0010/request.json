@@ -1,0 +1,20 @@
+{
+  "generationId": "gen-0010",
+  "kind": "image_to_image",
+  "model": "kling-image-v3_0",
+  "referenceImages": [
+    "materials/jingxuan/references/IMAGE_01_FRONT.png",
+    "materials/jingxuan/references/IMAGE_02_LEFT_45.png"
+  ],
+  "prompt": "图片1和图片2是同一位镜玄的角色设定，必须严格保留：同一张清冷男性脸、灰蓝眼睛、黑色半束长发、浅青银色发冠、白色与青蓝色分层长袍、银色肩饰、深青腰封。生成 JX_NOTICE_LEFT_002，作为竖幅9:16图生视频的第一帧，不是海报。单人，左侧四十五度半身镜头，镜玄占画面高度约65%，头顶到腰封完整可见，面部位于画面右侧三分之一，左侧保留干净负空间。身体原本面向左方，头部刚刚向镜头外左侧偏转约十五度，眼神锐利但克制，像是在发现画外危险；脸仍清楚可读，不做夸张表情。只有靠左的几缕发丝和宽袖边缘有轻微后拖，其他衣物保持稳定，给后续视频留下转头和挥袖的动作空间。背景是简洁、虚焦的深蓝雾夜云崖，不要巨月、光球、粒子、强风或复杂景观。冷色边光清楚分离发丝与肩部，眼睛、发冠、肩饰和服装刺绣必须锐利。不要正面大头特写、背身、武器、能量特效、其他人物、文字、水印、海报排版、巨大头冠、角、翅膀、面具、畸形手、额外肢体。",
+  "arguments": {
+    "imgResolution": "2k",
+    "aspectRatio": "9:16",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T18:58:51Z",
+  "status": "abandoned-superseded-by-external-plates",
+  "creditsConsumed": 1,
+  "notes": "Kling accepted the billed request, but the local command lost the returned generationId after reference upload. Do not resubmit without explicit human authorization. | 2026-07-12: user decided not to query/recover this task; all 9 source plates were generated externally and ingested into references/ (JX_*_001.png). Record kept for billing provenance only.",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab"
+}

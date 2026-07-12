@@ -1,6 +1,456 @@
 {
   "schemaVersion": 1,
   "character": "jingxuan",
-  "updatedAt": "2026-07-11T18:09:00Z",
-  "clips": []
+  "updatedAt": "2026-07-12T05:20:00Z",
+  "clips": [
+    {
+      "id": "JX_LAND_001",
+      "file": "materials/jingxuan/clips/JX_LAND_001.mp4",
+      "migrationPending": false,
+      "shotType": "LAND",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "90bf74d9069fc0bf5d6e2faa0c3e4e981495e1bf5887a5a11a11acee11e2f02d"
+      },
+      "generation": {
+        "generationId": "gen-0011",
+        "providerTaskId": "AUvBJC53NFl-uuv_de3RBcOFpD5lfZEX5CrsrEkRMWX6IfCh4EBvw7rUMx_8E0QC4GHZG2rr",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0011/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_LAND_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 1.0,
+          "end": 3.0,
+          "score": 0.9,
+          "tags": [
+            "robe-burst",
+            "landing-impact",
+            "full-body",
+            "mist"
+          ]
+        },
+        {
+          "start": 0.0,
+          "end": 1.0,
+          "score": 0.6,
+          "tags": [
+            "walk-in",
+            "calm"
+          ]
+        },
+        {
+          "start": 3.0,
+          "end": 4.0,
+          "score": 0.7,
+          "tags": [
+            "settle",
+            "walk"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Identity/costume/palette consistent across all sampled frames; no watermark or text. Motion reads as walk-in (0-1s) then a strong robe/mist burst (1-3s) then settle - the landing impact lives at 1-3s, not at frame zero; pair HERO_CRASH_IN with the 1-3s range.",
+        "issues": [
+          "face detail slightly softened during the fastest sleeve motion around 1.5-2.5s (motion blur, acceptable at 2160x3836)"
+        ],
+        "contactSheet": "materials/jingxuan/qc/gen-0011-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_APPROACH_001",
+      "file": "materials/jingxuan/clips/JX_APPROACH_001.mp4",
+      "migrationPending": false,
+      "shotType": "APPROACH",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "1774fa0756075b40114a79b704e450848c3db04d808e04ece1360fc4ac6af178"
+      },
+      "generation": {
+        "generationId": "gen-0012",
+        "providerTaskId": "AQCT8pDfH1r3ilkANplM746ZoJEBxWhXe8LAYr1kLq0s3npLsExIS-sTZVtcqn5ChxTt4Hvp",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0012/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_APPROACH_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "steady-walk",
+            "frontal",
+            "clear-face",
+            "full-body"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Cleanest of the batch: steady frontal walk toward camera, face and costume legible in every sampled frame, stable identity, no watermark. Whole clip is usable.",
+        "issues": [],
+        "contactSheet": "materials/jingxuan/qc/gen-0012-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_NOTICE_LEFT_001",
+      "file": "materials/jingxuan/clips/JX_NOTICE_LEFT_001.mp4",
+      "migrationPending": false,
+      "shotType": "NOTICE_LEFT",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "e4f859e83a153fc23f9916c6fdd92b0170c03578c3902c2c3e902ba76e9ff353"
+      },
+      "generation": {
+        "generationId": "gen-0013",
+        "providerTaskId": "AT0vJ29uER8uTo_buTCGsDiFp5LtWHHT5buZhBUWVUjVfvMbeT1zXN5qz3AKMamhuXwauGZj",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0013/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_NOTICE_LEFT_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.4,
+          "end": 2.4,
+          "score": 0.85,
+          "tags": [
+            "head-turn",
+            "sharp-gaze",
+            "left-profile",
+            "hair-motion"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Head turn from screen-left toward camera lands cleanly around 1.0-2.0s with sharp gaze and hair/tassel motion; identity holds. Tail 2.4-3.0s drifts: pose gets more aggressive than the storyboard's restrained intent and the raised sleeve shows a mushy fur-like texture artifact - excluded from proposed heroRange.",
+        "issues": [
+          "sleeve texture artifact + over-intense expression in final ~0.6s (2.4-3.0s); avoid in edit"
+        ],
+        "contactSheet": "materials/jingxuan/qc/gen-0013-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_WARD_001",
+      "file": "materials/jingxuan/clips/JX_WARD_001.mp4",
+      "migrationPending": false,
+      "shotType": "WARD",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "7908ea75c25aa118185c8a22c90d419be27e58ed344ef22f45d7450bd9148102"
+      },
+      "generation": {
+        "generationId": "gen-0014",
+        "providerTaskId": "AWmOycwkTfefwEwRicQkQ6uzKz016B4AL9RAZgpQmgSVDWd1MvQzpWF3ZlR9V51fyqDC3tHP",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0014/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_WARD_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.3,
+          "end": 2.8,
+          "score": 0.85,
+          "tags": [
+            "ward-gesture",
+            "energy-ribbon",
+            "shield-build",
+            "outstretched-palm"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Hand extends with a flowing water-like energy ribbon that intensifies into a bright frost/white burst by ~2.5s - reads well as the shield forming. Identity/costume stable throughout.",
+        "issues": [
+          "~3.0-3.7s: hand retracts into an odd claw/fist shape with a blobby, fur-like sleeve texture and a notably more aggressive/angry expression than the storyboard's restrained intent - similar texture artifact to gen-0013's tail; excluded from proposed heroRange, avoid in edit"
+        ],
+        "contactSheet": "materials/jingxuan/qc/gen-0014-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_GAZE_001",
+      "file": "materials/jingxuan/clips/JX_GAZE_001.mp4",
+      "migrationPending": false,
+      "shotType": "GAZE",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "4d14e3ac5d3e5bfa86bd5592e46a2231c93475f0f7e469ee78088c7933f1753e"
+      },
+      "generation": {
+        "generationId": "gen-0015",
+        "providerTaskId": "ATyTfvWc_OXHbx4v2jeqQbWDUFP2CIzTpiMkKTLrDrHeF0XdjEZtP9vznVezqdt-dk5CXv5d",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0015/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_GAZE_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "gaze-soften",
+            "particle-glint",
+            "front-closeup",
+            "eye-detail"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Cleanest of batch 2/3: smooth progression from cool/distant gaze to a softer, more focused look, small blue particle glints consistent with dissipating energy. Identity fully stable, no watermark, no artifacts. Whole clip usable.",
+        "issues": [],
+        "contactSheet": "materials/jingxuan/qc/gen-0015-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_TURN_RIGHT_001",
+      "file": "materials/jingxuan/clips/JX_TURN_RIGHT_001.mp4",
+      "migrationPending": false,
+      "shotType": "TURN_RIGHT",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "301b19930a90e2204c3239e827c7b2631e218a1a0642fe39b8d9f44f2248eec6"
+      },
+      "generation": {
+        "generationId": "gen-0016",
+        "providerTaskId": "AcG-yTKHX1yQa9ylj3zQbG4kVMjCiWWqra78iCYvC0DxeeMMMeO_XfptRz4mD9zztmHrA37W",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0016/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_TURN_RIGHT_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.5,
+          "end": 3.5,
+          "score": 0.9,
+          "tags": [
+            "hair-whip",
+            "sleeve-flow",
+            "dynamic-silhouette",
+            "turn-settle"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Strong dynamic turn: hair and sleeves sweep fully across frame (briefly obscuring the face mid-turn, expected) then settle into a clean three-quarter stance. Identity/costume consistent before and after the whip. No artifacts.",
+        "issues": [],
+        "contactSheet": "materials/jingxuan/qc/gen-0016-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_SLEEVE_PASS_001",
+      "file": "materials/jingxuan/clips/JX_SLEEVE_PASS_001.mp4",
+      "migrationPending": false,
+      "shotType": "SLEEVE_PASS",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "a15ff57edbcabcd010087105c19890b59ebebda7fcad238d5cbfeff9a85814e9"
+      },
+      "generation": {
+        "generationId": "gen-0017",
+        "providerTaskId": "AXF_sMsQvY2GlExAXy9J0zW9umzWj8ig2BGdaAXscRHGOcD1nguWlMNpo0V7FqzKNdXjNpPr",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0017/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_SLEEVE_PASS_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.5,
+          "end": 3.0,
+          "score": 0.85,
+          "tags": [
+            "sleeve-sweep",
+            "speed-blur",
+            "energy-trail",
+            "foreground-occlusion"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Sleeve progressively sweeps across and briefly occludes the frame with a windy blue trail, then settles to a calm stand. Good speed-peak feel matching storyboard intent; identity stable throughout.",
+        "issues": [
+          "mid-sweep energy trail reads slightly more turbulent than the storyboard's 'restrained' note - acceptable but worth a glance"
+        ],
+        "contactSheet": "materials/jingxuan/qc/gen-0017-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_SETTLE_001",
+      "file": "materials/jingxuan/clips/JX_SETTLE_001.mp4",
+      "migrationPending": false,
+      "shotType": "SETTLE",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "f1724af4587990067da807b17dc24a9ca0703832ba7b220693cc1aa67c18909c"
+      },
+      "generation": {
+        "generationId": "gen-0018",
+        "providerTaskId": "AX4ikw5FMQVG3WDEKVLIhzjKMg0EW29LRtZHc7Ycpa9x3xOg8pK93Y6-OyS7b-1X5yuah2uY",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0018/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_SETTLE_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "calm-stance",
+            "settle",
+            "full-costume",
+            "composure"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Calm, stable three-quarter stand throughout; one natural blink mid-clip. Identity/costume fully legible and consistent. No artifacts, whole clip usable.",
+        "issues": [],
+        "contactSheet": "materials/jingxuan/qc/gen-0018-contact.png"
+      },
+      "usedBy": []
+    },
+    {
+      "id": "JX_FINAL_LOOK_001",
+      "file": "materials/jingxuan/clips/JX_FINAL_LOOK_001.mp4",
+      "migrationPending": false,
+      "shotType": "FINAL_LOOK",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "ffde13a993aab0c2350157c81118a9a0391afb96bada960909a3a88294627e04"
+      },
+      "generation": {
+        "generationId": "gen-0019",
+        "providerTaskId": "AX5EclkaogPfw9e6sP-wMsDKCHK-Wq9UZ_APwT3aDL8xNm2-Hduwq8M26bAgY_iwBbCYFzKj",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/jingxuan/generations/gen-0019/request.json"
+      },
+      "sourceReferenceImages": [
+        "JX_FINAL_LOOK_001.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.3,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "extreme-closeup",
+            "eye-detail",
+            "loopable",
+            "soft-expression"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T05:20:00Z",
+        "reviewedBy": "human",
+        "notes": "Extreme close-up with a subtle, slow gaze/expression shift; ends on a clean, calm look suitable for a loop or freeze-frame. Identity stable, no watermark, no artifacts.",
+        "issues": [],
+        "contactSheet": "materials/jingxuan/qc/gen-0019-contact.png"
+      },
+      "usedBy": []
+    }
+  ]
 }

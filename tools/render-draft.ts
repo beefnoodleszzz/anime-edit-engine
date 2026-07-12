@@ -1,8 +1,7 @@
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import project from '../projects/001-demo/project.json';
 import { createRenderContext } from '../engine/core/RenderContext';
-import type { ProjectManifest } from '../engine/types';
+import { resolveProjectId, loadProjectConfig } from './project-io';
 
 /**
  * Draft must be its own generated entry, exactly like tools/render-master.ts, instead of
@@ -11,7 +10,8 @@ import type { ProjectManifest } from '../engine/types';
  * a review RenderContext (1080x1920@60/16 samples) — FrameIndex, camera velocity, shutter
  * delta, grain, and motion blur were all computed for 60fps and then emitted at 30fps.
  */
-const context = createRenderContext(project as ProjectManifest, 'draft');
+const { project } = await loadProjectConfig(resolveProjectId());
+const context = createRenderContext(project, 'draft');
 execFileSync('npx', ['tsx', 'tools/prepare-sources.ts'], { stdio: 'inherit' });
 
 const entry = 'compositions/.draft.render.html';

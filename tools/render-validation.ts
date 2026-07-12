@@ -1,13 +1,11 @@
 import { createHash } from 'node:crypto';
 import { copyFile, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import project from '../projects/001-demo/project.json';
-import timeline from '../projects/001-demo/timeline.json';
 import { ProjectLoader } from '../engine/core/ProjectLoader';
 import { createRenderContext } from '../engine/core/RenderContext';
 import { analyzePngPixels } from '../engine/core/PngPixels';
 import { validateFirstFrame } from '../engine/core/MasterValidation';
-import type { ProjectManifest, TimelineManifest } from '../engine/types';
+import { resolveProjectId, loadProjectConfig } from './project-io';
 
 /**
  * V0 Validation Preview: a single fixed review-mode render (1080x1920@60, 8s, 480 frames) used
@@ -22,7 +20,8 @@ interface ProbeStream {
   nb_read_frames: string; duration: string; codec_name: string; pix_fmt: string;
 }
 
-const config = ProjectLoader.validate({ project: project as ProjectManifest, timeline: timeline as TimelineManifest });
+const { project, timeline } = await loadProjectConfig(resolveProjectId());
+const config = ProjectLoader.validate({ project, timeline });
 const context = createRenderContext(config.project, 'review');
 if (context.width !== 1080 || context.height !== 1920 || context.fps !== 60 || context.blurSamples !== 16 || context.postFX !== 'full') {
   throw new Error(`Review RenderContext does not match the V0 validation spec (1080x1920@60, 16 samples, full postFX): ${JSON.stringify(context)}`);
@@ -37,7 +36,7 @@ for (const shot of config.timeline.shots) {
   if (!indexHtml.includes(`src="${videoPath}"`)) throw new Error(`index.html does not reference the prepared source for ${shot.id} (${videoPath}).`);
 }
 
-const outDir = 'renders/validation';
+const outDir = `renders/validation/${config.project.id}`;
 const outputMp4 = `${outDir}/anime-edit-validation.mp4`;
 await mkdir(outDir, { recursive: true });
 

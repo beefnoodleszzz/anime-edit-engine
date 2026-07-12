@@ -30,6 +30,14 @@ describe('Master validation — stream (mock ffprobe JSON, no real 4K render)', 
     expect(() => validateMasterStream(stream, context, 4, 960)).toThrow('PNG frame count mismatch');
   });
   it('validates declared duration against the probed stream duration', () => expect(() => validateMasterStream({ ...stream, duration: '9.000000' }, context, 8, 960)).toThrow('duration mismatch'));
+
+  it('validates the encoded stream against a lower deliveryFps while still requiring the full-rate PNG capture count', () => {
+    const deliveredStream = { width: 2160, height: 3840, r_frame_rate: '60/1', avg_frame_rate: '60/1', nb_read_frames: '480', duration: '8.000000' };
+    expect(validateMasterStream(deliveredStream, context, 8, 960, 60)).toMatchObject({ expectedFrameCount: 960, deliveryFrameCount: 480, isCfr: true });
+    expect(() => validateMasterStream(deliveredStream, context, 8, 480, 60)).toThrow('PNG frame count mismatch');
+    expect(() => validateMasterStream({ ...deliveredStream, r_frame_rate: '120/1' }, context, 8, 960, 60)).toThrow('strict CFR');
+    expect(() => validateMasterStream({ ...deliveredStream, nb_read_frames: '960' }, context, 8, 960, 60)).toThrow('Encoded frame count mismatch');
+  });
 });
 
 describe('Master validation — first frame pixels (real PNG decode, synthetic fixtures)', () => {

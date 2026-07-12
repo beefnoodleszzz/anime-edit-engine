@@ -1,0 +1,20 @@
+{
+  "generationId": "gen-0009",
+  "kind": "image_to_image",
+  "model": "kling-image-v3_0",
+  "referenceImages": [
+    "materials/jingxuan/references/IMAGE_01_FRONT.png",
+    "materials/jingxuan/references/IMAGE_04_FULL_BODY.png"
+  ],
+  "prompt": "图片1和图片2是同一位镜玄的角色设定，必须严格保留：同一张清冷男性脸、灰蓝眼睛、黑色半束长发、浅青银色发冠、白色与青蓝色分层长袍、银色肩饰、深青腰封。生成 JX_LAND_002，作为竖幅9:16图生视频的第一帧，不是海报，不是人物立绘合集。单人，全身，低机位三分之二正面，人物占画面高度约70%，头顶、双手、鞋履完整可见；镜玄的一只脚刚稳稳踏上深灰石台，另一只脚仍在半步向前的收势中，膝盖轻微弯曲，身体重心低而稳定，长袍下摆与一侧宽袖只产生轻微向后的惯性，不要夸张飞散。背景只保留近处石台、深蓝夜空和少量低层雾，背景简洁且虚焦，不能出现巨大月亮、强烈光圈、发光粒子、复杂建筑。柔和冷色侧逆光清楚描出脸、发丝和服装轮廓；脸部清晰、衣服纹理清晰、角色身份优先。不要武器、能量特效、其他人物、文字、水印、海报排版、巨大头冠、角、翅膀、面具、畸形手、额外肢体、裁切脚部或头顶。",
+  "arguments": {
+    "imgResolution": "2k",
+    "aspectRatio": "9:16",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T18:58:51Z",
+  "providerTaskId": "AXw8aA8l48k5coZ3SQGELgHB_PbuolaAiRODmMEzYzU5_xTtnNErl1POwjBN4Gg1Zz1WweKW",
+  "status": "abandoned-superseded-by-external-plates",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab",
+  "notes": "2026-07-12: user decided not to query/recover this task; all 9 source plates were generated externally and ingested into references/ (JX_*_001.png). Record kept for billing provenance only."
+}

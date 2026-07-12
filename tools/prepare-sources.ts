@@ -3,14 +3,12 @@ import { copyFile, link, mkdir, readdir, readFile, rename, rm, writeFile } from 
 import { existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
-import project from '../projects/001-demo/project.json';
-import timeline from '../projects/001-demo/timeline.json';
 import { ProjectLoader } from '../engine/core/ProjectLoader';
 import { createRenderContext } from '../engine/core/RenderContext';
 import { PreparedSourcePlanner, type PreparedSourceManifest } from '../engine/source/PreparedSource';
 import { planDecodeJobs } from '../engine/source/DecodePlan';
 import { psnrBetweenPngs } from '../engine/core/PngPixels';
-import type { ProjectManifest, TimelineManifest } from '../engine/types';
+import { resolveProjectId, loadProjectConfig } from './project-io';
 
 /**
  * Color precision: raw sources here are already yuv420p (verified via ffprobe — see
@@ -19,14 +17,20 @@ import type { ProjectManifest, TimelineManifest } from '../engine/types';
  * what the original encode already kept. H.264 4:4:4/libx264rgb, FFV1 and ProRes 4444 would all
  * avoid that second pass, but none of them decode in a plain Chrome `<video>` element, which
  * this pipeline requires — 8-bit 4:2:0 H.264 is the one broadly Chrome-decodable choice. Given
- * that constraint, CRF 0 (lossless DCT, no additional compression loss) is used and every shot's
- * first frame is round-tripped through the encoded output and compared by PSNR against the
- * lossless source PNG, recorded in `<shot>.color-fidelity.json`, instead of assuming yuv420p is
- * "good enough".
+ * that constraint, CRF 0 (lossless DCT, no additional compression loss) would maximize fidelity
+ * margin, but for native-4K sources the resulting per-shot file (200-500MB, GOP=1) is large enough
+ * to overwhelm the render pipeline's Chrome capture / Node heap (observed: JS heap OOM around
+ * frame 600/960 rendering a 9-shot 4K project). CRF 14 stays far above the color-fidelity floor
+ * below (~50dB measured vs. a 20dB floor, on both 1080p and 4K sources) while cutting file size
+ * roughly 5x, and every shot's first frame is still round-tripped through the encoded output and
+ * compared by PSNR against the lossless source PNG, recorded in `<shot>.color-fidelity.json`,
+ * instead of assuming yuv420p is "good enough".
  */
 const COLOR_FIDELITY_MIN_PSNR_DB = 20;
+const INTERMEDIATE_CRF = 14;
 
-const config = ProjectLoader.validate({ project: project as ProjectManifest, timeline: timeline as TimelineManifest });
+const { project, timeline } = await loadProjectConfig(resolveProjectId());
+const config = ProjectLoader.validate({ project, timeline });
 const context = createRenderContext(config.project, 'master');
 const root = `cache/prepared/${config.project.id}`;
 const planner = new PreparedSourcePlanner();
@@ -128,7 +132,7 @@ for (const shot of config.timeline.shots) {
   const staging = `${directory}.tmp`; const frames = join(staging, 'frames'); await rm(staging, { recursive: true, force: true }); await mkdir(frames, { recursive: true });
   for (const frame of manifest.sourceFrameMap) await linkOrCopy(join(decoded, `frame_${String(frame.sourceFrame + 1).padStart(6, '0')}.png`), join(frames, `frame_${String(frame.outputFrame).padStart(6, '0')}.png`));
   const stagedVideo = join(staging, `${shot.id}.mp4`);
-  execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', '0', '-i', join(frames, 'frame_%06d.png'), '-frames:v', String(manifest.frameCount), '-c:v', 'libx264', '-crf', '0', '-preset', 'medium', '-g', '1', '-pix_fmt', 'yuv420p', stagedVideo], { stdio: 'inherit' });
+  execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', '0', '-i', join(frames, 'frame_%06d.png'), '-frames:v', String(manifest.frameCount), '-c:v', 'libx264', '-crf', String(INTERMEDIATE_CRF), '-preset', 'medium', '-g', '1', '-pix_fmt', 'yuv420p', stagedVideo], { stdio: 'inherit' });
   assertPrepared(stagedVideo, manifest);
   const roundtripFrame = join(staging, 'roundtrip_000000.png');
   execFileSync('ffmpeg', ['-y', '-i', stagedVideo, '-vframes', '1', roundtripFrame], { stdio: 'ignore' });
@@ -140,7 +144,7 @@ for (const shot of config.timeline.shots) {
     shotId: shot.id, sourceFingerprint,
     sourceCodec: sourceMetadata.codecName, sourceProfile: sourceMetadata.profile, sourcePixFmt: sourceMetadata.pixelFormat,
     sourceColorSpace: sourceMetadata.colorSpace, sourceColorTransfer: sourceMetadata.colorTransfer, sourceColorPrimaries: sourceMetadata.colorPrimaries, sourceColorRange: sourceMetadata.colorRange,
-    intermediateCodec: 'h264', intermediatePixFmt: 'yuv420p', crf: 0, gop: 1,
+    intermediateCodec: 'h264', intermediatePixFmt: 'yuv420p', crf: INTERMEDIATE_CRF, gop: 1,
     firstFramePsnrDb, minAcceptablePsnrDb: COLOR_FIDELITY_MIN_PSNR_DB, passed: firstFramePsnrDb >= COLOR_FIDELITY_MIN_PSNR_DB,
   }, null, 2)}\n`);
   // Only the encoded shot, its manifest, and the fidelity report are kept; the staged PNG

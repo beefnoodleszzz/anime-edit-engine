@@ -1,15 +1,24 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import project from '../projects/001-demo/project.json';
 import { createRenderContext } from '../engine/core/RenderContext';
 import { validateMasterStream, validateFirstFrame, type ProbeStream } from '../engine/core/MasterValidation';
 import { analyzePngPixels } from '../engine/core/PngPixels';
-import type { ProjectManifest } from '../engine/types';
+import { resolveProjectId, loadProjectConfig } from './project-io';
 
-const context = createRenderContext(project as ProjectManifest, 'master'); const frames = 'renders/frames'; const master = 'renders/master/master-4k-120.mp4';
-const expectedFrameCount = Math.round((project as ProjectManifest).duration * context.fps);
-await rm(frames, { recursive: true, force: true }); await mkdir(frames, { recursive: true }); await mkdir('renders/master', { recursive: true });
+const { project } = await loadProjectConfig(resolveProjectId());
+const context = createRenderContext(project, 'master'); const frames = 'renders/frames'; const masterDir = `renders/master/${project.id}`;
+// context.fps (120) is an internal capture rate for motion-blur sampling; Kling source plates are
+// native ~24fps, so exporting the delivered file at 120fps CFR is >4x duplicate frames that inflate
+// bitrate past what real-world H.264 decoders (phones, most players) can handle — see the 258-280
+// Mbps / level=6.0 files this pipeline produced before this was caught. Deliver at a real, evenly-
+// divisible frame rate instead; the PNG capture stage is untouched (still 120fps for blur quality).
+const MASTER_DELIVERY_FPS = 60;
+if (context.fps % MASTER_DELIVERY_FPS !== 0) throw new Error(`Internal render fps (${context.fps}) is not an integer multiple of MASTER_DELIVERY_FPS (${MASTER_DELIVERY_FPS}); frame-drop downsampling requires a clean ratio.`);
+const deliveryFrameRatio = context.fps / MASTER_DELIVERY_FPS;
+const master = `${masterDir}/master-4k-${MASTER_DELIVERY_FPS}.mp4`;
+const expectedFrameCount = Math.round(project.duration * context.fps);
+await rm(frames, { recursive: true, force: true }); await mkdir(frames, { recursive: true }); await mkdir(masterDir, { recursive: true });
 execFileSync('npx', ['tsx', 'tools/prepare-sources.ts'], { stdio: 'inherit' });
 const entry = 'compositions/.master.render.html'; await mkdir('compositions', { recursive: true }); const reviewEntry = await readFile('index.html', 'utf8');
 const masterEntry = reviewEntry.replace('data-resolution="portrait" data-render-mode="review" data-fps="60"', 'data-resolution="portrait-4k" data-render-mode="master" data-fps="120"').replaceAll('width=1080, height=1920', 'width=2160, height=3840').replaceAll('1080px', '2160px').replaceAll('1920px', '3840px').replace('data-width="1080" data-height="1920"', 'data-width="2160" data-height="3840"').replaceAll('src="cache/', 'src="../cache/').replace('src="dist/main.js"', 'src="../dist/main.js"');
@@ -27,14 +36,22 @@ const startNumber = Number(firstFrameName.match(/^frame_(\d{6})\.png$/)![1]);
 const firstFramePng = await readFile(`${frames}/${firstFrameName}`);
 const firstFrameAnalysis = analyzePngPixels(firstFramePng, (data) => createHash('sha256').update(data).digest('hex'));
 validateFirstFrame(firstFrameAnalysis);
-execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', String(startNumber), '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount), '-vsync', 'cfr', '-c:v', 'libx264', '-preset', 'slow', '-crf', '10', '-pix_fmt', 'yuv420p', master], { stdio: 'inherit' });
+// select=not(mod(n,ratio)) drops every frame but the first of each `ratio`-sized run, which is
+// exactly the internal capture's own upsampling pattern in reverse (prepare-sources.ts maps each
+// ~24fps source frame onto `ratio` consecutive 120fps output frames) — this discards duplicate
+// frames losslessly rather than blending or re-timing anything. -maxrate/-bufsize/-level keep the
+// encoded stream within a level real hardware decoders actually implement (see MASTER_DELIVERY_FPS
+// comment above); CRF 18 matches prepare-sources.ts's own "visually lossless" floor (~50dB PSNR
+// margin over the 20dB floor at CRF 14) while cutting bitrate roughly an order of magnitude from
+// the CRF 10 this replaced.
+execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', String(startNumber), '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount), '-vf', `select='not(mod(n\\,${deliveryFrameRatio}))'`, '-vsync', 'vfr', '-r', String(MASTER_DELIVERY_FPS), '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-maxrate', '80M', '-bufsize', '160M', '-level', '5.2', '-pix_fmt', 'yuv420p', master], { stdio: 'inherit' });
 const ffprobe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-count_frames', '-show_entries', 'stream=width,height,r_frame_rate,avg_frame_rate,nb_read_frames,duration,codec_name', '-of', 'json', master], { encoding: 'utf8' })) as { streams: ProbeStream[] };
-const stream = ffprobe.streams[0]; if (!stream) throw new Error('ffprobe found no video stream.'); const result = validateMasterStream(stream, context, (project as ProjectManifest).duration, pngs.length);
+const stream = ffprobe.streams[0]; if (!stream) throw new Error('ffprobe found no video stream.'); const result = validateMasterStream(stream, context, project.duration, pngs.length, MASTER_DELIVERY_FPS);
 const report = {
-  mode: context.mode, width: context.width, height: context.height, fps: context.fps, durationSeconds: (project as ProjectManifest).duration,
-  expectedFrameCount: result.expectedFrameCount, pngFrameCount: pngs.length, encodedFrameCount: Number(stream.nb_read_frames), codec: stream.codec_name,
+  mode: context.mode, width: context.width, height: context.height, captureFps: context.fps, deliveryFps: MASTER_DELIVERY_FPS, durationSeconds: project.duration,
+  expectedFrameCount: result.expectedFrameCount, pngFrameCount: pngs.length, deliveryFrameCount: result.deliveryFrameCount, encodedFrameCount: Number(stream.nb_read_frames), codec: stream.codec_name,
   isCfr: result.isCfr, firstFrameValid: true, firstFrameAnalysis,
   hyperFramesConfig: { composition: 'generated compositions/.master.render.html', width: 2160, height: 3840, fps: 120 },
-  engineRenderContext: context, preparedSources: (project as ProjectManifest).id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size,
+  engineRenderContext: context, preparedSources: project.id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size,
 };
-await writeFile('renders/master/master-report.json', `${JSON.stringify(report, null, 2)}\n`);
+await writeFile(`${masterDir}/master-report.json`, `${JSON.stringify(report, null, 2)}\n`);
