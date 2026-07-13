@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "id": "ta-bajian-female",
+  "name": "封印灭世者",
+  "status": "active",
+  "identity": {
+    "genderPresentation": "female",
+    "agePresentation": "young-adult",
+    "world": "eastern-fantasy"
+  },
+  "visualAnchors": {
+    "face": [
+      "refined pale female face",
+      "calm symmetrical features",
+      "clear dark-gold forehead seal"
+    ],
+    "eyes": [
+      "deep wine-red eyes",
+      "quiet commanding gaze"
+    ],
+    "hair": [
+      "very long black hair",
+      "restrained dark-red sheen at the ends",
+      "subtle dark-gold hair ornaments"
+    ],
+    "costume": [
+      "black and dark-wine-red layered dress",
+      "dark-gold trim",
+      "light flowing outer robe"
+    ],
+    "accessories": [
+      "interlocking dark-gold forehead seal",
+      "dark-gold wrist binding chains",
+      "long dark-gold and red earrings"
+    ],
+    "silhouette": [
+      "tall slender female figure",
+      "floor-length black-red costume",
+      "long hair and trailing outer layers"
+    ]
+  },
+  "styleKeywords": [
+    "premium-donghua",
+    "eastern-fantasy",
+    "cinematic",
+    "dark-elegant",
+    "xianxia",
+    "ominous"
+  ],
+  "colorPalette": {
+    "primary": [
+      "#141016",
+      "#351722"
+    ],
+    "secondary": [
+      "#0e1a23",
+      "#4d2d24"
+    ],
+    "accent": [
+      "#c8a05a",
+      "#9b273d"
+    ]
+  },
+  "continuityRules": [
+    "preserve the very long black hair with only restrained dark-red highlights",
+    "preserve the black, dark-wine-red and dark-gold costume palette",
+    "keep the dark-gold interlocking forehead seal visible whenever the face is readable",
+    "keep the dark-gold wrist binding chains consistent before the chain-break beat",
+    "preserve the calm, self-possessed expression; awakening is controlled rather than monstrous"
+  ],
+  "forbiddenChanges": [
+    "no extra character in a female-only reference",
+    "no premature monster transformation, fangs, horns or wings",
+    "no modern clothing or props",
+    "no bright cheerful palette, gore or exaggerated screaming expression"
+  ],
+  "currentInventorySummary": {
+    "approvedClips": 3,
+    "missingShotTypes": [
+      "CAPE_TURN",
+      "DRAW",
+      "EYE",
+      "FACE",
+      "HAND_FACE",
+      "SLASH"
+    ]
+  },
+  "updatedAt": "2026-07-12T17:33:34.452Z"
+}

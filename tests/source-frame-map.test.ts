@@ -37,7 +37,7 @@ describe('nearestFrameIndex (exact PTS-based source frame mapping)', () => {
 describe('PreparedSourcePlanner source frame map', () => {
   it('maps every output shot frame to a bounded integer decoded-source index equal to nearestFrameIndex(sourceTime)', () => {
     const manifest = new PreparedSourcePlanner().planShot(project as ProjectManifest, timeline as TimelineManifest, createRenderContext(project as ProjectManifest, 'master'), 's05', 'fingerprint', Array.from({ length: 480 }, (_, index) => index / 30));
-    expect(manifest.sourceFrameMap).toHaveLength(Math.round(0.8 * 120));
+    expect(manifest.sourceFrameMap).toHaveLength(Math.round(0.8 * 60));
     for (const frame of manifest.sourceFrameMap) {
       expect(Number.isInteger(frame.sourceFrame) && frame.sourceFrame >= 0 && frame.sourceFrame < 480).toBe(true);
       expect(frame.sourceFrame).toBe(nearestFrameIndex(Array.from({ length: 480 }, (_, index) => index / 30), frame.sourceTime));

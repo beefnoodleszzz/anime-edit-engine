@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0003",
+  "providerTaskId": "AUthrJzNGpgA_WeEujoTmcVwkk3VQO8VjTskWBTwXct7Uv_Yqyk7p3Z7WxzJIPXmzbEkYtl5",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-female/generations/gen-0003/output.mp4",
+  "outputSha256": "affedfc1fdd162a1dff8934f770199cfbdf8599e3b64b78b1e9922e25733fa1c",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/15e29b9a-dd94-4d10-bc5e-ca5a01d341d1-0ga27SpD948L0pvpHShSOQ-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["女主成为视觉中心，男主在后侧，双人身份和站位稳定。", "万剑从指向两人统一倒转为向外，动作秩序清楚，未见乱飞或互撞。", "后段金色剑阵密度很高，适合 S09 的力量反转，但需人工确认是否保留最密集末段。"], "proposedHeroRanges": [{"start": 0.3, "end": 3.8, "score": 0.87, "tags": ["sword-reversal", "female-center", "dual-wide", "power-reveal"]}]}
+}

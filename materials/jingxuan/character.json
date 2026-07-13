@@ -75,7 +75,17 @@
   ],
   "currentInventorySummary": {
     "approvedClips": 9,
-    "missingShotTypes": []
+    "missingShotTypes": [
+      "CAPE_EXIT",
+      "CAPE_TURN",
+      "EYE",
+      "FACE",
+      "HAIR_WIPE",
+      "HAND_FACE",
+      "HERO_IDLE",
+      "LOOK_BACK",
+      "WALK"
+    ]
   },
-  "updatedAt": "2026-07-11T21:09:19.485Z"
+  "updatedAt": "2026-07-12T11:10:46.253Z"
 }

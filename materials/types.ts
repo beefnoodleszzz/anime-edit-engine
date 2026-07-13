@@ -77,6 +77,9 @@ export interface ClipQc {
 
 export interface ClipUsedBy { project: string; sourceId: string; }
 
+/** Optional semantic ownership for non-character source plates used by ensemble projects. */
+export type ClipAssetKind = 'character' | 'ensemble' | 'prop' | 'environment' | 'effect';
+
 export interface Clip {
   id: string;
   file: string;
@@ -87,6 +90,10 @@ export interface Clip {
   media: ClipMedia;
   generation: ClipGeneration;
   sourceReferenceImages: string[];
+  /** Defaults to character for legacy records; use ensemble/prop/environment/effect for new work. */
+  assetKind?: ClipAssetKind;
+  /** Character or asset ids represented by an ensemble/prop/effect plate. */
+  subjectRefs?: string[];
   heroRanges: HeroRange[];
   qc: ClipQc;
   /** Set only when qc.status is "superseded": the clip.id that replaced this one. */

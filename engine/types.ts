@@ -15,7 +15,25 @@ export interface SourceClip {
 }
 export interface RenderMode { width: number; height: number; fps: number; blurSamples: number; postFX: 'reduced' | 'full'; }
 export interface RenderContext extends RenderMode { mode: RenderModeName; frameDeltaSeconds: number; }
-export interface ProjectManifest { id: string; name: string; duration: number; seed: number; renderModes: Record<RenderModeName, RenderMode>; sources: SourceClip[]; }
+export interface ProjectAudioTrack {
+  file: string;
+  start?: number;
+  trimStart?: number;
+  duration?: number;
+  volume?: number;
+  gainDb?: number;
+  fadeIn?: number;
+  fadeOut?: number;
+  cue?: string;
+  duckMusicDb?: number;
+}
+export interface ProjectAudioManifest {
+  music?: ProjectAudioTrack;
+  voice?: ProjectAudioTrack[];
+  sfx?: ProjectAudioTrack[];
+  masterGainDb?: number;
+}
+export interface ProjectManifest { id: string; name: string; duration: number; seed: number; renderModes: Record<RenderModeName, RenderMode>; sources: SourceClip[]; audioFile?: string; audio?: ProjectAudioManifest; }
 /**
  * Per-shot dial-back on the automatic velocity-driven blur (BlurProfile.ts): source plates with
  * their own baked-in motion (whip pans, sleeve sweeps) get double-blurred if the engine's own
@@ -36,15 +54,19 @@ export interface ShotBlurOverride {
   /** Forces samples=1/shutterSeconds=0 on the shot's last captured output frame. */
   disableAtEnd?: boolean;
 }
+export interface ShotPostFXOverride { glow?: number; chromatic?: number; grain?: number; sharpen?: number; }
 export interface TimelineShot {
   id: string; source: string; start: number; end: number; rangeIndex: number; camera: CameraPresetName; timeWarp: TimeWarpName;
-  transitionIn?: TransitionName; transitionOut?: TransitionName; blur?: ShotBlurOverride;
+  transitionIn?: TransitionName; transitionOut?: TransitionName; blur?: ShotBlurOverride; postFX?: ShotPostFXOverride; syncPoints?: SyncPoint[]; timeMap?: TimeMapPoint[];
 }
-export interface TimelineManifest { bpm: number; beats: number[]; shots: TimelineShot[]; }
+export type SyncPointKind = 'gesture-start' | 'impact' | 'settle' | 'reveal' | 'cut' | 'hold';
+export interface SyncPoint { kind: SyncPointKind; outputTime: number; sourceTime: number; accentRef?: string; }
+export interface TimeMapPoint { outputProgress: number; sourceProgress: number; }
+export interface TimelineManifest { bpm: number; beats: number[]; downbeats?: number[]; accents?: Array<{ time: number; strength: number; type: string; confidence?: number }>; shots: TimelineShot[]; }
 export interface EditTransform { scale: number; x: number; y: number; rotation: number; pivotX: number; pivotY: number; }
 export interface CameraVelocity { x: number; y: number; zoom: number; rotation: number; magnitude: number; directionX: number; directionY: number; }
 export interface BlurProfile { strength: number; samples: number; shutterSeconds: number; }
-export interface TransitionState { kind?: TransitionName; progress: number; colorBridgeAlpha: number; }
+export interface TransitionState { kind?: TransitionName; progress: number; colorBridgeAlpha: number; bridgeColor?: [number, number, number]; }
 export interface PostFXState { glow: number; chromatic: number; grain: number; sharpen: number; }
 export interface FrameContext {
   time: number; frameIndex: number; shot: TimelineShot; source: SourceClip; sourceTime: number;

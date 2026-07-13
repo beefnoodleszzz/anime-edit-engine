@@ -9,6 +9,7 @@ export class ProjectLoader {
     const { project, timeline } = config;
     if (project.duration <= 0 || !Number.isFinite(project.duration)) throw new Error('Project duration must be positive.');
     if (timeline.shots.length === 0) throw new Error('Timeline requires at least one shot.');
+    this.validateAudio(project);
     const sourceIds = new Set(project.sources.map((source) => source.id));
     const maxBlurSamples = Math.max(...Object.values(project.renderModes).map((mode) => mode.blurSamples));
     const epsilon = 0.000001; let previousEnd = 0; let previousId = 'start';
@@ -19,11 +20,26 @@ export class ProjectLoader {
       const range = source.heroRanges[shot.rangeIndex];
       if (!range || range.start < 0 || range.end > source.duration || range.end <= range.start) throw new Error(`Invalid hero range for ${shot.id}.`);
       this.validateBlurOverride(shot, maxBlurSamples);
+      this.validatePostFXOverride(shot);
+      this.validateSyncMap(shot, range.start, range.end);
       previousEnd = shot.end; previousId = shot.id;
     }
     if (Math.abs(previousEnd - project.duration) > 0.0001) throw new Error('Timeline must end at project duration.');
     this.validateTransitions(project, timeline);
     return config;
+  }
+
+  private static validateAudio(project: ProjectManifest): void {
+    const tracks = [project.audio?.music, ...(project.audio?.voice ?? []), ...(project.audio?.sfx ?? [])].filter(Boolean);
+    for (const track of tracks) {
+      if (!track?.file) throw new Error('Audio track file is required.');
+      if (track.start !== undefined && (!Number.isFinite(track.start) || track.start < 0)) throw new Error(`Audio track start is invalid: ${track.start}.`);
+      if (track.volume !== undefined && (!Number.isFinite(track.volume) || track.volume < 0)) throw new Error(`Audio track volume is invalid: ${track.volume}.`);
+      for (const [name, value] of Object.entries({ trimStart: track.trimStart, duration: track.duration, gainDb: track.gainDb, fadeIn: track.fadeIn, fadeOut: track.fadeOut, duckMusicDb: track.duckMusicDb })) {
+        if (value !== undefined && (!Number.isFinite(value) || (['trimStart', 'duration', 'fadeIn', 'fadeOut', 'duckMusicDb'].includes(name) && value < 0))) throw new Error(`Audio track ${name} is invalid: ${value}.`);
+      }
+    }
+    if (project.audio?.masterGainDb !== undefined && !Number.isFinite(project.audio.masterGainDb)) throw new Error(`Audio masterGainDb is invalid: ${project.audio.masterGainDb}.`);
   }
 
   /** maxSamples is checked against the highest blurSamples ceiling across all render modes (not just the mode being rendered right now) so a shot's override is valid regardless of which mode later renders it. */
@@ -34,6 +50,31 @@ export class ProjectLoader {
     if (blur.maxSamples !== undefined && (blur.maxSamples < 1 || blur.maxSamples > maxBlurSamples)) throw new Error(`Invalid blur.maxSamples for ${shot.id}: ${blur.maxSamples} (must be within [1, ${maxBlurSamples}]).`);
     if (blur.edgeFade !== undefined && (blur.edgeFade < 0 || blur.edgeFade >= 0.5)) throw new Error(`Invalid blur.edgeFade for ${shot.id}: ${blur.edgeFade} (must be within [0, 0.5)).`);
     if (blur.maxShutterSeconds !== undefined && blur.maxShutterSeconds < 0) throw new Error(`Invalid blur.maxShutterSeconds for ${shot.id}: ${blur.maxShutterSeconds} (must be >= 0).`);
+  }
+
+  private static validatePostFXOverride(shot: TimelineShot): void {
+    for (const [name, value] of Object.entries(shot.postFX ?? {})) {
+      if (value !== undefined && (!Number.isFinite(value) || value < 0)) throw new Error(`Invalid shot postFX ${name} for ${shot.id}: ${value}.`);
+    }
+  }
+
+  private static validateSyncMap(shot: TimelineShot, rangeStart: number, rangeEnd: number): void {
+    const syncPoints = shot.syncPoints ?? [];
+    let previousOutput = -Infinity;
+    let previousSource = -Infinity;
+    for (const point of syncPoints) {
+      if (!Number.isFinite(point.outputTime) || point.outputTime < shot.start || point.outputTime > shot.end) throw new Error(`Invalid sync point outputTime for ${shot.id}: ${point.outputTime}.`);
+      if (!Number.isFinite(point.sourceTime) || point.sourceTime < rangeStart || point.sourceTime > rangeEnd) throw new Error(`Invalid sync point sourceTime for ${shot.id}: ${point.sourceTime}.`);
+      if (point.outputTime < previousOutput || point.sourceTime < previousSource) throw new Error(`Sync points must be monotonic for ${shot.id}.`);
+      previousOutput = point.outputTime; previousSource = point.sourceTime;
+    }
+    let previousMapOutput = -Infinity;
+    let previousMapSource = -Infinity;
+    for (const point of shot.timeMap ?? []) {
+      if (!Number.isFinite(point.outputProgress) || point.outputProgress < 0 || point.outputProgress > 1 || !Number.isFinite(point.sourceProgress) || point.sourceProgress < 0 || point.sourceProgress > 1) throw new Error(`Invalid timeMap point for ${shot.id}.`);
+      if (point.outputProgress < previousMapOutput || point.sourceProgress < previousMapSource) throw new Error(`timeMap must be monotonic for ${shot.id}.`);
+      previousMapOutput = point.outputProgress; previousMapSource = point.sourceProgress;
+    }
   }
 
   /**

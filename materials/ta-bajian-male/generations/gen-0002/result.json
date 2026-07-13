@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0002",
+  "providerTaskId": "AaMgrN7TGM7tZdolY4184sZhU4f6YEq_2LhJ7KVzR1oVVEg_EsE32SLFAY-JgDrL98UCKmv-",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0002/output.mp4",
+  "outputSha256": "1013980b50dc0db03ef80c00f2d8a4a2f8f1e66d10b5531ee10878fa69c98967",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/5aa1d6b4-6aa3-408b-8b58-6a19c5f5c9e0-0ga27SpD94-PllvhHx2IEQ-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["男主抬剑动作连续，手、护手和剑身在接触表中保持可读。", "人物身份、服装和冷色暴雨环境稳定；未见额外人物或明显多余肢体。", "后段抬剑幅度清楚，背景悬剑未与男主手中剑明显合并。"], "proposedHeroRanges": [{"start": 0.2, "end": 2.7, "score": 0.84, "tags": ["sword-raise", "male-identity", "stable-face", "rain"]}]}
+}

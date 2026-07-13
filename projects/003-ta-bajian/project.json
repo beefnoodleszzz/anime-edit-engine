@@ -1,0 +1,23 @@
+{
+  "id": "003-ta-bajian",
+  "name": "他拔剑，不是为了杀她",
+  "duration": 16,
+  "seed": 3013,
+  "audioFile": "projects/003-ta-bajian/audio/audio.json",
+  "renderModes": {
+    "draft": {"width": 540, "height": 960, "fps": 30, "blurSamples": 4, "postFX": "reduced"},
+    "review": {"width": 1080, "height": 1920, "fps": 60, "blurSamples": 16, "postFX": "full"},
+    "master": {"width": 2160, "height": 3840, "fps": 60, "blurSamples": 24, "postFX": "full"}
+  },
+  "sources": [
+    {"id": "TBJ_S01_D01_001", "type": "FACE", "file": "materials/ta-bajian-male/clips/TBJ_S01_D01_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "heroRanges": [{"start": 0.15, "end": 1.25, "score": 0.86, "tags": ["stable-standoff", "kneeling-readable", "sword-at-throat", "low-motion"]}], "tags": ["kling-generated", "ensemble", "ta-bajian"]},
+    {"id": "TBJ_S02_M01_001", "type": "SLASH", "file": "materials/ta-bajian-male/clips/TBJ_S02_M01_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "heroRanges": [{"start": 0.2, "end": 2.7, "score": 0.84, "tags": ["sword-raise", "male-identity", "stable-face", "rain"]}], "tags": ["kling-generated", "ta-bajian-male"]},
+    {"id": "TBJ_S03_F01_001", "type": "EYE", "file": "materials/ta-bajian-female/clips/TBJ_S03_F01_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "heroRanges": [{"start": 0.2, "end": 2.7, "score": 0.83, "tags": ["female-gaze", "face-stable", "sword-horizontal", "seal-intact"]}], "tags": ["kling-generated", "ta-bajian-female"]},
+    {"id": "TBJ_S04_P01_001", "type": "SLASH", "file": "materials/ta-bajian-male/clips/TBJ_S04_P01_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "heroRanges": [{"start": 2.5, "end": 3.8, "score": 0.88, "tags": ["chain-break", "sword-contact", "metal-fragments", "impact"]}], "tags": ["kling-generated", "prop", "ta-bajian"]},
+    {"id": "TBJ_S05_D02_001", "type": "CAPE_TURN", "file": "materials/ta-bajian-male/clips/TBJ_S05_D02_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "heroRanges": [{"start": 0.3, "end": 3.6, "score": 0.85, "tags": ["protective-turn", "dual-wide", "kneeling-female", "sword-guard"]}], "tags": ["kling-generated", "ensemble", "ta-bajian"]},
+    {"id": "TBJ_S06_M03_001", "type": "HAND_FACE", "file": "materials/ta-bajian-male/clips/TBJ_S06_M03_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "heroRanges": [{"start": 0.2, "end": 3.6, "score": 0.86, "tags": ["shield-build", "sword-impact", "male-center", "female-silhouette", "late-hairline-cracks"]}], "tags": ["kling-generated", "ta-bajian-male", "revised"]},
+    {"id": "TBJ_S07_M04_001", "type": "SLASH", "file": "materials/ta-bajian-male/clips/TBJ_S07_M04_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "heroRanges": [{"start": 0.2, "end": 3.2, "score": 0.84, "tags": ["shield-break", "cold-impact", "restrained-injury", "female-background"]}], "tags": ["kling-generated", "ta-bajian-male", "revised"]},
+    {"id": "TBJ_S08_F02_001", "type": "EYE", "file": "materials/ta-bajian-female/clips/TBJ_S08_F02_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "heroRanges": [{"start": 0.25, "end": 2.7, "score": 0.9, "tags": ["eyes-opening", "amber-awakening", "seal-glow", "face-stable"]}], "tags": ["kling-generated", "ta-bajian-female"]},
+    {"id": "TBJ_S09_D03_001", "type": "DRAW", "file": "materials/ta-bajian-female/clips/TBJ_S09_D03_001.mp4", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "heroRanges": [{"start": 0.3, "end": 3.8, "score": 0.87, "tags": ["sword-reversal", "female-center", "dual-wide", "power-reveal"]}], "tags": ["kling-generated", "ensemble", "ta-bajian"]}
+  ]
+}

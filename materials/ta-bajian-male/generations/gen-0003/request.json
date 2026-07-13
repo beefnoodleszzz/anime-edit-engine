@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0003",
+  "character": "ta-bajian-male",
+  "project": "003-ta-bajian",
+  "shotId": "s04",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "P01_chain_break_insert",
+  "prompt": "首帧 FF05 是绝对构图基准。保持暗金封印锁链微距和已经插入链环的冰蓝剑刃位置，剑刃继续向前压入但只发生一次清晰的断链动作：链环先受力绷紧，随后在接触点出现细小裂纹并断开，产生少量金属碎屑和一两点火星，断链后短暂回弹并停住。保持锁链的金属材质、符文和黑色湿石台纹理清晰；剑刃必须始终是同一把连续的剑，不生成第二把剑。固定微距镜头，无镜头旋转、无大幅推拉、无链条融化、无巨大爆炸、无火海、无血迹、无手腕或断肢、无额外道具、无文字、字幕、水印、logo、运动模糊。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF05_P01_chain_break_insert.png"],
+  "arguments": {"duration": "4", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "Acz8iLdGSwxguquXQqYuY1jVvUFVKIjpapTX_CWYbyiwlq1imqzb9B2EbhWxGhJtMjKzVgzR",
+  "creditsConsumed": 120,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDUvdTVyampsejdrWS9mZjA1X3AwMV9jaGFpbl9icmVhay5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S04 prop insert source plate, registered under male registry as the sword-led action. Do not reuse this gen-id after failure."
+}

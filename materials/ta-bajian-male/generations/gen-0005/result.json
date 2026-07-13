@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0005",
+  "providerTaskId": "AWMT_BlGOPrJiAg1PmnVuH5L3k6MYbYs9VLNMxmQksBjrmQjQD0JTt9HiB0A3zeJGPp_mI2T",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0005/output.mp4",
+  "outputSha256": "7ff75467e90ee54267bb8c4a01ceb9dd59286984b762a0189d8b926a8db15c49",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/f5fdba39-e5d9-4dda-9677-5ed51884d96e-0ga27SpD948NK0qaDOGZvg-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["剑幕从完整状态形成并承受金色神剑撞击，男主与女主位置稳定。", "后半段剑幕比提示词预期更早出现裂纹；与 S07 的起始裂纹可衔接，但需人工确认是否保留。", "未见额外人物、重复男主或明显武器断裂。"], "proposedHeroRanges": [{"start": 0.2, "end": 2.6, "score": 0.79, "tags": ["shield-build", "sword-impact", "male-center", "female-silhouette", "early-cracks-note"]}]}
+}

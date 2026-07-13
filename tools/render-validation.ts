@@ -9,7 +9,7 @@ import { resolveProjectId, loadProjectConfig } from './project-io';
 
 /**
  * V0 Validation Preview: a single fixed review-mode render (1080x1920@60, 8s, 480 frames) used
- * to prove the engine end to end, not a step toward the master (2160x3840@120) pipeline. index.html
+ * to prove the engine end to end, not a step toward the master (2160x3840@60) pipeline. index.html
  * is already a strict review entry (data-render-mode="review" data-fps="60", 1080x1920), so this
  * renders it directly instead of generating a compositions/.validation.render.html duplicate —
  * fewer moving parts, and it sidesteps HyperFrames' asset-path resolution rules that render-master.ts
@@ -21,6 +21,7 @@ interface ProbeStream {
 }
 
 const { project, timeline } = await loadProjectConfig(resolveProjectId());
+execFileSync('npx', ['tsx', 'tools/generate-composition.ts'], { stdio: 'inherit' });
 const config = ProjectLoader.validate({ project, timeline });
 const context = createRenderContext(config.project, 'review');
 if (context.width !== 1080 || context.height !== 1920 || context.fps !== 60 || context.blurSamples !== 16 || context.postFX !== 'full') {

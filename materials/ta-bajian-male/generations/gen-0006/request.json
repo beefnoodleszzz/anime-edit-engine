@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0006",
+  "character": "ta-bajian-male",
+  "project": "003-ta-bajian",
+  "shotId": "s07",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "FAILED",
+  "targetPlate": "M04_shield_break_wound",
+  "prompt": "首帧 FF08 是绝对构图基准。保持男主近景、已有裂纹的冰蓝剑幕、右侧抵达屏障的金色神剑和后景女主轮廓。金色神剑继续施压，使剑幕裂纹在原有路径上扩大并发生一次局部破裂；冲击只擦过男主肩侧，衣袍破口略微扩大但不穿透身体、不出现血液。男主保持克制痛感，身体轻微后撤；后景女主从跪姿开始抬起上身，但不要完全站起、不要睁眼觉醒。保持脸部、裂纹、来剑和女主轮廓始终清晰。固定近景单镜头，无切镜、无旋转、无多把金剑、无贯穿身体、无断肢、无血腥、无怪物化、无爆炸、无文字、字幕、水印、logo、运动模糊。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF08_M04_shield_break_wound.png"],
+  "arguments": {"duration": "4", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": null,
+  "creditsConsumed": null,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": null,
+  "notes": "S07 male shield-break source plate. Upload was rejected before task creation because Kling MCP reported rate limiting (HTTP 400: handling too many requests). No credits were consumed. Do not reuse this gen-id; retry requires a new generation id after user authorization."
+}

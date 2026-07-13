@@ -9,7 +9,7 @@ describe('RenderContext parity', () => {
   const modes: Record<RenderModeName, { width: number; height: number; fps: number; blurSamples: number }> = {
     draft: { width: 540, height: 960, fps: 30, blurSamples: 4 },
     review: { width: 1080, height: 1920, fps: 60, blurSamples: 16 },
-    master: { width: 2160, height: 3840, fps: 120, blurSamples: 24 },
+    master: { width: 2160, height: 3840, fps: 60, blurSamples: 24 },
   };
 
   it.each(Object.entries(modes))('accepts the exact %s contract', (modeName, expected) => {
@@ -27,10 +27,10 @@ describe('RenderContext parity', () => {
 
   it('reports both configurations on mismatch', () => {
     const context = createRenderContext(project as ProjectManifest, 'master');
-    expect(() => assertRenderParity(context, root(1080, 3840), 120)).toThrow(/HyperFrames=1080×3840@120.*Engine=2160×3840@120/);
+    expect(() => assertRenderParity(context, root(1080, 3840), 60)).toThrow(/HyperFrames=1080×3840@60.*Engine=2160×3840@60/);
   });
 
   const context = createRenderContext(project as ProjectManifest, 'master');
-  it('accepts the exact master contract', () => expect(() => assertRenderParity(context, root(2160, 3840), 120)).not.toThrow());
-  it.each([[1080, 3840, 120], [2160, 1920, 120], [2160, 3840, 60]])('rejects every HyperFrames mismatch', (width, height, fps) => expect(() => assertRenderParity(context, root(width, height), fps)).toThrow('RenderContext mismatch'));
+  it('accepts the exact master contract', () => expect(() => assertRenderParity(context, root(2160, 3840), 60)).not.toThrow());
+  it.each([[1080, 3840, 60], [2160, 1920, 60], [2160, 3840, 30]])('rejects every HyperFrames mismatch', (width, height, fps) => expect(() => assertRenderParity(context, root(width, height), fps)).toThrow('RenderContext mismatch'));
 });

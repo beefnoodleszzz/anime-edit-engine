@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import type { ProjectManifest, TimelineManifest } from '../engine/types';
+import type { ProjectAudioManifest, ProjectManifest, TimelineManifest } from '../engine/types';
 
 export const DEFAULT_PROJECT_ID = '001-demo';
 
@@ -19,4 +19,9 @@ export async function loadProjectConfig(projectId: string): Promise<{ project: P
   const project = JSON.parse(await readFile(`projects/${projectId}/project.json`, 'utf8')) as ProjectManifest;
   const timeline = JSON.parse(await readFile(`projects/${projectId}/timeline.json`, 'utf8')) as TimelineManifest;
   return { project, timeline };
+}
+
+export async function loadAudioManifest(project: ProjectManifest): Promise<ProjectAudioManifest | undefined> {
+  if (project.audioFile) return JSON.parse(await readFile(project.audioFile, 'utf8')) as ProjectAudioManifest;
+  return project.audio;
 }

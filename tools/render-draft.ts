@@ -12,6 +12,7 @@ import { resolveProjectId, loadProjectConfig } from './project-io';
  */
 const { project } = await loadProjectConfig(resolveProjectId());
 const context = createRenderContext(project, 'draft');
+execFileSync('npx', ['tsx', 'tools/generate-composition.ts'], { stdio: 'inherit' });
 execFileSync('npx', ['tsx', 'tools/prepare-sources.ts'], { stdio: 'inherit' });
 
 const entry = 'compositions/.draft.render.html';

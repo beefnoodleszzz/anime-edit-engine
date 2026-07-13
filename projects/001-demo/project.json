@@ -6,7 +6,7 @@
   "renderModes": {
     "draft": { "width": 540, "height": 960, "fps": 30, "blurSamples": 4, "postFX": "reduced" },
     "review": { "width": 1080, "height": 1920, "fps": 60, "blurSamples": 16, "postFX": "full" },
-    "master": { "width": 2160, "height": 3840, "fps": 120, "blurSamples": 24, "postFX": "full" }
+    "master": { "width": 2160, "height": 3840, "fps": 60, "blurSamples": 24, "postFX": "full" }
   },
   "sources": [
     { "id": "HERO_IDLE_001", "type": "HERO_IDLE", "file": "assets/sources/HERO_IDLE_001.mp4", "width": 1080, "height": 1920, "fps": 24, "duration": 5.041667, "heroRanges": [{ "start": 0.7, "end": 4.4, "score": 86, "tags": ["wide", "stable", "opening"] }], "tags": ["candidate", "wide"] },

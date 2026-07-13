@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0003",
+  "providerTaskId": "Acz8iLdGSwxguquXQqYuY1jVvUFVKIjpapTX_CWYbyiwlq1imqzb9B2EbhWxGhJtMjKzVgzR",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0003/output.mp4",
+  "outputSha256": "2317bcccab4d48c470ab840d7ed63637420eae9ec11a248ff11292568c294467",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/f9f542de-44d3-49f1-ae18-71f152e2e885-0ga27SpD949mdwgTSrw0pg-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["剑刃持续压入链环并在后段完成一次清晰断链，碎片与火星受控。", "微距材质、剑刃连续性和链环受力点保持清楚。", "实际断裂峰值偏后，最终剪辑应以 heroRange 重新对齐音乐 accent。"], "proposedHeroRanges": [{"start": 2.5, "end": 3.8, "score": 0.88, "tags": ["chain-break", "sword-contact", "metal-fragments", "impact"]}]}
+}

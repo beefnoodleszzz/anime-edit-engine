@@ -15,7 +15,7 @@ const project: ProjectManifest = {
   renderModes: {
     draft: { width: 100, height: 100, fps: 30, blurSamples: 4, postFX: 'reduced' },
     review: { width: 100, height: 100, fps: 60, blurSamples: 16, postFX: 'full' },
-    master: { width: 100, height: 100, fps: 120, blurSamples: 24, postFX: 'full' },
+    master: { width: 100, height: 100, fps: 60, blurSamples: 24, postFX: 'full' },
   },
   sources: [{ id: 'SRC', type: 'WALK', file: 'src.mp4', width: 100, height: 100, fps: 24, duration: 20, heroRanges: [{ start: 0, end: 20, score: 1, tags: [] }], tags: [] }],
 };

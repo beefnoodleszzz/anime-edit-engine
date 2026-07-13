@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0004",
+  "character": "ta-bajian-male",
+  "project": "003-ta-bajian",
+  "shotId": "s05",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "D02_male_turn_protect",
+  "prompt": "首帧 FF06 是绝对构图基准。保持男主在前景偏左、女主在后下方双膝跪地、空中万剑向下的宽幅关系。男主只做一次完整转身：先从预备侧身状态看向空中剑阵，随后身体转入女主与万剑之间，冰蓝长剑从身侧抬到横向保护位置，最后稳定站住。女主全程保持跪姿，只允许上身轻微抬起，不要提前站立；男主不能瞬移、不能穿过女主、不能多次旋转。万剑向下逼近但在男主前方停住，不提前撞击。固定宽幅单镜头，无切镜、无旋转镜头、无屏障爆炸、无额外人物、无多余手臂、无剑体断裂、无血迹、无文字、字幕、水印、logo、运动模糊。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF06_D02_male_turn_protect.png"],
+  "arguments": {"duration": "4", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "AUHPnxbEtzuA3x89UTa9DntpjFa2Wt0iBaRmz1ul2CxbT1BDiRQE1y1gzErxFQKl8CIcAUnL",
+  "creditsConsumed": 120,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDUvTkdnbUZPM3U2Ni9mZjA2X2QwMl9tYWxlX3R1cm5fcC5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S05 dual protective-turn source plate. Do not reuse this gen-id after failure."
+}

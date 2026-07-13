@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "character": "ta-bajian-female",
+  "references": [
+    {
+      "id": "F01_female_identity_full",
+      "file": "F01_female_identity_full.png",
+      "sha256": "9905ca6c3a47acb022d0251fe75d29645fe7baf5c1cddd0c64043c9ff814523b",
+      "view": "front-45",
+      "framing": "full-body",
+      "strengths": ["face-identity", "full-body-silhouette", "costume", "forehead-seal", "binding-chains"],
+      "recommendedFor": ["FULL_BODY", "ESTABLISHING", "DUAL_WIDE", "STANDING", "KNEELING_IDENTITY"],
+      "avoidFor": ["EXTREME_CLOSEUP", "AWAKENING_EFFECT"],
+      "notes": "Primary female identity reference; use for overall proportions, costume, seal and chain continuity."
+    },
+    {
+      "id": "F02_female_identity_face",
+      "file": "F02_female_identity_face.png",
+      "sha256": "55d6f8fe7f67c883f17bd486c5dee0ec33979d3181e542c6ba1ce585f24e00b6",
+      "view": "front",
+      "framing": "face-closeup",
+      "strengths": ["face-identity", "eye-shape", "forehead-seal", "hairline"],
+      "recommendedFor": ["EYE", "FACE", "FRONT_CLOSEUP", "DUAL_CLOSE"],
+      "avoidFor": ["FULL_BODY", "BACK_VIEW", "AWAKENING_EFFECT"],
+      "notes": "Stable face reference before awakening; keep the seal intact and the expression controlled."
+    },
+    {
+      "id": "F03_female_awakening_face",
+      "file": "F03_female_awakening_face.png",
+      "sha256": "05ce0dd6efb24d301ddb7e541d430a838138b768f7e0487528ec2a4fff472921",
+      "view": "front",
+      "framing": "eye-closeup",
+      "strengths": ["awakening-eyes", "seal-crack", "dark-gold-light", "emotion-control"],
+      "recommendedFor": ["EYE", "AWAKENING", "SEAL_EFFECT", "POWER_REVEAL"],
+      "avoidFor": ["FULL_BODY", "KNEELING", "BACK_VIEW"],
+      "notes": "Awakening detail supplement; use only for the controlled eye/seal transition, not as the stable identity main image."
+    }
+  ]
+}

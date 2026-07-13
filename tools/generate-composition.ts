@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { randomBytes } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import { resolveProjectId, loadProjectConfig } from './project-io';
 
 /**
@@ -10,7 +10,7 @@ import { resolveProjectId, loadProjectConfig } from './project-io';
  * everything else (head, styles, the fixed `anime-edit-engine` composition-id registered on
  * window.__timelines, the dist/main.js entry) untouched.
  */
-const randomHfId = (): string => `hf-${randomBytes(3).toString('hex')}`;
+const stableHfId = (projectId: string, shotId: string): string => `hf-${createHash('sha256').update(`${projectId}:${shotId}`).digest('hex').slice(0, 8)}`;
 const round = (value: number): number => Number(value.toFixed(6));
 
 const { project, timeline } = await loadProjectConfig(resolveProjectId());
@@ -18,7 +18,7 @@ const { project, timeline } = await loadProjectConfig(resolveProjectId());
 const videoTags = timeline.shots
   .map((shot) => {
     const duration = round(shot.end - shot.start);
-    return `      <video data-hf-id="${randomHfId()}" id="source-${shot.id}" data-prepared-shot="${shot.id}" class="clip prepared-source" src="cache/prepared/${project.id}/${shot.id}/${shot.id}.mp4" data-start="${round(shot.start)}" data-duration="${duration}" data-track-index="0" muted playsinline preload="auto"></video>`;
+    return `      <video data-hf-id="${stableHfId(project.id, shot.id)}" id="source-${shot.id}" data-prepared-shot="${shot.id}" class="clip prepared-source" src="cache/prepared/${project.id}/${shot.id}/${shot.id}.mp4" data-start="${round(shot.start)}" data-duration="${duration}" data-track-index="0" muted playsinline preload="auto"></video>`;
   })
   .join('\n');
 

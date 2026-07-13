@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0002",
+  "providerTaskId": "AaFi4B64crrCrqxBAb9McZBKOeJx9aLEqkDEq9jSoIJy6rvKH1VOvNkpqy4fZmrwQqu4nIsG",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-female/generations/gen-0002/output.mp4",
+  "outputSha256": "83e5286a60117e5239481f1bbd9bf3d1d06fcefe3b2bc7317c8df2a8a6066e2f",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/6181138d-5f20-451f-88a7-ecab2416f350-a7S4hOZ5IezLI1F9G_EBVw-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["女主闭眼到睁眼、酒红到暗金眼睛和封印亮度变化清楚。", "原有脸部细线没有明显扩张成新裂口，皮肤和五官保持稳定。", "极近景构图干净，雨滴和头发没有遮挡眼睛。"], "proposedHeroRanges": [{"start": 0.25, "end": 2.7, "score": 0.9, "tags": ["eyes-opening", "amber-awakening", "seal-glow", "face-stable"]}]}
+}

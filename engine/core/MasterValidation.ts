@@ -6,11 +6,9 @@ export interface ProbeStream {
   profile?: string; level?: number; pix_fmt?: string; bit_rate?: string; time_base?: string; duration_ts?: number; nb_frames?: string;
 }
 /**
- * context.fps (120) is the internal capture/motion-blur sampling rate, not necessarily what gets
- * delivered: the Kling source plates are native ~24fps, so a naive 120fps CFR export is >4x
- * duplicate frames — deliveryFps (default: same as context.fps, for callers that genuinely export
- * at the internal rate) lets the encoded-stream checks target a lower, real-world-playable output
- * rate while pngFrameCount/expectedFrameCount still validate the internal capture stage.
+ * context.fps is the project's capture/motion-blur and delivery rate by default. The optional
+ * deliveryFps argument remains for callers that intentionally validate a lower-rate derivative,
+ * while pngFrameCount/expectedFrameCount always validate the configured capture stage.
  */
 export function validateMasterStream(stream: ProbeStream, context: RenderContext, durationSeconds: number, pngFrameCount: number, deliveryFps: number = context.fps, maxLevel = 52): { expectedFrameCount: number; deliveryFrameCount: number; isCfr: boolean } {
   const expectedFrameCount = Math.round(durationSeconds * context.fps);

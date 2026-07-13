@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0001",
+  "providerTaskId": "AbRA5eH1mal0deagf4dZgW7JnAG3TxnGPqK6KzD0YFoIg4eXv4fVpNDpJXP4oEpG0B8WVQws",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-female/generations/gen-0001/output.mp4",
+  "outputSha256": "e9a6952f5e713185732858b716c3cdf7a151f552e11d892d710139f16cad129f",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/2b1ec158-7d11-43ad-a911-678bd625dba7-a7S4hOZ5IewY5wPV3I7JCA-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 3.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["女主脸部、眉心封印和横向剑锋关系稳定。", "眼神从低位状态向男主方向抬起，动作克制；未见觉醒光或封印破裂。", "末段出现男主前景肩部进入画面，符合双人压迫关系，但需人工确认是否影响 S03 近景构图。"], "proposedHeroRanges": [{"start": 0.2, "end": 2.7, "score": 0.83, "tags": ["female-gaze", "face-stable", "sword-horizontal", "seal-intact"]}]}
+}

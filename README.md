@@ -1,6 +1,6 @@
 # Anime Edit Engine V1
 
-基于《AI Source Plate → 4K/120FPS High-Fidelity Anime Edit Engine V1 技术实施规格书》实现的确定性动漫 Source Plate 二次摄影引擎。它不生成 AI 视频，也不包含 3D 角色或 Web 编辑器。
+基于《AI Source Plate → 4K/60FPS High-Fidelity Anime Edit Engine V1 技术实施规格书》实现的确定性动漫 Source Plate 二次摄影引擎。它不生成 AI 视频，也不包含 3D 角色或 Web 编辑器。
 
 ## 已实现的 V1 核心
 
@@ -9,7 +9,7 @@
 - 数据驱动的 Edit Camera：Crash In、Face Cross、Eye Push、Whip、Reverse Pull、Reverse Orbit；每段采用独立 easing，速度以真实秒为单位计算，缩放采用对数速度。
 - WebGL 2D compositor：真实 pivot 相机变换、相机路径多采样 blur、`COLOR_BRIDGE_CUT`、选择性 glow、速度驱动色差、确定性 grain、微锐化。
 - 每个 Shot 先编译为独立 CFR/intra-only prepared source（`cache/prepared/<project>/<shot>/<shot>.mp4`）。Manifest 仅在 ffprobe 验证成功后原子写入；HyperFrames 不再对原片作非线性 seek。
-- DRAFT / REVIEW / MASTER 三档参数；MASTER 输出为 2160×3840、120FPS PNG sequence。
+- DRAFT / REVIEW / MASTER 三档参数；MASTER 默认输出为 2160×3840、60FPS PNG sequence。
 - 单元测试覆盖项目连续性、确定性 Director、Hero Range、Time Warp 单调性和镜头速度。
 
 ## 参考素材
@@ -43,7 +43,9 @@ npm run render:review
 npm run render:master
 ```
 
-`render:master` 先验证所有独立 prepared shot，再从独立生成的 4K Master entry 输出 PNG 到隔离的 `renders/frames/`，随后以强制 CFR 的高质量 H.264 编码为 `renders/master/master-4k-120.mp4`，并写入完整 `renders/master/master-report.json`。
+`render:master` 先验证所有独立 prepared shot，再从独立生成的 4K Master entry 输出 PNG 到隔离的 `renders/frames/`，随后以强制 CFR 的高质量 H.264 编码为 `renders/master/master-4k-60.mp4`，并写入完整 `renders/master/master-report.json`。
+
+所有 dev / snapshot / review / validation / master 入口都会先按 `PROJECT_ID` 自动生成 active composition，不再要求操作者手动先运行 `npm run compose`。新项目可在 `project.json` 的 `audio` 字段声明 `music`、`voice`、`sfx` 和 `masterGainDb`；master 渲染会在视频编码后用 FFmpeg 混音封装，未声明音频时仍输出无声视频。
 
 ## 素材工具
 
@@ -52,4 +54,7 @@ npm run inspect:source -- assets/sources/wow.mp4
 npm run contact-sheet -- assets/sources/wow.mp4 renders/preview/contact-sheet.jpg
 npm run detect-cuts -- assets/sources/wow.mp4
 npm run normalize-source -- incoming/source.mov assets/sources/source-normalized.mp4
+npm run qc:dense -- [shot-id]
 ```
+
+`qc:dense` 为每个 prepared shot 输出 0% / 25% / 50% / 75% / 100% 五帧接触表，重点检查高速动作、粒子和人脸在镜头中段是否失真。素材 registry 的 clip 记录可选 `assetKind`（`character` / `ensemble` / `prop` / `environment` / `effect`）与 `subjectRefs`，新项目不再需要把双人或道具素材伪装成单角色素材。

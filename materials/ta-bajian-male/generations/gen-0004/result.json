@@ -1,0 +1,10 @@
+{
+  "generationId": "gen-0004",
+  "providerTaskId": "AUHPnxbEtzuA3x89UTa9DntpjFa2Wt0iBaRmz1ul2CxbT1BDiRQE1y1gzErxFQKl8CIcAUnL",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0004/output.mp4",
+  "outputSha256": "bbdf07196af5e90ad81d4cd21b15a773ddcd82f5043544b5207cfedf086ccda1",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/3d8b4e09-dda5-410a-8151-fd7d7a25db0a-yNrsAGYkSmyKsnYYNwdZpw-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {"status": "pending-human", "reviewedBy": "ai-assisted", "findings": ["男主完成一次转身并进入女主与万剑之间，保护站位清楚。", "女主保持后景低位姿态，万剑下坠与男主转身的层次成立。", "转身段有预期内的动作模糊，未见瞬移、额外人物或明显断剑。"], "proposedHeroRanges": [{"start": 0.3, "end": 3.6, "score": 0.85, "tags": ["protective-turn", "dual-wide", "kneeling-female", "sword-guard"]}]}
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "character": "ta-bajian-male",
+  "references": [
+    {
+      "id": "M01_male_identity_full",
+      "file": "M01_male_identity_full.png",
+      "sha256": "9d92a939df88259b862bb666c19a675d779a680edabacc9f7cc9a748669a4cc9",
+      "view": "front-45",
+      "framing": "full-body",
+      "strengths": ["face-identity", "full-body-silhouette", "costume", "sword-and-scabbard"],
+      "recommendedFor": ["FULL_BODY", "ESTABLISHING", "DUAL_STANDOFF", "HERO_CRASH_IN"],
+      "avoidFor": ["EXTREME_CLOSEUP", "BACK_VIEW", "GUARD_POSE"],
+      "notes": "Primary male identity reference; use for overall proportions, costume, hair, belt and sword continuity."
+    },
+    {
+      "id": "M02_male_identity_face",
+      "file": "M02_male_identity_face.png",
+      "sha256": "f706312dc92917123ff17a00a2c6992f470b6b61b07345ab2db788e55274a6c4",
+      "view": "front-45",
+      "framing": "face-closeup",
+      "strengths": ["face-identity", "eye-shape", "forehead-band", "jawline"],
+      "recommendedFor": ["EYE", "FACE", "FRONT_CLOSEUP", "MALE_SOLO_CLOSE"],
+      "avoidFor": ["FULL_BODY", "BACK_VIEW", "WIDE_DUAL"],
+      "notes": "Face and eye continuity reference; keep the expression cool, controlled and unsmiling."
+    },
+    {
+      "id": "M03_male_guard_pose",
+      "file": "M03_male_guard_pose.png",
+      "sha256": "7b206be5d6088084ad5ae5da70be192967e926553bc2fd29e669474f9eb7fba1",
+      "view": "back-45",
+      "framing": "three-quarter-body",
+      "strengths": ["back-silhouette", "guard-pose", "sword-position", "robe-flow"],
+      "recommendedFor": ["GUARD", "PROTECT", "TURN", "SWORD_SCREEN", "BACK_45"],
+      "avoidFor": ["EYE", "FRONT_CLOSEUP", "FULL_BODY_IDENTITY"],
+      "notes": "Action-angle supplement for the protective turn and horizontal sword guard; do not use as the primary face reference."
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "id": "ta-bajian-male",
+  "name": "寒渊剑修",
+  "status": "active",
+  "identity": {
+    "genderPresentation": "male",
+    "agePresentation": "young-adult",
+    "world": "eastern-fantasy"
+  },
+  "visualAnchors": {
+    "face": [
+      "refined pale male face",
+      "sharp brows",
+      "clean narrow jawline"
+    ],
+    "eyes": [
+      "light ice-blue irises",
+      "calm restrained gaze"
+    ],
+    "hair": [
+      "long silver-white hair",
+      "half-up tie",
+      "narrow ice-blue forehead band"
+    ],
+    "costume": [
+      "layered silver-white and pale blue-grey robe",
+      "deep steel-grey waist belt",
+      "restrained sword-cultivator trim"
+    ],
+    "accessories": [
+      "slender ice-blue single-edged sword",
+      "deep grey sword scabbard"
+    ],
+    "silhouette": [
+      "tall slender upright male figure",
+      "long layered robe",
+      "clean narrow sword silhouette"
+    ]
+  },
+  "styleKeywords": [
+    "premium-donghua",
+    "eastern-fantasy",
+    "cinematic",
+    "cool-toned",
+    "xianxia",
+    "restrained"
+  ],
+  "colorPalette": {
+    "primary": [
+      "#edf2f5",
+      "#d8e4ea"
+    ],
+    "secondary": [
+      "#263b47",
+      "#101e28"
+    ],
+    "accent": [
+      "#9fd5e8",
+      "#6c9db5"
+    ]
+  },
+  "continuityRules": [
+    "preserve the silver-white half-up hair silhouette and narrow ice-blue forehead band",
+    "preserve the silver-white, pale blue-grey and deep steel-grey costume palette",
+    "keep the light ice-blue eyes and calm restrained expression",
+    "the sword is a single slender ice-blue blade with a continuous hilt, guard and blade structure",
+    "keep the tall slender proportions and long layered robe silhouette"
+  ],
+  "forbiddenChanges": [
+    "no extra character in a male-only reference",
+    "no detached, duplicated, forked or floating sword parts",
+    "no horns, wings, mask, modern clothing or props",
+    "no warm dominant palette or cute/chibi styling"
+  ],
+  "currentInventorySummary": {
+    "approvedClips": 6,
+    "missingShotTypes": [
+      "CAPE_TURN",
+      "DRAW",
+      "EYE",
+      "FACE",
+      "HAND_FACE",
+      "SLASH"
+    ]
+  },
+  "updatedAt": "2026-07-12T17:33:34.528Z"
+}

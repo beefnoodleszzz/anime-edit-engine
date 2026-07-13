@@ -22,27 +22,27 @@ const encodePng = (paint: (index: number, width: number) => [number, number, num
 
 describe('Master validation — stream (mock ffprobe JSON, no real 4K render)', () => {
   const context = createRenderContext(project as ProjectManifest, 'master');
-  const stream = { width: 2160, height: 3840, r_frame_rate: '120/1', avg_frame_rate: '120/1', nb_read_frames: '960', duration: '8.000000' };
-  it('requires strict CFR and duration-derived frame count', () => expect(validateMasterStream(stream, context, 8, 960)).toMatchObject({ expectedFrameCount: 960, isCfr: true }));
-  it('rejects NTSC-like output', () => expect(() => validateMasterStream({ ...stream, avg_frame_rate: '120000/1001' }, context, 8, 960)).toThrow('strict CFR'));
-  it('never hardcodes 960: frame count is duration * fps', () => {
-    expect(validateMasterStream(stream, context, 8, 960).expectedFrameCount).toBe(Math.round(8 * context.fps));
-    expect(() => validateMasterStream(stream, context, 4, 960)).toThrow('PNG frame count mismatch');
+  const stream = { width: 2160, height: 3840, r_frame_rate: '60/1', avg_frame_rate: '60/1', nb_read_frames: '480', duration: '8.000000' };
+  it('requires strict CFR and duration-derived frame count', () => expect(validateMasterStream(stream, context, 8, 480)).toMatchObject({ expectedFrameCount: 480, isCfr: true }));
+  it('rejects NTSC-like output', () => expect(() => validateMasterStream({ ...stream, avg_frame_rate: '60000/1001' }, context, 8, 480)).toThrow('strict CFR'));
+  it('never hardcodes 480: frame count is duration * fps', () => {
+    expect(validateMasterStream(stream, context, 8, 480).expectedFrameCount).toBe(Math.round(8 * context.fps));
+    expect(() => validateMasterStream(stream, context, 4, 480)).toThrow('PNG frame count mismatch');
   });
-  it('validates declared duration against the probed stream duration', () => expect(() => validateMasterStream({ ...stream, duration: '9.000000' }, context, 8, 960)).toThrow('duration mismatch'));
+  it('validates declared duration against the probed stream duration', () => expect(() => validateMasterStream({ ...stream, duration: '9.000000' }, context, 8, 480)).toThrow('duration mismatch'));
 
-  it('validates the encoded stream against a lower deliveryFps while still requiring the full-rate PNG capture count', () => {
-    const deliveredStream = { width: 2160, height: 3840, r_frame_rate: '60/1', avg_frame_rate: '60/1', nb_read_frames: '480', duration: '8.000000' };
-    expect(validateMasterStream(deliveredStream, context, 8, 960, 60)).toMatchObject({ expectedFrameCount: 960, deliveryFrameCount: 480, isCfr: true });
-    expect(() => validateMasterStream(deliveredStream, context, 8, 480, 60)).toThrow('PNG frame count mismatch');
-    expect(() => validateMasterStream({ ...deliveredStream, r_frame_rate: '120/1' }, context, 8, 960, 60)).toThrow('strict CFR');
-    expect(() => validateMasterStream({ ...deliveredStream, nb_read_frames: '960' }, context, 8, 960, 60)).toThrow('Encoded frame count mismatch');
+  it('validates a lower deliveryFps while still requiring the full-rate 60fps PNG capture count', () => {
+    const deliveredStream = { width: 2160, height: 3840, r_frame_rate: '30/1', avg_frame_rate: '30/1', nb_read_frames: '240', duration: '8.000000' };
+    expect(validateMasterStream(deliveredStream, context, 8, 480, 30)).toMatchObject({ expectedFrameCount: 480, deliveryFrameCount: 240, isCfr: true });
+    expect(() => validateMasterStream(deliveredStream, context, 8, 240, 30)).toThrow('PNG frame count mismatch');
+    expect(() => validateMasterStream({ ...deliveredStream, r_frame_rate: '60/1' }, context, 8, 480, 30)).toThrow('strict CFR');
+    expect(() => validateMasterStream({ ...deliveredStream, nb_read_frames: '480' }, context, 8, 480, 30)).toThrow('Encoded frame count mismatch');
   });
 
   it('rejects an H.264 level above the broad-playback ceiling (default 5.2)', () => {
     const deliveredStream = { width: 2160, height: 3840, r_frame_rate: '60/1', avg_frame_rate: '60/1', nb_read_frames: '480', duration: '8.000000', level: 60 };
-    expect(() => validateMasterStream(deliveredStream, context, 8, 960, 60)).toThrow('level too high');
-    expect(validateMasterStream({ ...deliveredStream, level: 52 }, context, 8, 960, 60)).toMatchObject({ isCfr: true });
+    expect(() => validateMasterStream(deliveredStream, context, 8, 480)).toThrow('level too high');
+    expect(validateMasterStream({ ...deliveredStream, level: 52 }, context, 8, 480)).toMatchObject({ isCfr: true });
   });
 });
 
@@ -57,9 +57,8 @@ describe('Master validation — delivery duration (16s x 60fps = 960 frames)', (
   it('rejects a format (container-level) duration that drifts from the declared project duration', () => {
     expect(() => validateDeliveryDuration(16.0, 48.0, 16, 60)).toThrow('format duration mismatch');
   });
-  it('validates 60fps delivery independently of the 120fps internal capture rate', () => {
-    // 960 delivery frames at 60fps is 16s; the same 960 frames misread at 120fps would be 8s —
-    // this must fail against the real duration even though 960 is also a valid frame count at 120fps.
+  it('validates the 60fps delivery duration independently of frame-count assumptions', () => {
+    // A duration mismatch must fail even when the caller supplies a plausible-looking frame count.
     expect(() => validateDeliveryDuration(8.0, 8.0, 16, 60)).toThrow('stream duration mismatch');
   });
 });

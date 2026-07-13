@@ -13,16 +13,16 @@ describe('PreparedSourcePlanner', () => {
   const context = createRenderContext(typedProject, 'master');
   it('creates deterministic, independently cacheable frame maps for every shot', () => {
     const planner = new PreparedSourcePlanner(); const manifest = planner.planShot(typedProject, typedTimeline, context, 's01', 'source-fingerprint', framePts24);
-    expect(manifest.frameCount).toBe(144);
-    expect(manifest.sourceFrameMap).toHaveLength(144);
+    expect(manifest.frameCount).toBe(72);
+    expect(manifest.sourceFrameMap).toHaveLength(72);
     expect(manifest.sourceFrameMap[0]?.outputFrame).toBe(0);
-    expect(manifest.sourceFrameMap.at(-1)?.outputFrame).toBe(143);
+    expect(manifest.sourceFrameMap.at(-1)?.outputFrame).toBe(71);
     expect(manifest.sourceFrameMap.every((frame) => frame.sourceFrame >= 0 && frame.sourceFrame < framePts24.length)).toBe(true);
     planner.assertValid(manifest, typedProject, typedTimeline, context, 'source-fingerprint', framePts24);
   });
   it('rejects a stale prepared manifest', () => {
     const planner = new PreparedSourcePlanner(); const manifest = structuredClone(planner.planShot(typedProject, typedTimeline, context, 's01', 'source-fingerprint', framePts24));
-    manifest.fps = 60;
+    manifest.fps = 30;
     expect(() => planner.assertValid(manifest, typedProject, typedTimeline, context, 'source-fingerprint', framePts24)).toThrow('stale');
   });
 });

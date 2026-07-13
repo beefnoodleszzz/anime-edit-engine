@@ -1,0 +1,15 @@
+{
+  "generationId": "gen-0006",
+  "status": "FAILED",
+  "providerTaskId": null,
+  "creditsConsumed": 0,
+  "qc": {
+    "status": "not-applicable",
+    "reviewedBy": "ai-assisted",
+    "findings": [
+      "首帧上传阶段被 Kling MCP 限流拦截，未创建 provider task。",
+      "服务端返回：Kling MCP is handling too many requests right now. Please slow down and retry shortly.",
+      "未扣费；不得复用 gen-0006，后续重提必须使用新 generation id。"
+    ]
+  }
+}

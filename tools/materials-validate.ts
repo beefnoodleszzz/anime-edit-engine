@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
-import type { CharacterManifest, Clip, ClipsRegistry, ReferencesManifest } from '../materials/types';
+import type { CharacterManifest, Clip, ClipsRegistry, ReferencesManifest, ClipAssetKind } from '../materials/types';
 import { computeApprovedShotTypes, computeMissingShotTypes, computeUsedBy, listCharacters, loadAllProjects, loadIndexHtml, sha256File, type LoadedProject } from '../materials/registry-lib';
 
 /**
@@ -18,6 +18,12 @@ const characters = await listCharacters(materialsRoot);
 if (characters.length === 0) throw new Error(`No character directories found under ${materialsRoot}/.`);
 const allProjects = await loadAllProjects();
 const indexHtml = await loadIndexHtml();
+// The repository keeps one active root composition while project manifests coexist under
+// projects/<id>/. Only enforce prepared-source DOM wiring against the project selected by that
+// composition; checking every manifest against one index.html produces false failures whenever
+// the user switches between projects.
+const activeProjectId = indexHtml.match(/data-project-id="([^"]+)"/)?.[1];
+const assetKinds = new Set<ClipAssetKind>(['character', 'ensemble', 'prop', 'environment', 'effect']);
 
 const probeMedia = (file: string): { width: number; height: number; fps: string; duration: number; codec: string; pixelFormat: string; hasAudio: boolean } => {
   const payload = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_streams', '-of', 'json', file], { encoding: 'utf8' })) as { streams: Array<Record<string, string | number | undefined>> };
@@ -53,6 +59,8 @@ for (const character of characters) {
   for (const clip of clipsRegistry.clips) {
     if (clipIds.has(clip.id)) errors.push(`${character}/clips: duplicate clip id "${clip.id}"`);
     clipIds.add(clip.id);
+    if (clip.assetKind && !assetKinds.has(clip.assetKind)) errors.push(`${character}/clips: ${clip.id} has unknown assetKind "${clip.assetKind}"`);
+    if (clip.assetKind === 'ensemble' && (!clip.subjectRefs || clip.subjectRefs.length < 2)) errors.push(`${character}/clips: ensemble ${clip.id} must list at least two subjectRefs`);
     if (clip.generation.generationId) {
       if (generationIds.has(clip.generation.generationId)) errors.push(`${character}/clips: duplicate generationId "${clip.generation.generationId}"`);
       generationIds.add(clip.generation.generationId);
@@ -101,7 +109,7 @@ for (const character of characters) {
       const shotsUsingSource = target.timeline.shots.filter((shot) => shot.source === usage.sourceId);
       if (shotsUsingSource.length === 0) warnings.push(`${character}/clips: ${clip.id} -> ${usage.project}/${usage.sourceId} is wired but no timeline shot uses it`);
       for (const shot of shotsUsingSource) {
-        if (indexHtml && !indexHtml.includes(`data-prepared-shot="${shot.id}"`)) errors.push(`${character}/clips: index.html has no prepared-source <video> for shot ${shot.id} (${usage.project}/${usage.sourceId})`);
+        if (activeProjectId === usage.project && !indexHtml.includes(`data-prepared-shot="${shot.id}"`)) errors.push(`${character}/clips: active index.html has no prepared-source <video> for shot ${shot.id} (${usage.project}/${usage.sourceId})`);
       }
     }
   }
