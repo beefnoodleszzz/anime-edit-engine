@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0008",
+  "kind": "image_to_image",
+  "model": "kling-image-v3_0",
+  "referenceImages": [
+    "materials/jingxuan/references/IMAGE_01_FRONT.png",
+    "materials/jingxuan/references/IMAGE_02_LEFT_45.png"
+  ],
+  "prompt": "以图片1和图片2为同一位镜玄的身份、服装和左侧轮廓参考，生成 JX_NOTICE_LEFT_001：竖幅9:16、左侧四十五度半身电影首帧。月夜云崖与低层云雾背景中，镜玄先望向远方后刚刚察觉镜头画外的危险，头部迅速偏向画面左侧，眼神锐利，长发和一侧宽袖带出短促但可读的动势。面部、发冠、双眼、肩饰和腰封上半部分清晰可见；保留足够的负空间给之后的视频动作。保持图片中的黑色半束长发、浅青银色发冠、白色与青蓝色长袍、银色肩饰和腰封，不改变人物身份。高级国产3D动画，冷月边光、单人。不要正面镜头、背身、文字、水印、其他人物、武器、巨大头冠、角、翅膀、面具、过曝、额外肢体、畸形手。",
+  "arguments": {
+    "imgResolution": "2k",
+    "aspectRatio": "9:16",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T18:34:28Z",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab",
+  "status": "abandoned-superseded-by-external-plates",
+  "notes": "2026-07-12: user decided not to query/recover this task; all 9 source plates were generated externally and ingested into references/ (JX_*_001.png). Record kept for billing provenance only."
+}

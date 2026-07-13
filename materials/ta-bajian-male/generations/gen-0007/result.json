@@ -1,0 +1,22 @@
+{
+  "generationId": "gen-0007",
+  "providerTaskId": "AUJu5zVAqEpj2L8YmKDoidQaXKE056WvFTbH19kRz5LsVbYBynB5Q4lTHCgiQQtiWFEvhcwD",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0007/output.mp4",
+  "outputSha256": "fb0549f8ce3510d39ab08894ae5ddcd49e3b5a520eff214a8caa521c774ed286",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/24571f9e-9f5a-43e0-808e-1f3770264915-ugKqhctV-epOQkQGx4id4A-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {
+    "status": "pending-human",
+    "reviewedBy": "ai-assisted",
+    "findings": [
+      "剑幕裂纹继续扩大，金色来剑、男主脸部和后景女主均保持可读。",
+      "人物身份和武器关系稳定，未见额外人物或明显断剑。",
+      "撞击峰值出现明显暗红冲击/血迹样效果，超过提示词要求的无血腥约束；暂不批准进入 clips。"
+    ],
+    "proposedHeroRanges": [
+      {"start": 0.2, "end": 2.3, "score": 0.82, "tags": ["shield-crack", "incoming-sword", "male-face", "female-background"]},
+      {"start": 2.3, "end": 3.8, "score": 0.62, "tags": ["impact", "red-impact-artifact", "human-review-required"]}
+    ]
+  }
+}

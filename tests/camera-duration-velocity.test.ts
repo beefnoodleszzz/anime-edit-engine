@@ -1,0 +1,2 @@
+import { describe, expect, it } from 'vitest'; import { EditCamera } from '../engine/camera/EditCamera';
+describe('Duration-aware camera velocity', () => { it('increases for the same move in less time', () => { const camera = new EditCamera(); expect(camera.velocity('FACE_CROSS_LEFT', 0.5, 1 / 120, 0.6).magnitude).toBeGreaterThan(camera.velocity('FACE_CROSS_LEFT', 0.5, 1 / 120, 1.2).magnitude); }); });

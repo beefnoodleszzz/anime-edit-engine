@@ -1,6 +1,7 @@
 import type { TransitionState } from '../types';
 
+const DEFAULT_BRIDGE_COLOR: [number, number, number] = [0.08, 0.08, 0.08];
+
 export class TransitionSystem {
-  public bridgeColor(state: TransitionState): [number, number, number] { return state.kind === 'CAPE_WIPE' ? [0.667, 0.047, 0.11] : [0, 0, 0]; }
-  public blurBoost(state: TransitionState): number { return state.kind ? Math.sin(Math.PI * state.progress) : 0; }
+  public bridgeColor(state: TransitionState): [number, number, number] { return state.kind === 'COLOR_BRIDGE_CUT' ? state.bridgeColor ?? DEFAULT_BRIDGE_COLOR : [0, 0, 0]; }
 }

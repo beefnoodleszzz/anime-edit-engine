@@ -1,0 +1,18 @@
+{
+  "generationId": "gen-0008",
+  "providerTaskId": "AV7IlDQD0bgUqUgCWjH8QvyUFsjplRK6uDdf87J-W3MNWUVqz_SsrmfuH00HEop_vOn8DMXu",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0008/output.mp4",
+  "outputSha256": "8fe89c5625ea031a7388e6af24a99c831558519569ad49ede1d84901a1bcac5a",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {
+    "status": "approved",
+    "reviewedBy": "human",
+    "findings": [
+      "修正版保持男主正面站稳与横剑姿势，剑幕前段稳定，裂纹延后至末段出现。",
+      "未见额外人物、重复男主、明显断剑或文字水印。",
+      "用户明确授权默认通过，进入项目素材。"
+    ],
+    "proposedHeroRanges": [{"start": 0.2, "end": 3.6, "score": 0.86, "tags": ["shield-build", "late-cracks", "male-center", "female-silhouette"]}]
+  }
+}

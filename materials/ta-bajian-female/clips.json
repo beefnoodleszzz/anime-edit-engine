@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "character": "ta-bajian-female",
+  "updatedAt": "2026-07-12T17:33:34.450Z",
+  "clips": [
+    {
+      "id": "TBJ_S03_F01_001",
+      "file": "materials/ta-bajian-female/clips/TBJ_S03_F01_001.mp4",
+      "migrationPending": false,
+      "shotType": "FEMALE_GAZE",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "e9a6952f5e713185732858b716c3cdf7a151f552e11d892d710139f16cad129f"
+      },
+      "generation": {
+        "generationId": "gen-0001",
+        "providerTaskId": "AbRA5eH1mal0deagf4dZgW7JnAG3TxnGPqK6KzD0YFoIg4eXv4fVpNDpJXP4oEpG0B8WVQws",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-female/generations/gen-0001/request.json"
+      },
+      "sourceReferenceImages": [
+        "F02_female_identity_face.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.7,
+          "score": 0.83,
+          "tags": [
+            "female-gaze",
+            "face-stable",
+            "sword-horizontal",
+            "seal-intact"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户默认通过；女主抬眼和封印状态稳定。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-female/qc/TBJ_S03_F01_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S03_F01_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S08_F02_001",
+      "file": "materials/ta-bajian-female/clips/TBJ_S08_F02_001.mp4",
+      "migrationPending": false,
+      "shotType": "AWAKENING",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "83e5286a60117e5239481f1bbd9bf3d1d06fcefe3b2bc7317c8df2a8a6066e2f"
+      },
+      "generation": {
+        "generationId": "gen-0002",
+        "providerTaskId": "AaFi4B64crrCrqxBAb9McZBKOeJx9aLEqkDEq9jSoIJy6rvKH1VOvNkpqy4fZmrwQqu4nIsG",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-female/generations/gen-0002/request.json"
+      },
+      "sourceReferenceImages": [
+        "F03_female_awakening_face.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.25,
+          "end": 2.7,
+          "score": 0.9,
+          "tags": [
+            "eyes-opening",
+            "amber-awakening",
+            "seal-glow",
+            "face-stable"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户默认通过；闭眼、暗金瞳孔和封印亮度变化清楚。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-female/qc/TBJ_S08_F02_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S08_F02_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S09_D03_001",
+      "file": "materials/ta-bajian-female/clips/TBJ_S09_D03_001.mp4",
+      "migrationPending": false,
+      "shotType": "SWORD_REVERSAL",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "affedfc1fdd162a1dff8934f770199cfbdf8599e3b64b78b1e9922e25733fa1c"
+      },
+      "generation": {
+        "generationId": "gen-0003",
+        "providerTaskId": "AUthrJzNGpgA_WeEujoTmcVwkk3VQO8VjTskWBTwXct7Uv_Yqyk7p3Z7WxzJIPXmzbEkYtl5",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-female/generations/gen-0003/request.json"
+      },
+      "sourceReferenceImages": [
+        "F01_female_identity_full.png"
+      ],
+      "assetKind": "ensemble",
+      "subjectRefs": [
+        "ta-bajian-male",
+        "ta-bajian-female"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.3,
+          "end": 3.8,
+          "score": 0.87,
+          "tags": [
+            "sword-reversal",
+            "female-center",
+            "dual-wide",
+            "power-reveal"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户默认通过；女主中心、男主后侧和万剑统一倒转成立，S10复用本片。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-female/qc/TBJ_S09_D03_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S09_D03_001"
+        }
+      ]
+    }
+  ]
+}

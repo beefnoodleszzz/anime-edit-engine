@@ -29,6 +29,18 @@ The domain skills (`/hyperframes-core`, `/hyperframes-animation`, `/hyperframes-
 > everything already installed — neither pulls the full set. Restart the agent session so
 > newly installed skills load.
 
+## Character Materials (Kling-generated footage)
+
+**Generating, auditing, or wiring in character footage?** Use the `materials-registry` skill first — it governs everything under `materials/<character>/` (reference images, Kling generation provenance, QC, and which clips are approved for use). Do not generate Kling footage, hand-edit `materials/*/clips.json`, or wire a source into a `project.json` without going through it. Key entry points:
+
+```bash
+npm run materials:new-character -- <slug> --images <dir>   # scaffold a new character from reference images
+npm run materials:sync       # recompute sha256 / usedBy / currentInventorySummary (writes)
+npm run materials:validate   # read-only cross-check; fails loudly on drift
+```
+
+Full workflow, red lines (no AI self-approval, storyboard-before-generation, etc.): `.claude/skills/materials-registry/SKILL.md`.
+
 ## Commands
 
 ```bash

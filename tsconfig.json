@@ -13,5 +13,5 @@
     "skipLibCheck": true,
     "types": ["vitest/globals", "node"]
   },
-  "include": ["engine", "tools", "tests", "vite.config.ts"]
+  "include": ["engine", "tools", "tests", "materials", "vite.config.ts"]
 }

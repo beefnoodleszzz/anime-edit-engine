@@ -1,0 +1,13 @@
+{
+  "music": {
+    "file": "projects/003-ta-bajian/audio/jane-18s.wav",
+    "trimStart": 0,
+    "duration": 16,
+    "gainDb": -3,
+    "fadeIn": 0.08,
+    "fadeOut": 0.25,
+    "cue": "storyboard-bed",
+    "licenseNote": "User-provided Jane.mp3; confirm publishing permission before release."
+  },
+  "masterGainDb": -1
+}

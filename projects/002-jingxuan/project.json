@@ -1,0 +1,283 @@
+{
+  "id": "002-jingxuan",
+  "name": "镜玄·风起护你",
+  "duration": 16,
+  "seed": 3102,
+  "renderModes": {
+    "draft": {
+      "width": 540,
+      "height": 960,
+      "fps": 30,
+      "blurSamples": 4,
+      "postFX": "reduced"
+    },
+    "review": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "blurSamples": 16,
+      "postFX": "full"
+    },
+    "master": {
+      "width": 2160,
+      "height": 3840,
+      "fps": 60,
+      "blurSamples": 24,
+      "postFX": "full"
+    }
+  },
+  "sources": [
+    {
+      "id": "JX_LAND_001",
+      "type": "HERO_IDLE",
+      "file": "materials/jingxuan/clips/JX_LAND_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 4.041667,
+      "heroRanges": [
+        {
+          "start": 1.0,
+          "end": 3.0,
+          "score": 0.9,
+          "tags": [
+            "robe-burst",
+            "landing-impact",
+            "full-body",
+            "mist"
+          ]
+        },
+        {
+          "start": 0.0,
+          "end": 1.0,
+          "score": 0.6,
+          "tags": [
+            "walk-in",
+            "calm"
+          ]
+        },
+        {
+          "start": 3.0,
+          "end": 4.0,
+          "score": 0.7,
+          "tags": [
+            "settle",
+            "walk"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_APPROACH_001",
+      "type": "WALK",
+      "file": "materials/jingxuan/clips/JX_APPROACH_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 3.041667,
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "steady-walk",
+            "frontal",
+            "clear-face",
+            "full-body"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_NOTICE_LEFT_001",
+      "type": "LOOK_BACK",
+      "file": "materials/jingxuan/clips/JX_NOTICE_LEFT_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 3.041667,
+      "heroRanges": [
+        {
+          "start": 0.4,
+          "end": 2.4,
+          "score": 0.85,
+          "tags": [
+            "head-turn",
+            "sharp-gaze",
+            "left-profile",
+            "hair-motion"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_WARD_001",
+      "type": "HAND_FACE",
+      "file": "materials/jingxuan/clips/JX_WARD_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 4.041667,
+      "heroRanges": [
+        {
+          "start": 0.3,
+          "end": 2.8,
+          "score": 0.85,
+          "tags": [
+            "ward-gesture",
+            "energy-ribbon",
+            "shield-build",
+            "outstretched-palm"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_GAZE_001",
+      "type": "FACE",
+      "file": "materials/jingxuan/clips/JX_GAZE_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 3.041667,
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "gaze-soften",
+            "particle-glint",
+            "front-closeup",
+            "eye-detail"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_TURN_RIGHT_001",
+      "type": "CAPE_TURN",
+      "file": "materials/jingxuan/clips/JX_TURN_RIGHT_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 4.041667,
+      "heroRanges": [
+        {
+          "start": 0.5,
+          "end": 3.5,
+          "score": 0.9,
+          "tags": [
+            "hair-whip",
+            "sleeve-flow",
+            "dynamic-silhouette",
+            "turn-settle"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_SLEEVE_PASS_001",
+      "type": "HAIR_WIPE",
+      "file": "materials/jingxuan/clips/JX_SLEEVE_PASS_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 4.041667,
+      "heroRanges": [
+        {
+          "start": 0.5,
+          "end": 3.0,
+          "score": 0.85,
+          "tags": [
+            "sleeve-sweep",
+            "speed-blur",
+            "energy-trail",
+            "foreground-occlusion"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_SETTLE_001",
+      "type": "CAPE_EXIT",
+      "file": "materials/jingxuan/clips/JX_SETTLE_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 3.041667,
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "calm-stance",
+            "settle",
+            "full-costume",
+            "composure"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    },
+    {
+      "id": "JX_FINAL_LOOK_001",
+      "type": "EYE",
+      "file": "materials/jingxuan/clips/JX_FINAL_LOOK_001.mp4",
+      "width": 2160,
+      "height": 3836,
+      "fps": 24,
+      "duration": 3.041667,
+      "heroRanges": [
+        {
+          "start": 0.3,
+          "end": 2.8,
+          "score": 0.9,
+          "tags": [
+            "extreme-closeup",
+            "eye-detail",
+            "loopable",
+            "soft-expression"
+          ]
+        }
+      ],
+      "tags": [
+        "kling-generated",
+        "jingxuan"
+      ]
+    }
+  ]
+}

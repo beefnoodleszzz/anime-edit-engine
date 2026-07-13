@@ -1,0 +1,23 @@
+{
+  "generationId": "gen-0017",
+  "character": "jingxuan",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "JX_SLEEVE_PASS_001",
+  "prompt": "身份锁定：镜玄——清冷俊美东方男性面孔，灰蓝色眼睛，直眉；黑色半束长发；浅青银色发冠与银蓝垂坠发饰；白色外袍配浅青、深青蓝分层内衬，银色肩饰与腰封。严格保持首帧中的人物身份、服装与配色不变，冷色调月夜，顶级中国3D国漫电影质感，发丝与布料动态自然。\n\n动作（从首帧动起来）：画面从首帧开始：镜玄向前迈出一步，前景的白色宽袖与银蓝色能量残光快速从镜头前掠过，画面被衣袖短暂遮挡后恢复清晰，速度感强烈；他的身形在袖影之后保持清晰，动作简洁不做复杂战斗。镜头固定。\n\n不要其他人物、不要镜头切换、不要人物身份或服装变化、不要暖色调、不要复杂多指手部特写、不要畸形手、不要多余肢体、不要文字、水印、logo。",
+  "referenceImages": [
+    "materials/jingxuan/references/JX_SLEEVE_PASS_001.png"
+  ],
+  "arguments": {
+    "duration": "4",
+    "resolution": "4k",
+    "prefer_multi_shots": "false",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T20:50:30Z",
+  "providerTaskId": "AXF_sMsQvY2GlExAXy9J0zW9umzWj8ig2BGdaAXscRHGOcD1nguWlMNpo0V7FqzKNdXjNpPr",
+  "notes": "first_image is the user-provided source plate JX_SLEEVE_PASS_001.png (external generation, ingested 2026-07-12, 941x1672), replacing the original identity-reference plan (materials/jingxuan/references/IMAGE_04_FULL_BODY.png). Fill submittedAt + providerTaskId at real submission. Do not reuse this gen-id even after a failed job. Param names may differ per connector - verify with who_am_i before submit.",
+  "creditsConsumed": 120
+}

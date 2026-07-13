@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0001",
+  "character": "shaosiming",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0_omni",
+  "prompt": "图片1中的少司命,双手缓缓展开纱袍做出一个凌厉的亮相收势,月光从背后打出强烈轮廓光,眼神直视镜头,气场爆发的高潮瞬间",
+  "referenceImages": ["IMAGE_04_FULL_BODY.png"],
+  "arguments": {
+    "duration": "5",
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T12:17:48Z"
+}

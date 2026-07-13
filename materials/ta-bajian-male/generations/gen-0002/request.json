@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0002",
+  "character": "ta-bajian-male",
+  "project": "003-ta-bajian",
+  "shotId": "s02",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "M01_male_raise_sword",
+  "prompt": "首帧 FF02 是绝对构图基准。寒渊剑修男主保持银白半束长发、冰蓝发带、冰蓝眼睛和银白浅灰蓝长袍，在原地完成一次平稳而有压迫感的抬剑动作：从当前预备位置抬高肩肘和手腕，剑身上移到审判姿态，动作结束后短暂停住。男主脸部保持冷静严厉，背景万剑只让少量符文逐渐亮起，不发生全面坠落。保持首帧已有剑的视觉关系，不新增、复制、分裂或重组男主手中的剑，也不要让背景万剑与男主剑合并；不挥砍、不劈落、不产生冲击波。固定低角度单镜头，无镜头旋转、无切镜、无运动模糊。禁止额外人物、额外手臂、畸形手、断剑被进一步放大、双剑、悬浮剑身、爆炸、文字、字幕、水印、logo。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF02_M01_male_raise_sword.png"],
+  "arguments": {"duration": "3", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "AaMgrN7TGM7tZdolY4184sZhU4f6YEq_2LhJ7KVzR1oVVEg_EsE32SLFAY-JgDrL98UCKmv-",
+  "creditsConsumed": 90,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDUvWW5mTUxBWjYxNy9mZjAyX20wMV9tYWxlX3JhaXNlXy5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S02 male solo source plate. Do not reuse this gen-id after failure."
+}

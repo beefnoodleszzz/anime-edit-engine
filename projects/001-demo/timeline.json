@@ -2,12 +2,12 @@
   "bpm": 100,
   "beats": [0, 0.6, 1.2, 1.8, 2.4, 3, 3.6, 4.2, 4.8, 5.4, 6, 6.6, 7.2, 7.8],
   "shots": [
-    { "id": "s01", "source": "HERO_IDLE_001", "start": 0, "end": 1.2, "rangeIndex": 0, "camera": "HERO_CRASH_IN", "timeWarp": "crash" },
-    { "id": "s02", "source": "LOOK_BACK_001", "start": 1.2, "end": 2.4, "rangeIndex": 0, "camera": "FACE_CROSS_LEFT", "timeWarp": "steady" },
+    { "id": "s01", "source": "HERO_IDLE_003", "start": 0, "end": 1.2, "rangeIndex": 0, "camera": "HERO_CRASH_IN", "timeWarp": "crash" },
+    { "id": "s02", "source": "LOOK_BACK_002", "start": 1.2, "end": 2.4, "rangeIndex": 0, "camera": "FACE_CROSS_LEFT", "timeWarp": "steady" },
     { "id": "s03", "source": "EYE_001", "start": 2.4, "end": 3.0, "rangeIndex": 0, "camera": "EYE_PUSH", "timeWarp": "hold" },
     { "id": "s04", "source": "FACE_001", "start": 3.0, "end": 4.2, "rangeIndex": 0, "camera": "FACE_CROSS_RIGHT", "timeWarp": "accelerate" },
-    { "id": "s05", "source": "CAPE_TURN_001", "start": 4.2, "end": 5.0, "rangeIndex": 0, "camera": "WHIP_RIGHT", "timeWarp": "whip", "transitionOut": "CAPE_WIPE" },
-    { "id": "s06", "source": "CAPE_EXIT_001", "start": 5.0, "end": 6.2, "rangeIndex": 0, "camera": "REVERSE_PULL", "timeWarp": "release", "transitionIn": "CAPE_WIPE" },
+    { "id": "s05", "source": "CAPE_TURN_001", "start": 4.2, "end": 5.0, "rangeIndex": 0, "camera": "WHIP_RIGHT", "timeWarp": "whip", "transitionOut": "COLOR_BRIDGE_CUT" },
+    { "id": "s06", "source": "CAPE_EXIT_001", "start": 5.0, "end": 6.2, "rangeIndex": 0, "camera": "REVERSE_PULL", "timeWarp": "release", "transitionIn": "COLOR_BRIDGE_CUT" },
     { "id": "s07", "source": "DRAW_001", "start": 6.2, "end": 8.0, "rangeIndex": 0, "camera": "REVERSE_ORBIT", "timeWarp": "settle" }
   ]
 }

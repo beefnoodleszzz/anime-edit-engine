@@ -1,0 +1,42 @@
+{
+  "generationId": "gen-0001",
+  "providerTaskId": "AQZ0DSDa2Q5XyzUK8fSI4GU-7_jseLSs_S3jJsSOEoZXuQQJXhAgJeJ4cNMqTgd_8lcsF9xn",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0001/output.mp4",
+  "outputSha256": "f0227653a56f5db299179e583dfbd7eccec92b06b26bb4edd6ae22433b91dbee",
+  "outputUrlWithoutWatermark": "https://v15-kling.klingai.com/bs2/upload-ylab-stunt-sgp/ccc1e9ca-a56c-45fc-afc8-56c67622f3e4-3cmL04sGJR_LI1F9G_EBVw-output.mp4?x-kcdn-pid=112372",
+  "ffprobe": {
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "width": 2160,
+    "height": 3836,
+    "fps": 24,
+    "duration": 3.041667,
+    "hasAudio": false
+  },
+  "qc": {
+    "status": "pending-human",
+    "reviewedBy": "ai-assisted",
+    "findings": [
+      "首帧、中段、末帧均保持男主前景、女主低位跪姿和剑锋抵喉关系。",
+      "剑锋未穿喉，未发现明显断剑、重复剑、额外人物或多余肢体。",
+      "动作整体克制，主要是女主眼神微动、雨丝、衣摆和环境光变化，符合 S01 的误导性停顿。",
+      "未发现可见文字、logo 或水印；输出为无音频视频，符合项目独立 BGM 混音流程。",
+      "素材分辨率为 2160×3836，而非严格 2160×3840；需在项目 2160×3840 输出中由画布适配处理。"
+    ],
+    "proposedHeroRanges": [
+      {
+        "start": 0.15,
+        "end": 1.25,
+        "score": 0.86,
+        "tags": ["stable-standoff", "kneeling-readable", "sword-at-throat", "low-motion"]
+      },
+      {
+        "start": 1.25,
+        "end": 2.8,
+        "score": 0.8,
+        "tags": ["gaze-hold", "rain", "robe-flow", "background-swords"]
+      }
+    ]
+  }
+}

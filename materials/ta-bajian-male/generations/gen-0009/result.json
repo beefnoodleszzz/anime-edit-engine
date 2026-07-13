@@ -1,0 +1,18 @@
+{
+  "generationId": "gen-0009",
+  "providerTaskId": "ASL22iDIdcMUhMZi8td3iQpDnuptqRsYEfBU2lV7LB4dB5R8x5hjv6ZxvAXKQogtA5Y7H7Qw",
+  "status": "COMPLETED",
+  "outputPath": "materials/ta-bajian-male/generations/gen-0009/output.mp4",
+  "outputSha256": "a8f8a39793f67cc6dae2e2734526b0a78d1ddf8952bbeb9f8ecced2bc1e16ae7",
+  "ffprobe": {"codec": "h264", "pixelFormat": "yuv420p", "width": 2160, "height": 3836, "fps": 24, "duration": 4.041667, "hasAudio": false},
+  "qc": {
+    "status": "approved",
+    "reviewedBy": "human",
+    "findings": [
+      "修正版完成剑幕局部破裂与男主克制后撤，人物和来剑关系清晰。",
+      "冲击主体为冷蓝、冰白与金色火花，未见明显血雾或红色飞溅；末帧保留极小红色残留，按用户明确授权默认通过。",
+      "用户明确授权默认通过，进入项目素材。"
+    ],
+    "proposedHeroRanges": [{"start": 0.2, "end": 3.2, "score": 0.8, "tags": ["shield-break", "cold-impact", "male-face", "female-background"]}]
+  }
+}

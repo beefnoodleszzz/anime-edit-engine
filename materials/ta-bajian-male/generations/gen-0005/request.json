@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0005",
+  "character": "ta-bajian-male",
+  "project": "003-ta-bajian",
+  "shotId": "s06",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "M03_male_sword_screen",
+  "prompt": "首帧 FF07 是绝对构图基准。保持男主位于中央前景、双手横持冰蓝长剑、透明半圆剑气屏障完整、女主作为后景轮廓、金色符文神剑悬在上方。先让冰蓝剑幕稳定增强并保持完整，随后数柄金色神剑从上方同时下坠，撞在屏障外侧并被弹开，产生受控的冰蓝与金色火花；本镜结尾屏障仍然可读且不要出现明显裂纹，把真正破裂留给 S07。男主身体只做承受冲击的微小后压，不挥剑。固定正面单镜头，无切镜、无旋转、无全屏爆炸、无屏障融化、无额外人物、无重复男主、无剑体断裂、无血迹、无文字、字幕、水印、logo。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF07_M03_male_sword_screen.png"],
+  "arguments": {"duration": "4", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "AWMT_BlGOPrJiAg1PmnVuH5L3k6MYbYs9VLNMxmQksBjrmQjQD0JTt9HiB0A3zeJGPp_mI2T",
+  "creditsConsumed": 120,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDUvMXRuVm9JV2VXMC9mZjA3X20wM19tYWxlX3N3b3JkXy5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S06 male shield source plate. Do not reuse this gen-id after failure."
+}

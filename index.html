@@ -1,23 +1,31 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-resolution="portrait" data-fps="60">
+<html lang="zh-CN" data-resolution="portrait" data-render-mode="review" data-fps="60">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, height=1920">
-    <title>Anime Edit Engine — 001 Demo</title>
+    <title>Anime Edit Engine — 他拔剑，不是为了杀她</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * { box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; margin: 0; overflow: hidden; background: #000; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
-      #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; background: #000; }
-      #source-video { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+      #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+      .prepared-source { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     </style>
   </head>
   <body>
-    <div data-hf-id="hf-9ro9" id="root" data-composition-id="anime-edit-engine" data-start="0" data-duration="8" data-width="1080" data-height="1920">
-      <!-- HyperFrames registers this direct child; the engine re-seeks it to Hero Range + Time Warp time in every hf-seek callback. -->
-      <video data-hf-id="hf-288w" id="source-video" class="clip" src="assets/sources/wow-normalized.mp4" data-start="0" data-duration="8" data-track-index="0" muted playsinline preload="auto"></video>
-      <canvas data-hf-id="hf-2ymb" id="stage" class="clip" data-start="0" data-duration="8" data-track-index="1" aria-label="Deterministic anime edit render"></canvas>
+    <div data-hf-id="hf-9ro9" id="root" data-composition-id="anime-edit-engine" data-project-id="003-ta-bajian" data-start="0" data-duration="16" data-width="1080" data-height="1920">
+      <!-- Each timed source is an independent CFR shot. HyperFrames owns injection; only the canvas is visible. -->
+      <video data-hf-id="hf-a559c447" id="source-s01" data-prepared-shot="s01" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s01/s01.mp4" data-start="0" data-duration="1.2" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-259bb9ef" id="source-s02" data-prepared-shot="s02" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s02/s02.mp4" data-start="1.2" data-duration="1.4" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-e1522ba5" id="source-s03" data-prepared-shot="s03" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s03/s03.mp4" data-start="2.6" data-duration="1.6" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-7563df85" id="source-s04" data-prepared-shot="s04" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s04/s04.mp4" data-start="4.2" data-duration="1.4" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-080d644d" id="source-s05" data-prepared-shot="s05" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s05/s05.mp4" data-start="5.6" data-duration="2.2" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-27aee698" id="source-s06" data-prepared-shot="s06" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s06/s06.mp4" data-start="7.8" data-duration="2" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-e40231a7" id="source-s07" data-prepared-shot="s07" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s07/s07.mp4" data-start="9.8" data-duration="1.8" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-d0efaef1" id="source-s08" data-prepared-shot="s08" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s08/s08.mp4" data-start="11.6" data-duration="2" data-track-index="0" muted playsinline preload="auto"></video>
+      <video data-hf-id="hf-ad41d186" id="source-s09" data-prepared-shot="s09" class="clip prepared-source" src="cache/prepared/003-ta-bajian/s09/s09.mp4" data-start="13.6" data-duration="2.4" data-track-index="0" muted playsinline preload="auto"></video>
+      <canvas data-hf-id="hf-2ymb" id="stage" class="clip" data-start="0" data-duration="16" data-track-index="1" aria-label="Deterministic anime edit render"></canvas>
     </div>
     <script>
       window.__timelines = window.__timelines || {};

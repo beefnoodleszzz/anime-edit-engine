@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0001",
+  "character": "ta-bajian-female",
+  "project": "003-ta-bajian",
+  "shotId": "s03",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "F01_female_look_up",
+  "prompt": "首帧 FF03 是绝对构图基准。保持女主脸部近景、黑发、黑红衣领、暗金眉心封印和下方横向冰蓝剑锋的位置不变。女主先保持平静，再用一次很小的眼神动作从画外男主方向抬眼并锁定，睫毛轻微颤动，头部不要转动，嘴唇不要说话。剑锋始终停在脸部下方且不接触皮肤，锁链只在虚化背景中轻微震动。眼神表达“她早已知道他的选择”，不要出现恐惧或夸张惊讶。固定近景单镜头，无推拉、无切镜、无头发飞散、无觉醒爆光、无封印裂开、无红色能量爆发。禁止额外人物、变脸、五官漂移、文字、字幕、水印、logo、运动模糊和粒子遮脸。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF03_F01_female_look_up.png"],
+  "arguments": {"duration": "3", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "AbRA5eH1mal0deagf4dZgW7JnAG3TxnGPqK6KzD0YFoIg4eXv4fVpNDpJXP4oEpG0B8WVQws",
+  "creditsConsumed": 90,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDQvbnZQOThWZVZPZi9mZjAzX2YwMV9mZW1hbGVfbG9vay5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S03 female close-up source plate. Do not reuse this gen-id after failure."
+}

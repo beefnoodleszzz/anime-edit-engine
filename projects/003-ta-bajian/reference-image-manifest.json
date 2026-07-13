@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "dropRoot": "/Users/zhangxiaolong/Desktop/003-ta-bajian-images",
+  "policy": "Only these 16 images are required for Kling generation: 6 Element reference images and 10 shot-specific start frames. Do not create separate environment, duo, prop, effect, or optional end-frame images.",
+  "groups": [
+    {
+      "id": "male-element",
+      "name": "男主 Character Element",
+      "desktopSubdir": "01-male-element",
+      "targetDir": "materials/ta-bajian-male/references",
+      "elementName": "寒渊剑修",
+      "mainFile": "M01_male_identity_full.png",
+      "files": [
+        "M01_male_identity_full.png",
+        "M02_male_identity_face.png",
+        "M03_male_guard_pose.png"
+      ]
+    },
+    {
+      "id": "female-element",
+      "name": "女主 Character Element",
+      "desktopSubdir": "02-female-element",
+      "targetDir": "materials/ta-bajian-female/references",
+      "elementName": "封印灭世者",
+      "mainFile": "F01_female_identity_full.png",
+      "files": [
+        "F01_female_identity_full.png",
+        "F02_female_identity_face.png",
+        "F03_female_awakening_face.png"
+      ]
+    },
+    {
+      "id": "first-frames",
+      "name": "10 条正式 source plate 首帧",
+      "desktopSubdir": "03-first-frames",
+      "targetDir": "projects/003-ta-bajian/references/first-frames",
+      "files": [
+        "FF01_D01_throat_standoff.png",
+        "FF02_M01_male_raise_sword.png",
+        "FF03_F01_female_look_up.png",
+        "FF04_M02_male_slash_setup.png",
+        "FF05_P01_chain_break_insert.png",
+        "FF06_D02_male_turn_protect.png",
+        "FF07_M03_male_sword_screen.png",
+        "FF08_M04_shield_break_wound.png",
+        "FF09_F02_female_awakening_close.png",
+        "FF10_D03_female_rise_sword_reverse.png"
+      ]
+    }
+  ],
+  "totalRequiredImages": 16
+}

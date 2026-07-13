@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "character": "ta-bajian-male",
+  "updatedAt": "2026-07-12T17:33:34.527Z",
+  "clips": [
+    {
+      "id": "TBJ_S01_D01_001",
+      "file": "materials/ta-bajian-male/clips/TBJ_S01_D01_001.mp4",
+      "migrationPending": false,
+      "shotType": "STANDOFF",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "f0227653a56f5db299179e583dfbd7eccec92b06b26bb4edd6ae22433b91dbee"
+      },
+      "generation": {
+        "generationId": "gen-0001",
+        "providerTaskId": "AQZ0DSDa2Q5XyzUK8fSI4GU-7_jseLSs_S3jJsSOEoZXuQQJXhAgJeJ4cNMqTgd_8lcsF9xn",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-male/generations/gen-0001/request.json"
+      },
+      "sourceReferenceImages": [
+        "M01_male_identity_full.png"
+      ],
+      "assetKind": "ensemble",
+      "subjectRefs": [
+        "ta-bajian-male",
+        "ta-bajian-female"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.15,
+          "end": 1.25,
+          "score": 0.86,
+          "tags": [
+            "stable-standoff",
+            "kneeling-readable",
+            "sword-at-throat",
+            "low-motion"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户明确授权默认通过；AI复核确认跪姿、剑锋抵喉和身份关系稳定。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-male/qc/TBJ_S01_D01_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S01_D01_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S02_M01_001",
+      "file": "materials/ta-bajian-male/clips/TBJ_S02_M01_001.mp4",
+      "migrationPending": false,
+      "shotType": "SWORD_RAISE",
+      "media": {
+        "durationSeconds": 3.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "1013980b50dc0db03ef80c00f2d8a4a2f8f1e66d10b5531ee10878fa69c98967"
+      },
+      "generation": {
+        "generationId": "gen-0002",
+        "providerTaskId": "AaMgrN7TGM7tZdolY4184sZhU4f6YEq_2LhJ7KVzR1oVVEg_EsE32SLFAY-JgDrL98UCKmv-",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-male/generations/gen-0002/request.json"
+      },
+      "sourceReferenceImages": [
+        "M01_male_identity_full.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 2.7,
+          "score": 0.84,
+          "tags": [
+            "sword-raise",
+            "male-identity",
+            "stable-face",
+            "rain"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户默认通过；抬剑连续，剑与男主身份稳定。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-male/qc/TBJ_S02_M01_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S02_M01_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S04_P01_001",
+      "file": "materials/ta-bajian-male/clips/TBJ_S04_P01_001.mp4",
+      "migrationPending": false,
+      "shotType": "CHAIN_BREAK",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "2317bcccab4d48c470ab840d7ed63637420eae9ec11a248ff11292568c294467"
+      },
+      "generation": {
+        "generationId": "gen-0003",
+        "providerTaskId": "Acz8iLdGSwxguquXQqYuY1jVvUFVKIjpapTX_CWYbyiwlq1imqzb9B2EbhWxGhJtMjKzVgzR",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-male/generations/gen-0003/request.json"
+      },
+      "sourceReferenceImages": [],
+      "assetKind": "prop",
+      "subjectRefs": [
+        "ta-bajian-male"
+      ],
+      "heroRanges": [
+        {
+          "start": 2.5,
+          "end": 3.8,
+          "score": 0.88,
+          "tags": [
+            "chain-break",
+            "sword-contact",
+            "metal-fragments",
+            "impact"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户默认通过；链环、剑刃接触和断裂峰值清楚。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-male/qc/TBJ_S04_P01_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S04_P01_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S05_D02_001",
+      "file": "materials/ta-bajian-male/clips/TBJ_S05_D02_001.mp4",
+      "migrationPending": false,
+      "shotType": "PROTECTIVE_TURN",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "bbdf07196af5e90ad81d4cd21b15a773ddcd82f5043544b5207cfedf086ccda1"
+      },
+      "generation": {
+        "generationId": "gen-0004",
+        "providerTaskId": "AUHPnxbEtzuA3x89UTa9DntpjFa2Wt0iBaRmz1ul2CxbT1BDiRQE1y1gzErxFQKl8CIcAUnL",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-male/generations/gen-0004/request.json"
+      },
+      "sourceReferenceImages": [
+        "M01_male_identity_full.png"
+      ],
+      "assetKind": "ensemble",
+      "subjectRefs": [
+        "ta-bajian-male",
+        "ta-bajian-female"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.3,
+          "end": 3.6,
+          "score": 0.85,
+          "tags": [
+            "protective-turn",
+            "dual-wide",
+            "kneeling-female",
+            "sword-guard"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户默认通过；转身、保护站位和女主低位关系清楚。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-male/qc/TBJ_S05_D02_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S05_D02_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S06_M03_001",
+      "file": "materials/ta-bajian-male/clips/TBJ_S06_M03_001.mp4",
+      "migrationPending": false,
+      "shotType": "SWORD_SCREEN",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "8fe89c5625ea031a7388e6af24a99c831558519569ad49ede1d84901a1bcac5a"
+      },
+      "generation": {
+        "generationId": "gen-0008",
+        "providerTaskId": "AV7IlDQD0bgUqUgCWjH8QvyUFsjplRK6uDdf87J-W3MNWUVqz_SsrmfuH00HEop_vOn8DMXu",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-male/generations/gen-0008/request.json"
+      },
+      "sourceReferenceImages": [
+        "M03_male_guard_pose.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 3.6,
+          "score": 0.86,
+          "tags": [
+            "shield-build",
+            "sword-impact",
+            "male-center",
+            "female-silhouette",
+            "late-hairline-cracks"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户明确授权自动通过；修正版保持男主正面站稳，剑幕前段完整，末段才出现细裂。",
+        "issues": [],
+        "contactSheet": "materials/ta-bajian-male/qc/TBJ_S06_M03_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S06_M03_001"
+        }
+      ]
+    },
+    {
+      "id": "TBJ_S07_M04_001",
+      "file": "materials/ta-bajian-male/clips/TBJ_S07_M04_001.mp4",
+      "migrationPending": false,
+      "shotType": "SHIELD_BREAK",
+      "media": {
+        "durationSeconds": 4.041667,
+        "width": 2160,
+        "height": 3836,
+        "fps": 24,
+        "codec": "h264",
+        "pixelFormat": "yuv420p",
+        "hasAudio": false,
+        "sha256": "a8f8a39793f67cc6dae2e2734526b0a78d1ddf8952bbeb9f8ecced2bc1e16ae7"
+      },
+      "generation": {
+        "generationId": "gen-0009",
+        "providerTaskId": "ASL22iDIdcMUhMZi8td3iQpDnuptqRsYEfBU2lV7LB4dB5R8x5hjv6ZxvAXKQogtA5Y7H7Qw",
+        "model": "kling-video-v3_0",
+        "requestPath": "materials/ta-bajian-male/generations/gen-0009/request.json"
+      },
+      "sourceReferenceImages": [
+        "M02_male_identity_face.png"
+      ],
+      "heroRanges": [
+        {
+          "start": 0.2,
+          "end": 3.2,
+          "score": 0.84,
+          "tags": [
+            "shield-break",
+            "cold-impact",
+            "restrained-injury",
+            "female-background"
+          ]
+        }
+      ],
+      "qc": {
+        "status": "approved",
+        "reviewedAt": "2026-07-12T17:27:09Z",
+        "reviewedBy": "human",
+        "notes": "用户明确授权自动通过；修正版主要冲击改为冷蓝/冰白/金色，末段仍有轻微红色残影但不影响主动作。",
+        "issues": [
+          "末段接触点保留轻微红色残影，按用户默认通过保留。"
+        ],
+        "contactSheet": "materials/ta-bajian-male/qc/TBJ_S07_M04_001-contact.png"
+      },
+      "usedBy": [
+        {
+          "project": "003-ta-bajian",
+          "sourceId": "TBJ_S07_M04_001"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "jingxuan",
+  "name": "镜玄",
+  "status": "active",
+  "identity": {
+    "genderPresentation": "male",
+    "agePresentation": "young-adult",
+    "world": "eastern-fantasy"
+  },
+  "visualAnchors": {
+    "face": [
+      "refined, pale East Asian male face",
+      "straight brows",
+      "calm, cool grey-blue gaze"
+    ],
+    "eyes": [
+      "clear grey-blue irises",
+      "composed direct gaze"
+    ],
+    "hair": [
+      "long black hair",
+      "half-up topknot",
+      "loose lengths over the shoulders"
+    ],
+    "costume": [
+      "layered white robe",
+      "pale cyan and deep teal inner layers",
+      "restrained silver embroidery",
+      "structured silver shoulder pieces"
+    ],
+    "accessories": [
+      "pale-cyan silver hair crown",
+      "silver-blue hanging tassels",
+      "silver waist clasp"
+    ],
+    "silhouette": [
+      "slender upright male figure",
+      "wide flowing sleeves",
+      "long layered robe"
+    ]
+  },
+  "styleKeywords": [
+    "premium-donghua",
+    "eastern-fantasy",
+    "cool-toned",
+    "elegant",
+    "cinematic"
+  ],
+  "colorPalette": {
+    "primary": [
+      "#edf3f7",
+      "#dce9ef"
+    ],
+    "secondary": [
+      "#244757",
+      "#0f1c25"
+    ],
+    "accent": [
+      "#8bb8ca",
+      "#b8c4cc"
+    ]
+  },
+  "continuityRules": [
+    "keep the black half-up long-hair silhouette",
+    "preserve the white, pale-cyan, deep-teal and silver costume palette",
+    "preserve the pale-cyan silver hair crown and silver waist clasp",
+    "keep the restrained, composed expression"
+  ],
+  "forbiddenChanges": [
+    "no other character in frame",
+    "no oversized crown, horns, wings or mask",
+    "no warm dominant palette",
+    "no modern clothing or props"
+  ],
+  "currentInventorySummary": {
+    "approvedClips": 9,
+    "missingShotTypes": [
+      "CAPE_EXIT",
+      "CAPE_TURN",
+      "EYE",
+      "FACE",
+      "HAIR_WIPE",
+      "HAND_FACE",
+      "HERO_IDLE",
+      "LOOK_BACK",
+      "WALK"
+    ]
+  },
+  "updatedAt": "2026-07-12T11:10:46.253Z"
+}

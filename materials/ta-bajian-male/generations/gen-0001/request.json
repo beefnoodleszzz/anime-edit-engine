@@ -1,0 +1,27 @@
+{
+  "generationId": "gen-0001",
+  "character": "ta-bajian-male",
+  "project": "003-ta-bajian",
+  "shotId": "s01",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "D01_dual_sword_throat",
+  "prompt": "首帧 FF01 是绝对构图基准。固定低机位双人镜头，保持男主在左前景、女主双膝跪在较低位置、剑锋横在喉前但不接触皮肤。前半段几乎静止，只让雨丝、衣摆和远处悬剑产生极轻微运动；随后女主眼神从男主剑锋缓慢移到男主脸部，男主手腕施加极小的压迫感但不挥剑、不刺入。女主始终保持跪姿和冷静表情，男主始终没有杀意爆发。万剑只做低频悬浮，天门和背景不变。单镜头连续、构图稳定、无推拉摇移、无镜头旋转、无切镜。禁止女主站起、半蹲或倒下，禁止剑锋穿喉、血迹、爆光、额外人物、额外武器、断剑、文字、字幕、水印、logo、运动模糊和大范围粒子。",
+  "referenceImages": [
+    "projects/003-ta-bajian/references/first-frames/FF01_D01_throat_standoff.png"
+  ],
+  "arguments": {
+    "duration": "3",
+    "resolution": "4k",
+    "prefer_multi_shots": "false",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-12T15:38:51Z",
+  "providerTaskId": "AQZ0DSDa2Q5XyzUK8fSI4GU-7_jseLSs_S3jJsSOEoZXuQQJXhAgJeJ4cNMqTgd_8lcsF9xn",
+  "creditsConsumed": 90,
+  "taskTraceId": "019f56fb-35ca-7271-a775-1b55df68694b",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzA4MzgvaGhlYmNqNnlpdS9mZjAxX2QwMV90aHJvYXRfc3Rhbi5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S01 uses the approved FF01 dual-character source plate as the single first_image for kling-video-v3_0. Character identity is reinforced by the approved source plate and motion prompt; no separate Element input is exposed by this single-image model invocation. Do not reuse this gen-id after failure."
+}

@@ -1,0 +1,143 @@
+{
+  "bpm": 100,
+  "beats": [
+    0.0,
+    0.6,
+    1.2,
+    1.8,
+    2.4,
+    3.0,
+    3.6,
+    4.2,
+    4.8,
+    5.4,
+    6.0,
+    6.6,
+    7.2,
+    7.8,
+    8.4,
+    9.0,
+    9.6,
+    10.2,
+    10.8,
+    11.4,
+    12.0,
+    12.6,
+    13.2,
+    13.8,
+    14.4,
+    15.0,
+    15.6
+  ],
+  "shots": [
+    {
+      "id": "s01",
+      "source": "JX_LAND_001",
+      "start": 0,
+      "end": 1.8,
+      "rangeIndex": 0,
+      "camera": "HERO_CRASH_IN",
+      "timeWarp": "crash",
+      "blur": {
+        "scale": 0.55,
+        "maxSamples": 8,
+        "maxShutterSeconds": 0.005,
+        "edgeFade": 0.08,
+        "disableAtStart": true
+      }
+    },
+    {
+      "id": "s02",
+      "source": "JX_APPROACH_001",
+      "start": 1.8,
+      "end": 3.5,
+      "rangeIndex": 0,
+      "camera": "REVERSE_PULL",
+      "timeWarp": "steady"
+    },
+    {
+      "id": "s03",
+      "source": "JX_NOTICE_LEFT_001",
+      "start": 3.5,
+      "end": 5.0,
+      "rangeIndex": 0,
+      "camera": "FACE_CROSS_LEFT",
+      "timeWarp": "accelerate"
+    },
+    {
+      "id": "s04",
+      "source": "JX_WARD_001",
+      "start": 5.0,
+      "end": 6.8,
+      "rangeIndex": 0,
+      "camera": "WARD_PUSH",
+      "timeWarp": "whip",
+      "blur": {
+        "scale": 0.45,
+        "maxSamples": 8,
+        "maxShutterSeconds": 0.005,
+        "edgeFade": 0.06,
+        "disableAtEnd": true
+      }
+    },
+    {
+      "id": "s05",
+      "source": "JX_GAZE_001",
+      "start": 6.8,
+      "end": 8.8,
+      "rangeIndex": 0,
+      "camera": "EYE_PUSH",
+      "timeWarp": "hold"
+    },
+    {
+      "id": "s06",
+      "source": "JX_TURN_RIGHT_001",
+      "start": 8.8,
+      "end": 10.8,
+      "rangeIndex": 0,
+      "camera": "FACE_CROSS_RIGHT",
+      "timeWarp": "release",
+      "blur": {
+        "scale": 0.45,
+        "maxSamples": 6,
+        "maxShutterSeconds": 0.0045,
+        "edgeFade": 0.05
+      }
+    },
+    {
+      "id": "s07",
+      "source": "JX_SLEEVE_PASS_001",
+      "start": 10.8,
+      "end": 12.8,
+      "rangeIndex": 0,
+      "camera": "SLEEVE_PASS",
+      "timeWarp": "accelerate",
+      "blur": {
+        "scale": 0.2,
+        "maxSamples": 4,
+        "maxShutterSeconds": 0.003,
+        "edgeFade": 0.08,
+        "disableAtStart": true,
+        "disableAtEnd": true
+      }
+    },
+    {
+      "id": "s08",
+      "source": "JX_SETTLE_001",
+      "start": 12.8,
+      "end": 14.4,
+      "rangeIndex": 0,
+      "camera": "REVERSE_ORBIT",
+      "timeWarp": "settle"
+    },
+    {
+      "id": "s09",
+      "source": "JX_FINAL_LOOK_001",
+      "start": 14.4,
+      "end": 16.0,
+      "rangeIndex": 0,
+      "camera": "EYE_PUSH",
+      "timeWarp": "hold"
+    }
+  ]
+}

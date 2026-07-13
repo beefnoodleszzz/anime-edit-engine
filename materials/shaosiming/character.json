@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "id": "shaosiming",
+  "name": "少司命",
+  "status": "active",
+  "identity": {
+    "genderPresentation": "female",
+    "agePresentation": "young-adult",
+    "world": "eastern-fantasy"
+  },
+  "visualAnchors": {
+    "face": [
+      "lower face covered by a sheer purple veil",
+      "amber/gold eyes",
+      "purple forehead ornament between the brows"
+    ],
+    "eyes": [
+      "amber/gold iris",
+      "sharp, composed gaze"
+    ],
+    "hair": [
+      "long black hair, center-parted",
+      "purple gem/floral hair ornaments woven through the updo",
+      "loose strands frame the face"
+    ],
+    "costume": [
+      "black under-layer",
+      "sheer purple outer robe/sleeves with gold floral embroidery",
+      "gold belt with a yin-yang clasp"
+    ],
+    "accessories": [
+      "folding fan",
+      "yin-yang pendant hanging from the belt",
+      "dangling gold/purple earrings"
+    ],
+    "silhouette": [
+      "tall, slender, floor-length robe",
+      "long sleeves that trail past the hands"
+    ]
+  },
+  "styleKeywords": [
+    "premium-donghua",
+    "eastern-fantasy",
+    "cinematic",
+    "moonlit",
+    "wuxia"
+  ],
+  "colorPalette": {
+    "primary": [
+      "#2a1f3d",
+      "#4a3068"
+    ],
+    "secondary": [
+      "#0d0d12"
+    ],
+    "accent": [
+      "#c9a86a",
+      "#8a6fb0"
+    ]
+  },
+  "continuityRules": [
+    "veil always covers the lower face — never generate an unmasked mouth/nose",
+    "purple/black/gold palette — no other dominant hues",
+    "bamboo forest + stone staircase + moon backdrop unless a shot explicitly calls for a different set",
+    "yin-yang pendant and folding fan are recurring props — keep them consistent when in frame"
+  ],
+  "forbiddenChanges": [
+    "no second character in frame",
+    "no removing or lowering the veil",
+    "no daylight/bright lighting — night/moonlit only",
+    "no modern clothing or props"
+  ],
+  "currentInventorySummary": {
+    "approvedClips": 7,
+    "missingShotTypes": []
+  },
+  "updatedAt": "2026-07-11T15:32:55.943Z"
+}

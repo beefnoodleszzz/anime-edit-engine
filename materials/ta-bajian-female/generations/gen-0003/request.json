@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0003",
+  "character": "ta-bajian-female",
+  "project": "003-ta-bajian",
+  "shotId": "s09",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "D03_female_rise_sword_reverse",
+  "prompt": "首帧 FF10 是绝对构图基准。保持女主站在画面中央偏前、男主在后侧、所有万剑仍朝向两人的宽幅构图。女主只做克制的力量确认：肩线和下颌略微抬起，暗金封印与眼神变得更有压迫感；男主只向她侧头看一眼。随后空中的万剑以同一节奏完成一次整齐的方向倒转，剑尖从指向两人变为指向外侧，剑阵保持秩序，不乱飞、不互相碰撞。女主是视觉中心，男主不要抢动作。固定宽幅单镜头，无切镜、无镜头旋转、无爆炸、无瞬移、无新增人物、无怪物化、无血腥、无文字、字幕、水印、logo、运动模糊。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF10_D03_female_rise_sword_reverse.png"],
+  "arguments": {"duration": "4", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "AUthrJzNGpgA_WeEujoTmcVwkk3VQO8VjTskWBTwXct7Uv_Yqyk7p3Z7WxzJIPXmzbEkYtl5",
+  "creditsConsumed": 120,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDcvNjk3Z0VTcTZDUy9mZjEwX2QwM19mZW1hbGVfcmlzZS5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S09 dual female-centered source plate. S10 reuses this source plate as previously planned. Do not reuse this gen-id after failure."
+}

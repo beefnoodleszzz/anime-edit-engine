@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "character": "jingxuan",
+  "references": [
+    {
+      "id": "IMAGE_01_FRONT",
+      "file": "IMAGE_01_FRONT.png",
+      "sha256": "6dae44a9caa6bd19801e201267abbf842ca06cba1dc586d3b7c21862384d874a",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["face-identity", "hair-crown", "costume-detail", "neutral-lighting"],
+      "recommendedFor": ["EYE", "FACE", "FRONT_CLOSEUP", "PORTRAIT"],
+      "avoidFor": ["BACK_VIEW", "FULL_BODY_MOTION"],
+      "notes": "Human-approved 2K front identity anchor generated from the user-provided reference image via Kling image-to-image."
+    },
+    {
+      "id": "IMAGE_02_LEFT_45",
+      "file": "IMAGE_02_LEFT_45.png",
+      "sha256": "8219ad2ef18ee95d79c18e688b4df821f123e887a0a9c8f408d9cc195a34fc72",
+      "view": "left-45",
+      "framing": "portrait",
+      "strengths": ["left-profile", "hair-silhouette", "costume-detail"],
+      "recommendedFor": ["LOOK_BACK", "PROFILE_CLOSEUP", "CAPE_TURN"],
+      "avoidFor": ["FRONT_CLOSEUP", "BACK_VIEW"],
+      "notes": "Human-approved 2K left-45 identity reference generated from IMAGE_01_FRONT via Kling image-to-image."
+    },
+    {
+      "id": "IMAGE_03_RIGHT_45",
+      "file": "IMAGE_03_RIGHT_45.png",
+      "sha256": "efaa5166cb331b2a4c49791f5006c888ae710634b01e487814b9c42336e697ab",
+      "view": "right-45",
+      "framing": "portrait",
+      "strengths": ["right-profile", "hair-silhouette", "costume-detail"],
+      "recommendedFor": ["LOOK_BACK", "PROFILE_CLOSEUP", "CAPE_EXIT"],
+      "avoidFor": ["FRONT_CLOSEUP", "BACK_VIEW"],
+      "notes": "Human-approved 2K right-45 identity reference generated from IMAGE_01_FRONT via Kling image-to-image."
+    },
+    {
+      "id": "IMAGE_04_FULL_BODY",
+      "file": "IMAGE_04_FULL_BODY.png",
+      "sha256": "5921bfc2cd6c72a3de7c1158d3cee33575f909e4077312dce6254c60c65ce3a8",
+      "view": "full-body",
+      "framing": "full-body",
+      "strengths": ["full-costume", "wide-sleeves", "belt-detail", "shoe-visibility"],
+      "recommendedFor": ["FULL_BODY", "DRAW", "ESTABLISHING"],
+      "avoidFor": ["EYE", "FACE"],
+      "notes": "Human-approved 2K full-body identity reference generated from IMAGE_01_FRONT via Kling image-to-image."
+    },
+    {
+      "id": "JX_LAND_001",
+      "file": "JX_LAND_001.png",
+      "sha256": "2b55d80025a585b845613b6e346e118a78e819c23faaa1fa202ac41479d6dcd7",
+      "view": "front",
+      "framing": "full-body",
+      "strengths": ["full-body-stride", "flowing-robe-motion", "moonlit-cliff-environment", "shoe-visibility"],
+      "recommendedFor": ["s01"],
+      "avoidFor": ["EYE", "FACE", "PROFILE_CLOSEUP"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s01 JX_LAND. 941x1672. Pose reads as a forward stride under a large moon rather than a knees-bent landing instant — the landing impact must come from the video motion prompt; flagged at ingest."
+    },
+    {
+      "id": "JX_APPROACH_001",
+      "file": "JX_APPROACH_001.png",
+      "sha256": "7a69b69668001cfce7fbf83d9bc53009c6e202fdb13ceb08d46f88256a45235d",
+      "view": "front",
+      "framing": "full-body",
+      "strengths": ["frontal-walk", "full-costume", "clear-face-at-distance", "stone-terrace-ground"],
+      "recommendedFor": ["s02"],
+      "avoidFor": ["EYE", "FACE", "PROFILE_CLOSEUP"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s02 JX_APPROACH. 941x1672. Matches storyboard intent: full body walking toward camera, face and costume legible."
+    },
+    {
+      "id": "JX_NOTICE_LEFT_001",
+      "file": "JX_NOTICE_LEFT_001.png",
+      "sha256": "28028525553a95609d4073cfba6dacd8de517f9fcae63a9ed6d2f146284f8c1f",
+      "view": "left-45",
+      "framing": "portrait",
+      "strengths": ["left-profile", "sharp-gaze", "hair-silhouette", "shoulder-piece-detail"],
+      "recommendedFor": ["s03"],
+      "avoidFor": ["FULL_BODY", "FRONT_CLOSEUP"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s03 JX_NOTICE_LEFT. 941x1672. Face sits center-left looking screen-left, not on the right third with left negative space as the storyboard sketched — FACE_CROSS_LEFT camera framing should be re-checked against this composition at integration."
+    },
+    {
+      "id": "JX_WARD_001",
+      "file": "JX_WARD_001.png",
+      "sha256": "a903d18e2cd54592113942818763b2dca5d627f5a2746924684a1d7b785fcb60",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["outstretched-palm-to-camera", "silver-blue-energy-shield", "protective-pose", "clear-face"],
+      "recommendedFor": ["s04"],
+      "avoidFor": ["EYE", "FULL_BODY"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s04 JX_WARD. 941x1672. Strong match: hand extended toward viewer with a restrained translucent energy arc, half-body framing."
+    },
+    {
+      "id": "JX_GAZE_001",
+      "file": "JX_GAZE_001.png",
+      "sha256": "56973ca1f2f1abfc38a56c46e1d69fed79708463c45dc489c843bd5761b6adf2",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["face-identity", "direct-gaze", "hair-crown-detail", "bust-closeup"],
+      "recommendedFor": ["s05"],
+      "avoidFor": ["FULL_BODY", "BACK_VIEW"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s05 JX_GAZE. 941x1672. Frontal bust close-up generated at final framing per the resolution/framing policy; EYE_PUSH should stay a light push."
+    },
+    {
+      "id": "JX_TURN_RIGHT_001",
+      "file": "JX_TURN_RIGHT_001.png",
+      "sha256": "5ac4250e0c4b3419f25cabcde53e1611697d8668aa6542571dd45b03383852fd",
+      "view": "right-45",
+      "framing": "portrait",
+      "strengths": ["turning-silhouette", "hair-sweep-motion", "wide-sleeve-flow", "over-shoulder-gaze"],
+      "recommendedFor": ["s06"],
+      "avoidFor": ["EYE", "FRONT_CLOSEUP"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s06 JX_TURN_RIGHT. 941x1672. Medium shot mid-turn with hair fully swept across frame — the storyboard's dynamic-silhouette beat."
+    },
+    {
+      "id": "JX_SLEEVE_PASS_001",
+      "file": "JX_SLEEVE_PASS_001.png",
+      "sha256": "6c4ae9ad5e29057ee4dde86071b0e7792cf4170908f66373aea2b1409e8b2b32",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["sleeve-crossing-foreground", "speed-feel", "clear-face-behind-motion", "moonlit-ground"],
+      "recommendedFor": ["s07"],
+      "avoidFor": ["EYE", "PROFILE_CLOSEUP"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s07 JX_SLEEVE_PASS. 941x1672. White sleeve already sweeps the foreground — matches the storyboard's speed-peak beat with the frame briefly occluded."
+    },
+    {
+      "id": "JX_SETTLE_001",
+      "file": "JX_SETTLE_001.png",
+      "sha256": "129952a56a57e9cbd3bc108e2000e3d4c7e4d3a1b4cfc1d17481769c4d467626",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["calm-stance", "full-costume-detail", "settled-composure", "mountain-backdrop"],
+      "recommendedFor": ["s08"],
+      "avoidFor": ["EYE", "FULL_BODY_MOTION"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s08 JX_SETTLE. 941x1672. Three-quarter medium shot standing settled, face and costume fully legible for the wind-down beat."
+    },
+    {
+      "id": "JX_FINAL_LOOK_001",
+      "file": "JX_FINAL_LOOK_001.png",
+      "sha256": "84b0bde62a5cc5816d4c5718f1e1049ea845e2098a34b073cd12861fb85316c4",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["extreme-face-closeup", "eye-detail", "hair-crown-detail", "loopable-hold"],
+      "recommendedFor": ["s09"],
+      "avoidFor": ["FULL_BODY", "BACK_VIEW"],
+      "notes": "User-provided source plate (2026-07-12, external generation, not Kling) for s09 JX_FINAL_LOOK. 941x1672. Extreme frontal close-up generated at final framing — face fills the frame, suitable for the loop/freeze-frame ending; EYE_PUSH must stay minimal."
+    }
+  ]
+}

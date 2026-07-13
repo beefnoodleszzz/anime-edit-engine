@@ -1,38 +1,88 @@
-import type { CameraPresetName, CameraVelocity, EditTransform } from '../types';
+import type { CameraEasing, CameraKeyframeConfig, CameraPresetName, CameraVelocity, EditTransform } from '../types';
 
-type Keyframe = EditTransform & { at: number };
+type Easing = 'linear' | 'smooth' | 'expoIn' | 'expoOut' | 'expoInOut' | 'power4In' | 'power4Out' | 'hold' | 'overshoot';
+type Keyframe = EditTransform & { at: number; easing?: CameraEasing; cubicBezier?: [number, number, number, number] };
 const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
-const ease = (value: number): number => { const t = clamp01(value); return t * t * (3 - 2 * t); };
-const base = (at: number, partial: Partial<EditTransform>): Keyframe => ({ at, scale: 1, x: 0, y: 0, rotation: 0, pivotX: 0.5, pivotY: 0.5, ...partial });
+const cubic = (a: number, b: number, c: number, d: number, t: number): number => {
+  const inverse = (x: number): number => {
+    let lo = 0; let hi = 1;
+    for (let i = 0; i < 16; i += 1) {
+      const u = (lo + hi) / 2;
+      const value = 3 * (1 - u) ** 2 * u * a + 3 * (1 - u) * u ** 2 * c + u ** 3;
+      if (value < x) lo = u; else hi = u;
+    }
+    return (lo + hi) / 2;
+  };
+  const u = inverse(clamp01(t));
+  return 3 * (1 - u) ** 2 * u * b + 3 * (1 - u) * u ** 2 * d + u ** 3;
+};
+const ease = (name: CameraEasing | Easing | undefined, value: number, bezier?: [number, number, number, number]): number => {
+  const t = clamp01(value);
+  if (name === 'cubic-bezier' && bezier) return cubic(...bezier, t);
+  switch (name) {
+    case 'linear': return t;
+    case 'ease-in': case 'power4In': return t ** 4;
+    case 'ease-out': case 'power4Out': return 1 - (1 - t) ** 4;
+    case 'ease-in-out': case 'expoInOut': return t < 0.5 ? 2 ** (20 * t - 11) : 1 - 2 ** (-20 * t + 10);
+    case 'expoIn': return t === 0 ? 0 : 2 ** (10 * t - 10);
+    case 'expoOut': return t === 1 ? 1 : 1 - 2 ** (-10 * t);
+    case 'hold': return t < 0.96 ? 0 : (t - 0.96) / 0.04;
+    case 'overshoot': return 1 + 2.70158 * (t - 1) ** 3 + 1.70158 * (t - 1) ** 2;
+    default: return t * t * (3 - 2 * t);
+  }
+};
+const base = (at: number, partial: Partial<EditTransform> & Partial<Pick<Keyframe, 'easing' | 'cubicBezier'>>): Keyframe => ({ at, scale: 1, x: 0, y: 0, rotation: 0, pivotX: 0.5, pivotY: 0.5, ...partial });
 
 const PRESETS: Record<CameraPresetName, readonly Keyframe[]> = {
-  HERO_CRASH_IN: [base(0, { scale: 1.04, y: 0.02 }), base(0.32, { scale: 1.44, y: -0.03 }), base(1, { scale: 1.38, y: -0.02 })],
-  FACE_CROSS_LEFT: [base(0, { scale: 1.32, x: -0.13, rotation: -2.4 }), base(0.55, { scale: 1.52, x: 0.035, rotation: 0.3 }), base(1, { scale: 1.49, x: 0.04 })],
-  FACE_CROSS_RIGHT: [base(0, { scale: 1.43, x: 0.11, rotation: 1.2 }), base(0.74, { scale: 1.54, x: -0.04, rotation: -0.8 }), base(1, { scale: 1.62, x: -0.14, rotation: -2.8 })],
+  HERO_CRASH_IN: [base(0, { scale: 1.04, y: 0.02, easing: 'expoOut' }), base(0.10, { scale: 1.24, y: -0.04, easing: 'power4Out' }), base(0.65, { scale: 1.19, y: -0.02, easing: 'hold' }), base(0.85, { scale: 1.19, y: -0.02, easing: 'expoIn' }), base(1, { scale: 1.24, y: -0.035, easing: 'expoIn' })],
+  FACE_CROSS_LEFT: [base(0, { scale: 1.14, x: -0.13, rotation: -2.4 }), base(0.55, { scale: 1.24, x: 0.035, rotation: 0.3 }), base(1, { scale: 1.22, x: 0.04 })],
+  FACE_CROSS_RIGHT: [base(0, { scale: 1.16, x: 0.11, rotation: 1.2 }), base(0.74, { scale: 1.24, x: -0.04, rotation: -0.8 }), base(1, { scale: 1.25, x: -0.14, rotation: -2.8 })],
   // Kept deliberately slow: this is the sharp visual hold in SHARP → SMEAR → SHARP.
-  EYE_PUSH: [base(0, { scale: 1.7, pivotY: 0.42 }), base(1, { scale: 1.82, pivotY: 0.42 })],
-  WHIP_RIGHT: [base(0, { scale: 1.35, x: -0.08, rotation: -1 }), base(1, { scale: 1.65, x: 0.2, rotation: 6 })],
-  REVERSE_PULL: [base(0, { scale: 1.66, x: 0.12, rotation: 2.6 }), base(0.55, { scale: 1.28, x: 0.01, rotation: 0.2 }), base(1, { scale: 1.22 })],
-  REVERSE_ORBIT: [base(0, { scale: 1.45, x: 0.08, rotation: 2.5 }), base(0.75, { scale: 1.31, x: -0.03, rotation: -0.4 }), base(1, { scale: 1.29, x: 0, rotation: 0 })],
+  EYE_PUSH: [base(0, { scale: 1.06, pivotY: 0.42 }), base(1, { scale: 1.18, pivotY: 0.42 })],
+  WHIP_RIGHT: [base(0, { scale: 1.14, x: -0.08, rotation: -1, easing: 'power4In' }), base(0.3, { scale: 1.22, x: -0.02, rotation: 0.5, easing: 'linear' }), base(1, { scale: 1.30, x: 0.28, rotation: 8, easing: 'linear' })],
+  REVERSE_PULL: [base(0, { scale: 1.25, x: 0.12, rotation: 2.6 }), base(0.55, { scale: 1.18, x: 0.01, rotation: 0.2 }), base(1, { scale: 1.14 })],
+  REVERSE_ORBIT: [base(0, { scale: 1.20, x: 0.08, rotation: 2.5 }), base(0.75, { scale: 1.14, x: -0.03, rotation: -0.4 }), base(1, { scale: 1.12, x: 0, rotation: 0 })],
+  // A restrained WHIP_RIGHT: for shots where the source plate's own gesture (a raised ward/hand
+  // motion) already carries the energy, the engine only needs to lean into it, not repeat it.
+  WARD_PUSH: [base(0, { scale: 1.04, x: -0.02, rotation: -0.5 }), base(1, { scale: 1.12, x: 0.04, rotation: 1.2 })],
+  // For plates with baked-in sleeve-sweep motion blur: a light push/drift so the engine isn't
+  // stacking a second full pan on top of footage that's already selling the speed.
+  SLEEVE_PASS: [base(0, { scale: 1.04, x: -0.03, rotation: -0.4, easing: 'power4In' }), base(0.5, { scale: 1.08, x: 0.02, rotation: 0.4, easing: 'linear' }), base(1, { scale: 1.12, x: 0.07, rotation: 1.4, easing: 'power4Out' })],
 };
 
 const lerp = (a: number, b: number, progress: number): number => a + (b - a) * progress;
+/** Shortest signed delta from a to b in degrees, wrapped to (-180, 180]. */
+export const shortestAngleDelta = (a: number, b: number): number => ((((b - a + 180) % 360) + 360) % 360) - 180;
+/** Shortest-arc angle interpolation: the swept path never exceeds 180 degrees either direction. */
+export const angleLerp = (a: number, b: number, progress: number): number => a + shortestAngleDelta(a, b) * progress;
 export class EditCamera {
-  public resolve(name: CameraPresetName, progress: number): EditTransform {
-    const points = PRESETS[name];
+  private points(camera: CameraPresetName | CameraKeyframeConfig): readonly Keyframe[] {
+    if (typeof camera === 'string') return PRESETS[camera];
+    let previous = base(0, {});
+    return camera.keyframes.map((keyframe) => {
+      previous = { ...previous, at: keyframe.time, ...Object.fromEntries(Object.entries(keyframe).filter(([key]) => key !== 'time')) } as Keyframe;
+      return previous;
+    });
+  }
+
+  public resolve(name: CameraPresetName | CameraKeyframeConfig, progress: number): EditTransform {
+    const points = this.points(name);
     const p = clamp01(progress);
     const rightIndex = points.findIndex((point) => point.at >= p);
     const right = points[rightIndex < 0 ? points.length - 1 : rightIndex]!;
     const left = points[Math.max(0, rightIndex - 1)]!;
-    const segment = right.at === left.at ? 1 : ease((p - left.at) / (right.at - left.at));
-    return { scale: lerp(left.scale, right.scale, segment), x: lerp(left.x, right.x, segment), y: lerp(left.y, right.y, segment), rotation: lerp(left.rotation, right.rotation, segment), pivotX: lerp(left.pivotX, right.pivotX, segment), pivotY: lerp(left.pivotY, right.pivotY, segment) };
+    const segment = right.at === left.at ? 1 : ease(left.easing ?? 'custom', (p - left.at) / (right.at - left.at), left.cubicBezier);
+    return { scale: Math.exp(lerp(Math.log(left.scale), Math.log(right.scale), segment)), x: lerp(left.x, right.x, segment), y: lerp(left.y, right.y, segment), rotation: angleLerp(left.rotation, right.rotation, segment), pivotX: lerp(left.pivotX, right.pivotX, segment), pivotY: lerp(left.pivotY, right.pivotY, segment) };
   }
 
-  public velocity(name: CameraPresetName, progress: number, delta: number): CameraVelocity {
-    const a = this.resolve(name, Math.max(0, progress - delta));
-    const b = this.resolve(name, Math.min(1, progress + delta));
-    const divisor = Math.max(delta * 2, 0.000001);
-    const x = (b.x - a.x) / divisor; const y = (b.y - a.y) / divisor; const zoom = (b.scale - a.scale) / divisor; const rotation = (b.rotation - a.rotation) / divisor;
+  public velocity(name: CameraPresetName | CameraKeyframeConfig, progress: number, frameDeltaSeconds: number, shotDurationSeconds: number): CameraVelocity {
+    const progressDelta = frameDeltaSeconds / Math.max(shotDurationSeconds, 0.000001);
+    const a = this.resolve(name, Math.max(0, progress - progressDelta));
+    const b = this.resolve(name, Math.min(1, progress + progressDelta));
+    const elapsedSeconds = Math.max(Math.min(1, progress + progressDelta) - Math.max(0, progress - progressDelta), 0.000001) * shotDurationSeconds;
+    const x = (b.x - a.x) / elapsedSeconds; const y = (b.y - a.y) / elapsedSeconds;
+    const zoom = Math.log(Math.max(b.scale, 0.000001) / Math.max(a.scale, 0.000001)) / elapsedSeconds;
+    const rotation = shortestAngleDelta(a.rotation, b.rotation) / elapsedSeconds;
     const magnitude = Math.min(1, Math.hypot(x, y, zoom * 0.2, rotation * 0.015));
     const planar = Math.hypot(x, y) || 1;
     return { x, y, zoom, rotation, magnitude, directionX: x / planar, directionY: y / planar };

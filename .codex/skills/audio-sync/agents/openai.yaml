@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audio Sync"
+  short_description: "Require BGM-first beat mapping for anime edits"
+  default_prompt: "Use the audio-sync workflow: require a user-provided BGM, analyze beats and accents, lock sync points, then build the visual timeline and final mix."

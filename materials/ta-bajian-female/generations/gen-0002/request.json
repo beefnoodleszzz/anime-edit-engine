@@ -1,0 +1,19 @@
+{
+  "generationId": "gen-0002",
+  "character": "ta-bajian-female",
+  "project": "003-ta-bajian",
+  "shotId": "s08",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0",
+  "status": "COMPLETED",
+  "targetPlate": "F02_female_awakening_close",
+  "prompt": "首帧 FF09 是绝对构图基准。保持女主闭眼极近景、黑发边缘、暗金封印、雨滴和现有脸部细线的原始外观。先保持静止，随后女主缓慢睁开双眼，深酒红眼睛转为受控的暗金琥珀色，眉心封印只产生轻微暗金亮度并沿封印本体出现极小扩展；现有脸部细线只作为静态纹理保留，不新增、不扩张、不变成裂口或伤口，皮肤不破裂。背景雨滴和碎片像被时间冻结，头发不飞散，镜头不移动。禁止提前睁眼、夸张爆光、激光、烟雾、粒子遮脸、怪物化、尖牙、血迹、额外人物、文字、字幕、水印、logo、运动模糊。",
+  "referenceImages": ["projects/003-ta-bajian/references/first-frames/FF09_F02_female_awakening_close.png"],
+  "arguments": {"duration": "3", "resolution": "4k", "prefer_multi_shots": "false", "enable_audio": "false", "imageCount": "1"},
+  "submittedAt": "2026-07-12T15:55:31Z",
+  "providerTaskId": "AaFi4B64crrCrqxBAb9McZBKOeJx9aLEqkDEq9jSoIJy6rvKH1VOvNkpqy4fZmrwQqu4nIsG",
+  "creditsConsumed": 90,
+  "taskTraceId": "019f570a-771b-7341-8da1-e51aa54be47f",
+  "uploadedFirstImageUrl": "https://s15-kling.klingai.com/kimg/EMXN1y8qVQoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo7YWdlbnRfdXBsb2FkLzE3ODM4NzIxNDQvVHV6VGhCV01QNy9mZjA5X2YwMl9mZW1hbGVfYXdhay5wbmc.origin?x-kcdn-pid=112372",
+  "notes": "S08 female awakening close-up source plate. Do not reuse this gen-id after failure."
+}

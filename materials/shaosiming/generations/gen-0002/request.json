@@ -1,0 +1,16 @@
+{
+  "generationId": "gen-0002",
+  "character": "shaosiming",
+  "tool": "image_to_video",
+  "model": "kling-video-v3_0_omni",
+  "prompt": "镜头缓慢推近至图片1中少司命的单眼特写,纱后眼眸微微眯起后缓缓睁大,眼神锐利带杀意,月光在瞳孔中有微光反射,慢动作质感",
+  "referenceImages": ["IMAGE_01_FRONT.png"],
+  "arguments": {
+    "duration": "5",
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "enable_audio": "false",
+    "imageCount": "1"
+  },
+  "submittedAt": "2026-07-11T14:54:33Z"
+}

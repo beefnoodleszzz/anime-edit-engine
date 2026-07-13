@@ -1,0 +1,269 @@
+{
+  "status": "draft",
+  "projectId": "003-ta-bajian",
+  "duration": 18,
+  "fps": 60,
+  "audioManifest": "projects/003-ta-bajian/audio/audio.json",
+  "audioAnalysis": "projects/003-ta-bajian/audio/audio-analysis.json",
+  "bpm": 98,
+  "timeSignature": [4, 4],
+  "downbeats": [0.20898, 2.657959, 5.106939, 7.555918, 10.004898, 12.453878, 14.902857, 17.351837],
+  "accents": [
+    { "id": "a01", "time": 0.325079, "strength": 0.987, "type": "drop", "confidence": 0.993 },
+    { "id": "a02", "time": 0.928798, "strength": 1, "type": "drop", "confidence": 1 },
+    { "id": "a03", "time": 1.137778, "strength": 0.928, "type": "drop", "confidence": 0.964 },
+    { "id": "a04", "time": 3.413333, "strength": 0.705, "type": "impact", "confidence": 0.852 },
+    { "id": "a05", "time": 5.03873, "strength": 1, "type": "drop", "confidence": 1 },
+    { "id": "a06", "time": 6.687347, "strength": 1, "type": "drop", "confidence": 1 },
+    { "id": "a07", "time": 7.314286, "strength": 0.893, "type": "drop", "confidence": 0.946 },
+    { "id": "a08", "time": 8.730703, "strength": 0.644, "type": "impact", "confidence": 0.822 },
+    { "id": "a09", "time": 9.961361, "strength": 0.894, "type": "drop", "confidence": 0.947 },
+    { "id": "a10", "time": 10.37932, "strength": 0.65, "type": "impact", "confidence": 0.825 },
+    { "id": "a11", "time": 11.609977, "strength": 0.85, "type": "drop", "confidence": 0.925 },
+    { "id": "a12", "time": 12.631655, "strength": 0.596, "type": "impact", "confidence": 0.798 },
+    { "id": "a13", "time": 13.235374, "strength": 1, "type": "drop", "confidence": 1 },
+    { "id": "a14", "time": 15.30195, "strength": 0.554, "type": "impact", "confidence": 0.777 },
+    { "id": "a15", "time": 16.509388, "strength": 0.607, "type": "impact", "confidence": 0.804 },
+    { "id": "a16", "time": 16.950567, "strength": 0.736, "type": "impact", "confidence": 0.868 }
+  ],
+  "sourceTiming": {
+    "status": "planned",
+    "defaultSourceDuration": 4,
+    "sourceDurations": {
+      "D01_dual_sword_throat": 3,
+      "M01_male_raise_sword": 3,
+      "F01_female_look_up": 3,
+      "P01_chain_break_insert": 4,
+      "D02_male_turn_protect": 4,
+      "M03_male_sword_screen": 4,
+      "M04_shield_break_wound": 4,
+      "F02_female_awakening_close": 3,
+      "D03_female_rise_sword_reverse": 4
+    },
+    "uniqueSourcePlateCount": 9,
+    "note": "Durations are optimized Kling source durations. S10 reuses D03. sourceTime values are normalized to these planned durations and must be regenerated from actual heroRanges after QC."
+  },
+  "shots": [
+    {
+      "id": "s01",
+      "title": "剑锋抵喉",
+      "start": 0,
+      "end": 1.2,
+      "plannedSource": "D01_dual_sword_throat",
+      "camera": "FACE_CROSS_LEFT",
+      "timeWarp": "hold",
+      "beatIntent": "让观众在首帧误判男主要杀她；0.325 秒保留第一记视觉钩子。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 0, "sourceTime": 0.3375 },
+        { "kind": "hold", "outputTime": 0.821224, "sourceTime": 1.575, "accentRef": "beat-01" },
+        { "kind": "cut", "outputTime": 1.2, "sourceTime": 2.4 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.1125 },
+        { "outputProgress": 0.684, "sourceProgress": 0.525 },
+        { "outputProgress": 1, "sourceProgress": 0.8 }
+      ]
+    },
+    {
+      "id": "s02",
+      "title": "万剑压境",
+      "start": 1.2,
+      "end": 2.6,
+      "plannedSource": "M01_male_raise_sword",
+      "camera": "HERO_CRASH_IN",
+      "timeWarp": "accelerate",
+      "blur": { "scale": 0.35, "maxSamples": 6, "disableAtStart": true },
+      "beatIntent": "把危险推满，但不提前暴露保护意图。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 1.2, "sourceTime": 0.2625 },
+        { "kind": "impact", "outputTime": 1.433469, "sourceTime": 0.9375, "accentRef": "beat-02" },
+        { "kind": "cut", "outputTime": 2.6, "sourceTime": 2.6625 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.0875 },
+        { "outputProgress": 0.1675, "sourceProgress": 0.3125 },
+        { "outputProgress": 1, "sourceProgress": 0.8875 }
+      ]
+    },
+    {
+      "id": "s03",
+      "title": "女主眼神",
+      "start": 2.6,
+      "end": 4.2,
+      "plannedSource": "F01_female_look_up",
+      "camera": "EYE_PUSH",
+      "timeWarp": "hold",
+      "beatIntent": "在 3.413 秒的中强 accent 上加深‘她早知道’的悬念。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 2.6, "sourceTime": 0.375 },
+        { "kind": "hold", "outputTime": 3.413333, "sourceTime": 1.4625, "accentRef": "a04" },
+        { "kind": "cut", "outputTime": 4.2, "sourceTime": 2.475 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.125 },
+        { "outputProgress": 0.508, "sourceProgress": 0.4875 },
+        { "outputProgress": 1, "sourceProgress": 0.825 }
+      ]
+    },
+    {
+      "id": "s04",
+      "title": "一剑斩链",
+      "start": 4.2,
+      "end": 5.6,
+      "plannedSource": "P01_chain_break_insert",
+      "camera": "WHIP_RIGHT",
+      "timeWarp": "whip",
+      "blur": { "scale": 0.3, "maxSamples": 4, "maxShutterSeconds": 0.003, "disableAtStart": true, "disableAtEnd": true },
+      "beatIntent": "5.039 秒的强 accent 落在锁链断裂，完成第一次反转。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 4.2, "sourceTime": 0.35 },
+        { "kind": "impact", "outputTime": 5.03873, "sourceTime": 2.15, "accentRef": "a05" },
+        { "kind": "cut", "outputTime": 5.6, "sourceTime": 3.55 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.0875 },
+        { "outputProgress": 0.5991, "sourceProgress": 0.5375 },
+        { "outputProgress": 1, "sourceProgress": 0.8875 }
+      ]
+    },
+    {
+      "id": "s05",
+      "title": "转身护在她身前",
+      "start": 5.6,
+      "end": 7.8,
+      "plannedSource": "D02_male_turn_protect",
+      "camera": "REVERSE_PULL",
+      "timeWarp": "release",
+      "blur": { "scale": 0.45, "maxSamples": 6 },
+      "beatIntent": "6.687 秒把‘站到她与万剑之间’作为保护反转的视觉落点。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 5.6, "sourceTime": 0.3 },
+        { "kind": "reveal", "outputTime": 6.687347, "sourceTime": 2, "accentRef": "a06" },
+        { "kind": "settle", "outputTime": 7.555918, "sourceTime": 3.35, "accentRef": "downbeat-04" },
+        { "kind": "cut", "outputTime": 7.8, "sourceTime": 3.7 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.075 },
+        { "outputProgress": 0.4942, "sourceProgress": 0.5 },
+        { "outputProgress": 0.8891, "sourceProgress": 0.8375 },
+        { "outputProgress": 1, "sourceProgress": 0.925 }
+      ]
+    },
+    {
+      "id": "s06",
+      "title": "独挡万剑",
+      "start": 7.8,
+      "end": 9.8,
+      "plannedSource": "M03_male_sword_screen",
+      "camera": "HERO_CRASH_IN",
+      "timeWarp": "crash",
+      "blur": { "scale": 0.4, "maxSamples": 8, "edgeFade": 0.06 },
+      "beatIntent": "8.731 秒的冲击点落在剑幕第一次承受万剑碰撞。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 7.8, "sourceTime": 0.35 },
+        { "kind": "impact", "outputTime": 8.730703, "sourceTime": 2.2, "accentRef": "a08" },
+        { "kind": "cut", "outputTime": 9.8, "sourceTime": 3.7 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.0875 },
+        { "outputProgress": 0.4654, "sourceProgress": 0.55 },
+        { "outputProgress": 1, "sourceProgress": 0.925 }
+      ]
+    },
+    {
+      "id": "s07",
+      "title": "剑幕破裂",
+      "start": 9.8,
+      "end": 11.6,
+      "plannedSource": "M04_shield_break_wound",
+      "camera": "FACE_CROSS_RIGHT",
+      "timeWarp": "accelerate",
+      "blur": { "scale": 0.35, "maxSamples": 5 },
+      "beatIntent": "危机最低点；男主受伤，女主开始从跪姿起身。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 9.8, "sourceTime": 0.25 },
+        { "kind": "impact", "outputTime": 10.37932, "sourceTime": 1.5, "accentRef": "a10" },
+        { "kind": "reveal", "outputTime": 11.229388, "sourceTime": 2.8, "accentRef": "beat-19" },
+        { "kind": "cut", "outputTime": 11.6, "sourceTime": 3.6 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.0625 },
+        { "outputProgress": 0.3218, "sourceProgress": 0.375 },
+        { "outputProgress": 0.7941, "sourceProgress": 0.7 },
+        { "outputProgress": 1, "sourceProgress": 0.9 }
+      ]
+    },
+    {
+      "id": "s08",
+      "title": "她睁开眼",
+      "start": 11.6,
+      "end": 13.6,
+      "plannedSource": "F02_female_awakening_close",
+      "camera": "EYE_PUSH",
+      "timeWarp": "hold",
+      "beatIntent": "在 13.235 秒强 accent 上完成睁眼，制造突然静止的动静反差。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 11.6, "sourceTime": 0.2625 },
+        { "kind": "reveal", "outputTime": 13.235374, "sourceTime": 2.1375, "accentRef": "a13" },
+        { "kind": "hold", "outputTime": 13.45, "sourceTime": 2.4375 },
+        { "kind": "cut", "outputTime": 13.6, "sourceTime": 2.7 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.0875 },
+        { "outputProgress": 0.8177, "sourceProgress": 0.7125 },
+        { "outputProgress": 0.925, "sourceProgress": 0.8125 },
+        { "outputProgress": 1, "sourceProgress": 0.9 }
+      ]
+    },
+    {
+      "id": "s09",
+      "title": "万剑倒转",
+      "start": 13.6,
+      "end": 16.2,
+      "plannedSource": "D03_female_rise_sword_reverse",
+      "camera": "REVERSE_ORBIT",
+      "timeWarp": "settle",
+      "blur": { "scale": 0.35, "maxSamples": 6, "edgeFade": 0.05 },
+      "beatIntent": "她不挥手，只站起；14.903 秒 downbeat 承接万剑转向。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 13.6, "sourceTime": 0.3 },
+        { "kind": "reveal", "outputTime": 13.678367, "sourceTime": 0.8, "accentRef": "beat-23" },
+        { "kind": "impact", "outputTime": 14.902857, "sourceTime": 2.25, "accentRef": "downbeat-06" },
+        { "kind": "hold", "outputTime": 15.515102, "sourceTime": 3.1, "accentRef": "beat-26" },
+        { "kind": "cut", "outputTime": 16.2, "sourceTime": 3.75 }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.075 },
+        { "outputProgress": 0.0301, "sourceProgress": 0.2 },
+        { "outputProgress": 0.5011, "sourceProgress": 0.5625 },
+        { "outputProgress": 0.7366, "sourceProgress": 0.775 },
+        { "outputProgress": 1, "sourceProgress": 0.9375 }
+      ]
+    },
+    {
+      "id": "s10",
+      "title": "你护错人了",
+      "start": 16.2,
+      "end": 18,
+      "plannedSource": "D03_female_rise_sword_reverse",
+      "camera": "FACE_CROSS_LEFT",
+      "timeWarp": "hold",
+      "blur": { "scale": 0.2, "maxSamples": 4, "maxShutterSeconds": 0.003, "disableAtStart": true },
+      "beatIntent": "16.951 秒的 impact 触发万剑前冲；17.964 秒切黑并循环回首帧。",
+      "syncPoints": [
+        { "kind": "gesture-start", "outputTime": 16.2, "sourceTime": 0.25 },
+        { "kind": "hold", "outputTime": 16.739592, "sourceTime": 1.5, "accentRef": "a15" },
+        { "kind": "impact", "outputTime": 16.950567, "sourceTime": 2, "accentRef": "a16" },
+        { "kind": "cut", "outputTime": 17.964082, "sourceTime": 3.8, "accentRef": "beat-30" }
+      ],
+      "timeMap": [
+        { "outputProgress": 0, "sourceProgress": 0.0625 },
+        { "outputProgress": 0.2998, "sourceProgress": 0.375 },
+        { "outputProgress": 0.4169, "sourceProgress": 0.5 },
+        { "outputProgress": 0.9800, "sourceProgress": 0.95 },
+        { "outputProgress": 1, "sourceProgress": 0.975 }
+      ]
+    }
+  ],
+  "reviewGate": "Automatic accents are draft only. Confirm the selected accent map before final storyboard sign-off or paid source generation."
+}

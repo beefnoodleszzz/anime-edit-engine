@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "character": "shaosiming",
+  "references": [
+    {
+      "id": "IMAGE_01_FRONT",
+      "file": "IMAGE_01_FRONT.png",
+      "sha256": "4aa0b2319eca059746909d2e36a8d3f2b5c6a4befea21bbef8457d4a35f72d5a",
+      "view": "front",
+      "framing": "portrait",
+      "strengths": ["face-identity", "eye-shape", "makeup", "headwear"],
+      "recommendedFor": ["EYE", "FACE", "FRONT_CLOSEUP"],
+      "avoidFor": ["BACK_VIEW", "FULL_BODY_MOTION"],
+      "notes": "Clearest eye/face detail of the set; primary reference for any close-up shot."
+    },
+    {
+      "id": "IMAGE_02_LEFT_45",
+      "file": "IMAGE_02_LEFT_45.png",
+      "sha256": "a834041460c716636cbd245afd04bf6d719ce4855fd9ea168e30798ca7fa7874",
+      "view": "left-45",
+      "framing": "portrait",
+      "strengths": ["sleeve/fabric silhouette", "profile face-identity", "hair flow"],
+      "recommendedFor": ["CAPE_TURN", "LOOK_BACK", "PROFILE_CLOSEUP"],
+      "avoidFor": ["FRONT_CLOSEUP"],
+      "notes": "Pairs with IMAGE_03_RIGHT_45 as the start/end poses of a turn."
+    },
+    {
+      "id": "IMAGE_03_RIGHT_45",
+      "file": "IMAGE_03_RIGHT_45.png",
+      "sha256": "821abcd149a8e3353bc58d2b5e22c4a63659082d29dd1aea831c6d50a02ef911",
+      "view": "right-45",
+      "framing": "portrait",
+      "strengths": ["sleeve/fabric silhouette", "profile face-identity", "hair flow"],
+      "recommendedFor": ["CAPE_TURN", "CAPE_EXIT", "LOOK_BACK", "PROFILE_CLOSEUP"],
+      "avoidFor": ["FRONT_CLOSEUP"],
+      "notes": "Pairs with IMAGE_02_LEFT_45 as the start/end poses of a turn; also the exit/turn-away angle."
+    },
+    {
+      "id": "IMAGE_04_FULL_BODY",
+      "file": "IMAGE_04_FULL_BODY.png",
+      "sha256": "2e5faffb0dc563581f04f798a3749277b953d9179eeea98347cade3a7fbac3f8",
+      "view": "full-body",
+      "framing": "full-body",
+      "strengths": ["costume detail", "fan/pendant props", "silhouette", "staircase/moon backdrop"],
+      "recommendedFor": ["FULL_BODY", "DRAW", "ESTABLISHING"],
+      "avoidFor": ["EYE", "FACE"],
+      "notes": "Only reference with full costume + both hero props (fan, yin-yang pendant) visible together."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "generationId": "gen-0007",
+  "kind": "image_to_image",
+  "model": "kling-image-v3_0",
+  "referenceImages": ["materials/jingxuan/references/IMAGE_01_FRONT.png", "materials/jingxuan/references/IMAGE_04_FULL_BODY.png"],
+  "prompt": "以图片1和图片2为同一位镜玄的身份、服装和完整身形参考，生成 JX_APPROACH_001：竖幅9:16、低机位全身到三分之二身的电影首帧。月夜云崖石阶上，镜玄正从远处向镜头方向走近，前脚刚落下，姿态从容而有压迫感，长袍和宽袖自然随步伐摆动，视线平静直视镜头。保留充分的头顶、手部、腰封、衣摆和石阶环境，人物清晰但不做脸部特写。保持图片中的黑色半束长发、浅青银色发冠、白色与青蓝色长袍、银色肩饰和腰封，不改变人物身份。高级国产3D动画，冷月光、干净体积雾、单人。不要文字、水印、其他人物、武器、巨大头冠、角、翅膀、面具、过曝、额外肢体、畸形手、裁切头顶或脚部。",
+  "arguments": { "imgResolution": "2k", "aspectRatio": "9:16", "imageCount": "1" },
+  "submittedAt": "2026-07-11T18:34:28Z",
+  "providerTaskId": "Ae4VI02i3GDqgsu8RgchN_tDAG1dUdRZ2XoUwkAzPWCEgL8TGyMA9rDZoEWbPkusEVK54NAO",
+  "status": "QUEUING",
+  "taskTraceId": "019d7a72-c97f-7c90-8ab4-1234567890ab"
+}
