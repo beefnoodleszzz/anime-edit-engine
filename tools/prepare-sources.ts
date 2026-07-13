@@ -138,7 +138,7 @@ for (const shot of config.timeline.shots) {
     const sourceA = join(decoded, `frame_${String(frameA + 1).padStart(6, '0')}.png`);
     if (manifest.interpolationMode === 'blend' && frameB !== frameA && (frame.blendWeight ?? 0) > 0) {
       const sourceB = join(decoded, `frame_${String(frameB + 1).padStart(6, '0')}.png`);
-      await writeFile(destination, blendPngBuffers(await readFile(sourceA), await readFile(sourceB), frame.blendWeight ?? 0, frame.blendStrength ?? manifest.maxInterpolationWeight));
+      await writeFile(destination, blendPngBuffers(await readFile(sourceA), await readFile(sourceB), frame.blendWeight ?? 0));
     } else await linkOrCopy(sourceA, destination);
   }
   const stagedVideo = join(staging, `${shot.id}.mp4`);

@@ -12,6 +12,7 @@ export class ProjectLoader {
     this.validateImages(project);
     this.validateAudioEvents(timeline);
     if (project.qualityProfile !== undefined && !['legacy', 'cinematic', 'anime-ultra-clear', 'anime-impact', 'custom'].includes(project.qualityProfile)) throw new Error(`Invalid qualityProfile: ${project.qualityProfile}.`);
+    if (project.productionAssetPolicy !== undefined && !['optional', 'required'].includes(project.productionAssetPolicy)) throw new Error(`Invalid productionAssetPolicy: ${project.productionAssetPolicy}.`);
     this.validateQuality(project.quality);
     this.validateAudio(project);
     const sourceIds = new Set(project.sources.map((source) => source.id));

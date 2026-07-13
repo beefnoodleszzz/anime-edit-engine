@@ -14,8 +14,15 @@ export function listImageAssets(project: ProjectManifest): ImageAsset[] {
   return [...(project.images ?? []), ...(project.imageAssets ?? []), ...(project.firstFrames ?? [])];
 }
 
+export function resolveProductionAssetPolicy(project: ProjectManifest): 'optional' | 'required' {
+  if (project.productionAssetPolicy) return project.productionAssetPolicy;
+  return project.qualityProfile && project.qualityProfile !== 'legacy' ? 'required' : 'optional';
+}
+
 export async function validateProjectProductionAssets(project: ProjectManifest): Promise<ProductionAssetValidation[]> {
   const production = listImageAssets(project).filter((asset) => asset.usage === 'production');
+  const policy = resolveProductionAssetPolicy(project);
+  if (policy === 'required' && production.length === 0) throw new Error(`Project ${project.id} requires at least one registered production image asset.`);
   const results: ProductionAssetValidation[] = [];
   for (const asset of production) {
     const png = assertProductionPng(await readFile(asset.file), asset.file);

@@ -4,6 +4,7 @@
   "duration": 16,
   "seed": 3013,
   "audioFile": "projects/003-ta-bajian/audio/audio.json",
+  "productionAssetPolicy": "required",
   "firstFrames": [
     {"id": "FF01_D01_throat_standoff", "file": "projects/003-ta-bajian/references/first-frames/FF01_D01_throat_standoff.png", "usage": "production"},
     {"id": "FF02_M01_male_raise_sword", "file": "projects/003-ta-bajian/references/first-frames/FF02_M01_male_raise_sword.png", "usage": "production"},

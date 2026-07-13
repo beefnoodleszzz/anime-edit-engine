@@ -8,6 +8,7 @@ export type CameraPresetName = 'HERO_CRASH_IN' | 'FACE_CROSS_LEFT' | 'FACE_CROSS
 export type TimeWarpName = 'crash' | 'steady' | 'hold' | 'accelerate' | 'whip' | 'release' | 'settle';
 export type TransitionName = 'COLOR_BRIDGE_CUT' | 'FOREGROUND_OCCLUSION_WIPE' | 'VELOCITY_CUT' | 'WHIP';
 export type AssetUsage = 'concept' | 'production';
+export type ProductionAssetPolicy = 'optional' | 'required';
 export type QualityProfile = 'legacy' | 'cinematic' | 'anime-ultra-clear' | 'anime-impact' | 'custom';
 export type SamplingMode = 'linear' | 'bicubic' | 'bicubic-sharp';
 export type InterpolationMode = 'none' | 'blend';
@@ -57,7 +58,7 @@ export interface AudioEvent { id: string; time: number; type: AudioEventType; st
 export interface ProjectManifest {
   id: string; name: string; duration: number; seed: number; renderModes: Record<RenderModeName, RenderMode>; sources: SourceClip[];
   qualityProfile?: QualityProfile; quality?: QualityConfig; images?: ImageAsset[]; imageAssets?: ImageAsset[]; firstFrames?: ImageAsset[]; qcRegions?: QcRegion[];
-  blurCoordinateSpace?: BlurCoordinateSpace; audioFile?: string; audio?: ProjectAudioManifest;
+  productionAssetPolicy?: ProductionAssetPolicy; blurCoordinateSpace?: BlurCoordinateSpace; audioFile?: string; audio?: ProjectAudioManifest;
 }
 /**
  * Per-shot dial-back on the automatic velocity-driven blur (BlurProfile.ts): source plates with
