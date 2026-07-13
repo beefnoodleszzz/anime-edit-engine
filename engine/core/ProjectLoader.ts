@@ -1,4 +1,4 @@
-import type { ProjectManifest, TimelineManifest, TimelineShot } from '../types';
+import type { ProjectManifest, TimelineManifest, TimelineShot, QualityConfig, QcRegion, AudioTrack } from '../types';
 
 export interface ProjectConfig { project: ProjectManifest; timeline: TimelineManifest; }
 
@@ -9,6 +9,9 @@ export class ProjectLoader {
     const { project, timeline } = config;
     if (project.duration <= 0 || !Number.isFinite(project.duration)) throw new Error('Project duration must be positive.');
     if (timeline.shots.length === 0) throw new Error('Timeline requires at least one shot.');
+    this.validateImages(project);
+    this.validateAudioEvents(timeline);
+    this.validateQuality(project.quality);
     this.validateAudio(project);
     const sourceIds = new Set(project.sources.map((source) => source.id));
     const maxBlurSamples = Math.max(...Object.values(project.renderModes).map((mode) => mode.blurSamples));
@@ -20,8 +23,11 @@ export class ProjectLoader {
       const range = source.heroRanges[shot.rangeIndex];
       if (!range || range.start < 0 || range.end > source.duration || range.end <= range.start) throw new Error(`Invalid hero range for ${shot.id}.`);
       this.validateBlurOverride(shot, maxBlurSamples);
+      this.validateBlurWindows(project, shot, maxBlurSamples);
+      this.validateInterpolation(shot);
+      this.validateCamera(shot);
       this.validatePostFXOverride(shot);
-      this.validateSyncMap(shot, range.start, range.end);
+      this.validateSyncMap(timeline, shot, source, range.start, range.end);
       previousEnd = shot.end; previousId = shot.id;
     }
     if (Math.abs(previousEnd - project.duration) > 0.0001) throw new Error('Timeline must end at project duration.');
@@ -30,7 +36,7 @@ export class ProjectLoader {
   }
 
   private static validateAudio(project: ProjectManifest): void {
-    const tracks = [project.audio?.music, ...(project.audio?.voice ?? []), ...(project.audio?.sfx ?? [])].filter(Boolean);
+    const tracks = this.audioTracks(project);
     for (const track of tracks) {
       if (!track?.file) throw new Error('Audio track file is required.');
       if (track.start !== undefined && (!Number.isFinite(track.start) || track.start < 0)) throw new Error(`Audio track start is invalid: ${track.start}.`);
@@ -40,6 +46,46 @@ export class ProjectLoader {
       }
     }
     if (project.audio?.masterGainDb !== undefined && !Number.isFinite(project.audio.masterGainDb)) throw new Error(`Audio masterGainDb is invalid: ${project.audio.masterGainDb}.`);
+  }
+
+  private static audioTracks(project: ProjectManifest): AudioTrack[] {
+    return [
+      ...(project.audio?.tracks ?? []), project.audio?.music, ...(project.audio?.voice ?? []), ...(project.audio?.sfx ?? []),
+    ].filter((track): track is AudioTrack => Boolean(track));
+  }
+
+  private static validateImages(project: ProjectManifest): void {
+    const ids = new Set<string>();
+    const validateRegion = (region: QcRegion): void => {
+      if (!region.id || [region.x, region.y, region.width, region.height].some((value) => !Number.isFinite(value))) throw new Error(`Invalid QC region ${region.id}.`);
+      if (region.x < 0 || region.y < 0 || region.width <= 0 || region.height <= 0 || region.x + region.width > 1 || region.y + region.height > 1) throw new Error(`QC region ${region.id} must fit within normalized [0, 1] bounds.`);
+    };
+    for (const region of project.qcRegions ?? []) validateRegion(region);
+    for (const image of [...(project.images ?? []), ...(project.imageAssets ?? []), ...(project.firstFrames ?? [])]) {
+      if (ids.has(image.id)) throw new Error(`Duplicate image asset id: ${image.id}.`);
+      ids.add(image.id);
+      if (!image.file || !['concept', 'production'].includes(image.usage)) throw new Error(`Image asset ${image.id} needs a valid file and usage.`);
+      for (const region of image.qcRegions ?? []) validateRegion(region);
+    }
+  }
+
+  private static validateAudioEvents(timeline: TimelineManifest): void {
+    const ids = new Set<string>();
+    for (const event of timeline.audioEvents ?? []) {
+      if (ids.has(event.id)) throw new Error(`Duplicate audio event id: ${event.id}.`);
+      ids.add(event.id);
+      if (!event.id || !Number.isFinite(event.time) || event.time < 0 || !['automatic', 'manual'].includes(event.source)) throw new Error(`Invalid audio event: ${event.id}.`);
+      if (event.strength !== undefined && (!Number.isFinite(event.strength) || event.strength < 0 || event.strength > 1)) throw new Error(`Invalid audio event strength: ${event.id}.`);
+    }
+  }
+
+  private static validateQuality(quality: QualityConfig | undefined): void {
+    if (!quality) return;
+    const values = [quality.glow, quality.chromatic, quality.grain, quality.clarity, quality.contrast, quality.saturation].filter((value): value is number => value !== undefined);
+    if (values.some((value) => !Number.isFinite(value) || value < 0)) throw new Error('Quality values must be finite and non-negative.');
+    const sharpen = typeof quality.sharpen === 'number' ? { amount: quality.sharpen } : quality.sharpen;
+    if (sharpen && Object.values(sharpen).some((value) => value !== undefined && (!Number.isFinite(value) || value < 0))) throw new Error('Quality sharpen values must be finite and non-negative.');
+    if (quality.samplingMode !== undefined && !['linear', 'bicubic', 'bicubic-sharp'].includes(quality.samplingMode)) throw new Error(`Invalid quality samplingMode: ${quality.samplingMode}.`);
   }
 
   /** maxSamples is checked against the highest blurSamples ceiling across all render modes (not just the mode being rendered right now) so a shot's override is valid regardless of which mode later renders it. */
@@ -52,21 +98,65 @@ export class ProjectLoader {
     if (blur.maxShutterSeconds !== undefined && blur.maxShutterSeconds < 0) throw new Error(`Invalid blur.maxShutterSeconds for ${shot.id}: ${blur.maxShutterSeconds} (must be >= 0).`);
   }
 
-  private static validatePostFXOverride(shot: TimelineShot): void {
-    for (const [name, value] of Object.entries(shot.postFX ?? {})) {
-      if (value !== undefined && (!Number.isFinite(value) || value < 0)) throw new Error(`Invalid shot postFX ${name} for ${shot.id}: ${value}.`);
+  private static validateBlurWindows(project: ProjectManifest, shot: TimelineShot, maxBlurSamples: number): void {
+    const coordinateSpace = project.blurCoordinateSpace ?? 'progress';
+    let previousEnd = -Infinity;
+    for (const window of shot.blurWindows ?? []) {
+      const start = coordinateSpace === 'progress' ? window.startProgress : window.startTime;
+      const end = coordinateSpace === 'progress' ? window.endProgress : window.endTime;
+      if (start === undefined || end === undefined || !Number.isFinite(start) || !Number.isFinite(end) || end <= start) throw new Error(`Invalid blur window for ${shot.id}.`);
+      const min = coordinateSpace === 'progress' ? 0 : shot.start;
+      const max = coordinateSpace === 'progress' ? 1 : shot.end;
+      if (start < min || end > max || start < previousEnd) throw new Error(`Blur windows must be ordered and inside the shot for ${shot.id}.`);
+      if (!Number.isFinite(window.strength) || window.strength < 0 || window.strength > 1) throw new Error(`Invalid blur window strength for ${shot.id}.`);
+      if (window.maxSamples !== undefined && (window.maxSamples < 1 || window.maxSamples > maxBlurSamples)) throw new Error(`Invalid blur window maxSamples for ${shot.id}.`);
+      if (window.maxShutterSeconds !== undefined && (!Number.isFinite(window.maxShutterSeconds) || window.maxShutterSeconds < 0)) throw new Error(`Invalid blur window maxShutterSeconds for ${shot.id}.`);
+      for (const fade of [window.fadeIn, window.fadeOut]) if (fade !== undefined && (!Number.isFinite(fade) || fade < 0)) throw new Error(`Invalid blur window fade for ${shot.id}.`);
+      previousEnd = end;
     }
   }
 
-  private static validateSyncMap(shot: TimelineShot, rangeStart: number, rangeEnd: number): void {
+  private static validateInterpolation(shot: TimelineShot): void {
+    if (!shot.interpolation) return;
+    if (!['none', 'blend'].includes(shot.interpolation.mode)) throw new Error(`Invalid interpolation mode for ${shot.id}.`);
+    if (shot.interpolation.maxWeight !== undefined && (!Number.isFinite(shot.interpolation.maxWeight) || shot.interpolation.maxWeight < 0 || shot.interpolation.maxWeight > 1)) throw new Error(`Invalid interpolation maxWeight for ${shot.id}.`);
+  }
+
+  private static validateCamera(shot: TimelineShot): void {
+    if (typeof shot.camera === 'string') return;
+    if (!shot.camera?.keyframes || shot.camera.keyframes.length < 2) throw new Error(`Camera keyframes require at least two points for ${shot.id}.`);
+    let previous = -Infinity;
+    for (const keyframe of shot.camera.keyframes) {
+      if (!Number.isFinite(keyframe.time) || keyframe.time < 0 || keyframe.time > 1 || keyframe.time < previous) throw new Error(`Camera keyframes must be monotonic in [0, 1] for ${shot.id}.`);
+      if (keyframe.scale !== undefined && (!Number.isFinite(keyframe.scale) || keyframe.scale <= 0)) throw new Error(`Camera scale is invalid for ${shot.id}.`);
+      previous = keyframe.time;
+    }
+  }
+
+  private static validatePostFXOverride(shot: TimelineShot): void {
+    const override = shot.postFX;
+    if (!override) return;
+    for (const [name, value] of Object.entries({ glow: override.glow, chromatic: override.chromatic, grain: override.grain, clarity: override.clarity, contrast: override.contrast, saturation: override.saturation })) if (value !== undefined && (!Number.isFinite(value) || value < 0)) throw new Error(`Invalid shot postFX ${name} for ${shot.id}: ${value}.`);
+    if (override.samplingMode !== undefined && !['linear', 'bicubic', 'bicubic-sharp'].includes(override.samplingMode)) throw new Error(`Invalid shot postFX samplingMode for ${shot.id}.`);
+    const sharpen = typeof override.sharpen === 'number' ? { amount: override.sharpen } : override.sharpen;
+    if (sharpen && Object.values(sharpen).some((value) => value !== undefined && (!Number.isFinite(value) || value < 0))) throw new Error(`Invalid shot sharpen config for ${shot.id}.`);
+  }
+
+  private static validateSyncMap(timeline: TimelineManifest, shot: TimelineShot, source: ProjectManifest['sources'][number], rangeStart: number, rangeEnd: number): void {
     const syncPoints = shot.syncPoints ?? [];
     let previousOutput = -Infinity;
     let previousSource = -Infinity;
     for (const point of syncPoints) {
-      if (!Number.isFinite(point.outputTime) || point.outputTime < shot.start || point.outputTime > shot.end) throw new Error(`Invalid sync point outputTime for ${shot.id}: ${point.outputTime}.`);
-      if (!Number.isFinite(point.sourceTime) || point.sourceTime < rangeStart || point.sourceTime > rangeEnd) throw new Error(`Invalid sync point sourceTime for ${shot.id}: ${point.sourceTime}.`);
-      if (point.outputTime < previousOutput || point.sourceTime < previousSource) throw new Error(`Sync points must be monotonic for ${shot.id}.`);
-      previousOutput = point.outputTime; previousSource = point.sourceTime;
+      const marker = point.markerRef ? source.markers?.find((candidate) => candidate.id === point.markerRef) : undefined;
+      const event = point.audioEventRef ? timeline.audioEvents?.find((candidate) => candidate.id === point.audioEventRef) : undefined;
+      if (point.markerRef && !marker) throw new Error(`Unknown source marker ${point.markerRef} for ${shot.id}.`);
+      if (point.audioEventRef && !event) throw new Error(`Unknown audio event ${point.audioEventRef} for ${shot.id}.`);
+      const outputTime = event?.time ?? point.outputTime;
+      const sourceTime = marker?.sourceTime ?? point.sourceTime;
+      if (!Number.isFinite(outputTime) || outputTime! < shot.start || outputTime! > shot.end) throw new Error(`Invalid sync point outputTime for ${shot.id}: ${outputTime}.`);
+      if (!Number.isFinite(sourceTime) || sourceTime! < rangeStart || sourceTime! > rangeEnd) throw new Error(`Invalid sync point sourceTime for ${shot.id}: ${sourceTime}.`);
+      if (outputTime! < previousOutput || sourceTime! < previousSource) throw new Error(`Sync points must be monotonic for ${shot.id}.`);
+      previousOutput = outputTime!; previousSource = sourceTime!;
     }
     let previousMapOutput = -Infinity;
     let previousMapSource = -Infinity;

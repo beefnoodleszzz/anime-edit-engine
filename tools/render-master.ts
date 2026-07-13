@@ -4,9 +4,9 @@ import { execFileSync } from 'node:child_process';
 import { createRenderContext } from '../engine/core/RenderContext';
 import { validateMasterStream, validateFirstFrame, validateDeliveryDuration, type ProbeStream } from '../engine/core/MasterValidation';
 import { analyzePngPixels } from '../engine/core/PngPixels';
-import { resolveProjectId, loadAudioManifest, loadProjectConfig } from './project-io';
+import { resolveProjectId, loadAudioManifest, loadProjectConfig, listAudioTracks } from './project-io';
 
-const { project } = await loadProjectConfig(resolveProjectId());
+const { project, timeline } = await loadProjectConfig(resolveProjectId());
 const context = createRenderContext(project, 'master'); const frames = 'renders/frames'; const masterDir = `renders/master/${project.id}`;
 // Master capture and delivery intentionally share the project's configured 60FPS default.
 // This keeps frame-exact motion, blur, validation, and the final CFR file on one clock instead
@@ -14,7 +14,7 @@ const context = createRenderContext(project, 'master'); const frames = 'renders/
 const MASTER_DELIVERY_FPS = context.fps;
 const master = `${masterDir}/master-4k-${MASTER_DELIVERY_FPS}.mp4`;
 const audioManifest = await loadAudioManifest(project);
-const audioTracks = [audioManifest?.music, ...(audioManifest?.voice ?? []), ...(audioManifest?.sfx ?? [])].filter(Boolean);
+const audioTracks = listAudioTracks(audioManifest);
 const silentMaster = audioTracks.length > 0 ? `${masterDir}/master-4k-${MASTER_DELIVERY_FPS}.silent.mp4` : master;
 const expectedFrameCount = Math.round(project.duration * context.fps);
 await rm(frames, { recursive: true, force: true }); await mkdir(frames, { recursive: true }); await mkdir(masterDir, { recursive: true });
@@ -48,6 +48,7 @@ validateFirstFrame(firstFrameAnalysis);
 execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', String(startNumber), '-i', `${frames}/frame_%06d.png`, '-frames:v', String(expectedFrameCount),
   '-r', String(MASTER_DELIVERY_FPS), '-fps_mode', 'cfr',
   '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-maxrate', '80M', '-bufsize', '160M', '-profile:v', 'high', '-level:v', '5.2', '-pix_fmt', 'yuv420p',
+  '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709',
   '-video_track_timescale', '60000', '-movflags', '+faststart', silentMaster], { stdio: 'inherit' });
 if (audioTracks.length > 0) {
   execFileSync('npx', ['tsx', 'tools/mix-audio.ts', '--input', silentMaster, '--output', master], { stdio: 'inherit' });
@@ -59,6 +60,21 @@ const ffprobe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_stre
 const stream = ffprobe.streams[0]; if (!stream) throw new Error('ffprobe found no video stream.'); const result = validateMasterStream(stream, context, project.duration, pngs.length, MASTER_DELIVERY_FPS);
 const streamDuration = Number(stream.duration); const formatDuration = Number(ffprobe.format?.duration);
 validateDeliveryDuration(streamDuration, formatDuration, project.duration, MASTER_DELIVERY_FPS);
+let audioValidation: unknown = undefined;
+if (audioTracks.length > 0) {
+  const audioProbe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'a:0', '-show_entries', 'stream=codec_name,sample_rate,channels,duration:format=duration', '-of', 'json', master], { encoding: 'utf8' })) as { streams: Array<{ codec_name?: string; sample_rate?: string; channels?: number; duration?: string }> };
+  const audio = audioProbe.streams[0];
+  if (!audio || audio.codec_name !== 'aac' || audio.sample_rate !== '48000' || audio.channels !== 2) throw new Error(`Final audio stream must be AAC 48kHz stereo: ${JSON.stringify(audio)}.`);
+  validateDeliveryDuration(Number(audio.duration), Number(audio.duration), project.duration, MASTER_DELIVERY_FPS);
+  audioValidation = audio;
+}
+const preparedReports = await Promise.all(timeline.shots.map(async (shot) => {
+  const path = `cache/prepared/${project.id}/${shot.id}/${shot.id}.manifest.json`;
+  try { return JSON.parse(await readFile(path, 'utf8')); } catch { return undefined; }
+}));
+const prepared = preparedReports.filter(Boolean) as Array<{ interpolationMode?: string; duplicateFrameRatio?: number; blendFrameRatio?: number }>;
+const sourceFpsValues = [...new Set(timeline.shots.map((shot) => project.sources.find((source) => source.id === shot.source)!.fps))];
+const motionReport = { sourceFps: sourceFpsValues.length === 1 ? sourceFpsValues[0] : sourceFpsValues, deliveryFps: context.fps, duplicateFrameRatio: prepared.reduce((sum, item) => sum + (item.duplicateFrameRatio ?? 0), 0) / Math.max(1, prepared.length), blendFrameRatio: prepared.reduce((sum, item) => sum + (item.blendFrameRatio ?? 0), 0) / Math.max(1, prepared.length), interpolationMode: [...new Set(prepared.map((item) => item.interpolationMode ?? 'none'))].join(',') };
 const report = {
   mode: context.mode, width: context.width, height: context.height, captureFps: context.fps, deliveryFps: MASTER_DELIVERY_FPS, durationSeconds: project.duration,
   expectedFrameCount: result.expectedFrameCount, pngFrameCount: pngs.length, deliveryFrameCount: result.deliveryFrameCount, encodedFrameCount: Number(stream.nb_read_frames), codec: stream.codec_name,
@@ -66,6 +82,8 @@ const report = {
   streamDuration, formatDuration, timeBase: stream.time_base, profile: stream.profile,
   level: stream.level, pixelFormat: stream.pix_fmt, bitRate: Number(stream.bit_rate ?? ffprobe.format?.bit_rate),
   rFrameRate: stream.r_frame_rate, avgFrameRate: stream.avg_frame_rate,
+  sourceFps: motionReport.sourceFps, duplicateFrameRatio: motionReport.duplicateFrameRatio, blendFrameRatio: motionReport.blendFrameRatio, interpolationMode: motionReport.interpolationMode,
+  motion: motionReport, audio: audioValidation,
   hyperFramesConfig: { composition: 'generated compositions/.master.render.html', width: 2160, height: 3840, fps: context.fps },
   engineRenderContext: context, preparedSources: project.id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size,
 };

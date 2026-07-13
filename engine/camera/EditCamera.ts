@@ -1,10 +1,37 @@
-import type { CameraPresetName, CameraVelocity, EditTransform } from '../types';
+import type { CameraEasing, CameraKeyframeConfig, CameraPresetName, CameraVelocity, EditTransform } from '../types';
 
 type Easing = 'linear' | 'smooth' | 'expoIn' | 'expoOut' | 'expoInOut' | 'power4In' | 'power4Out' | 'hold' | 'overshoot';
-type Keyframe = EditTransform & { at: number; easing?: Easing };
+type Keyframe = EditTransform & { at: number; easing?: CameraEasing; cubicBezier?: [number, number, number, number] };
 const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
-const ease = (name: Easing, value: number): number => { const t = clamp01(value); switch (name) { case 'linear': return t; case 'expoIn': return t === 0 ? 0 : 2 ** (10 * t - 10); case 'expoOut': return t === 1 ? 1 : 1 - 2 ** (-10 * t); case 'expoInOut': return t < 0.5 ? 2 ** (20 * t - 11) : 1 - 2 ** (-20 * t + 10); case 'power4In': return t ** 4; case 'power4Out': return 1 - (1 - t) ** 4; case 'hold': return t < 0.96 ? 0 : (t - 0.96) / 0.04; case 'overshoot': return 1 + 2.70158 * (t - 1) ** 3 + 1.70158 * (t - 1) ** 2; default: return t * t * (3 - 2 * t); } };
-const base = (at: number, partial: Partial<EditTransform> & Partial<Pick<Keyframe, 'easing'>>): Keyframe => ({ at, scale: 1, x: 0, y: 0, rotation: 0, pivotX: 0.5, pivotY: 0.5, ...partial });
+const cubic = (a: number, b: number, c: number, d: number, t: number): number => {
+  const inverse = (x: number): number => {
+    let lo = 0; let hi = 1;
+    for (let i = 0; i < 16; i += 1) {
+      const u = (lo + hi) / 2;
+      const value = 3 * (1 - u) ** 2 * u * a + 3 * (1 - u) * u ** 2 * c + u ** 3;
+      if (value < x) lo = u; else hi = u;
+    }
+    return (lo + hi) / 2;
+  };
+  const u = inverse(clamp01(t));
+  return 3 * (1 - u) ** 2 * u * b + 3 * (1 - u) * u ** 2 * d + u ** 3;
+};
+const ease = (name: CameraEasing | Easing | undefined, value: number, bezier?: [number, number, number, number]): number => {
+  const t = clamp01(value);
+  if (name === 'cubic-bezier' && bezier) return cubic(...bezier, t);
+  switch (name) {
+    case 'linear': return t;
+    case 'ease-in': case 'power4In': return t ** 4;
+    case 'ease-out': case 'power4Out': return 1 - (1 - t) ** 4;
+    case 'ease-in-out': case 'expoInOut': return t < 0.5 ? 2 ** (20 * t - 11) : 1 - 2 ** (-20 * t + 10);
+    case 'expoIn': return t === 0 ? 0 : 2 ** (10 * t - 10);
+    case 'expoOut': return t === 1 ? 1 : 1 - 2 ** (-10 * t);
+    case 'hold': return t < 0.96 ? 0 : (t - 0.96) / 0.04;
+    case 'overshoot': return 1 + 2.70158 * (t - 1) ** 3 + 1.70158 * (t - 1) ** 2;
+    default: return t * t * (3 - 2 * t);
+  }
+};
+const base = (at: number, partial: Partial<EditTransform> & Partial<Pick<Keyframe, 'easing' | 'cubicBezier'>>): Keyframe => ({ at, scale: 1, x: 0, y: 0, rotation: 0, pivotX: 0.5, pivotY: 0.5, ...partial });
 
 const PRESETS: Record<CameraPresetName, readonly Keyframe[]> = {
   HERO_CRASH_IN: [base(0, { scale: 1.04, y: 0.02, easing: 'expoOut' }), base(0.10, { scale: 1.24, y: -0.04, easing: 'power4Out' }), base(0.65, { scale: 1.19, y: -0.02, easing: 'hold' }), base(0.85, { scale: 1.19, y: -0.02, easing: 'expoIn' }), base(1, { scale: 1.24, y: -0.035, easing: 'expoIn' })],
@@ -29,17 +56,26 @@ export const shortestAngleDelta = (a: number, b: number): number => ((((b - a + 
 /** Shortest-arc angle interpolation: the swept path never exceeds 180 degrees either direction. */
 export const angleLerp = (a: number, b: number, progress: number): number => a + shortestAngleDelta(a, b) * progress;
 export class EditCamera {
-  public resolve(name: CameraPresetName, progress: number): EditTransform {
-    const points = PRESETS[name];
+  private points(camera: CameraPresetName | CameraKeyframeConfig): readonly Keyframe[] {
+    if (typeof camera === 'string') return PRESETS[camera];
+    let previous = base(0, {});
+    return camera.keyframes.map((keyframe) => {
+      previous = { ...previous, at: keyframe.time, ...Object.fromEntries(Object.entries(keyframe).filter(([key]) => key !== 'time')) } as Keyframe;
+      return previous;
+    });
+  }
+
+  public resolve(name: CameraPresetName | CameraKeyframeConfig, progress: number): EditTransform {
+    const points = this.points(name);
     const p = clamp01(progress);
     const rightIndex = points.findIndex((point) => point.at >= p);
     const right = points[rightIndex < 0 ? points.length - 1 : rightIndex]!;
     const left = points[Math.max(0, rightIndex - 1)]!;
-    const segment = right.at === left.at ? 1 : ease(left.easing ?? 'smooth', (p - left.at) / (right.at - left.at));
+    const segment = right.at === left.at ? 1 : ease(left.easing ?? 'custom', (p - left.at) / (right.at - left.at), left.cubicBezier);
     return { scale: Math.exp(lerp(Math.log(left.scale), Math.log(right.scale), segment)), x: lerp(left.x, right.x, segment), y: lerp(left.y, right.y, segment), rotation: angleLerp(left.rotation, right.rotation, segment), pivotX: lerp(left.pivotX, right.pivotX, segment), pivotY: lerp(left.pivotY, right.pivotY, segment) };
   }
 
-  public velocity(name: CameraPresetName, progress: number, frameDeltaSeconds: number, shotDurationSeconds: number): CameraVelocity {
+  public velocity(name: CameraPresetName | CameraKeyframeConfig, progress: number, frameDeltaSeconds: number, shotDurationSeconds: number): CameraVelocity {
     const progressDelta = frameDeltaSeconds / Math.max(shotDurationSeconds, 0.000001);
     const a = this.resolve(name, Math.max(0, progress - progressDelta));
     const b = this.resolve(name, Math.min(1, progress + progressDelta));

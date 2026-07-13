@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { resolveProjectId, loadAudioManifest, loadProjectConfig } from './project-io';
+import { resolveProjectId, loadAudioManifest, loadProjectConfig, listAudioTracks } from './project-io';
 
 const valueAfter = (flag: string): string | undefined => {
   const index = process.argv.indexOf(flag);
@@ -11,9 +11,9 @@ const inputVideo = valueAfter('--input');
 const outputVideo = valueAfter('--output');
 if (!inputVideo || !outputVideo) throw new Error('Usage: npm run mix-audio -- --input silent.mp4 --output final.mp4');
 
-const { project } = await loadProjectConfig(resolveProjectId());
+const { project, timeline } = await loadProjectConfig(resolveProjectId());
 const audioManifest = await loadAudioManifest(project);
-const tracks = [audioManifest?.music, ...(audioManifest?.voice ?? []), ...(audioManifest?.sfx ?? [])].filter(Boolean);
+const tracks = listAudioTracks(audioManifest);
 if (tracks.length === 0) {
   console.log('No project audio tracks configured; leaving the silent master unchanged.');
   process.exit(0);
@@ -25,13 +25,15 @@ const ffmpegArgs = ['-y', '-i', inputVideo];
 for (const track of tracks) ffmpegArgs.push('-i', track!.file);
 
 const filterInputs = tracks.map((track, index) => {
-  const delayMs = Math.max(0, Math.round((track!.start ?? 0) * 1000));
-  const volume = track!.volume ?? 1;
-  const gainDb = track!.gainDb ?? 0;
-  const trimStart = track!.trimStart ?? 0;
-  const trimDuration = track!.duration ? `:duration=${track!.duration}` : '';
-  const fadeIn = track!.fadeIn ? `,afade=t=in:st=0:d=${track!.fadeIn}` : '';
-  const fadeOut = track!.fadeOut ? `,afade=t=out:st=${Math.max(0, (track!.duration ?? project.duration) - track!.fadeOut)}:d=${track!.fadeOut}` : '';
+  const eventTime = track.syncEventRef ? timeline.audioEvents?.find((event) => event.id === track.syncEventRef)?.time : undefined;
+  if (track.syncEventRef && eventTime === undefined) throw new Error(`Audio track ${track.id ?? index} references unknown event ${track.syncEventRef}.`);
+  const delayMs = Math.max(0, Math.round((eventTime ?? track.start ?? 0) * 1000));
+  const volume = track.volume ?? 1;
+  const gainDb = track.gainDb ?? 0;
+  const trimStart = track.trimStart ?? 0;
+  const trimDuration = track.duration ? `:duration=${track.duration}` : '';
+  const fadeIn = track.fadeIn ? `,afade=t=in:st=0:d=${track.fadeIn}` : '';
+  const fadeOut = track.fadeOut ? `,afade=t=out:st=${Math.max(0, (track.duration ?? project.duration) - track.fadeOut)}:d=${track.fadeOut}` : '';
   return `[${index + 1}:a]atrim=start=${trimStart}${trimDuration},asetpts=PTS-STARTPTS${fadeIn}${fadeOut},adelay=${delayMs}|${delayMs},volume=${volume},volume=${gainDb}dB[a${index}]`;
 });
 const labels = tracks.map((_, index) => `[a${index}]`).join('');

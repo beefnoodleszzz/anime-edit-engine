@@ -1,4 +1,4 @@
-import type { BlurProfile, CameraVelocity, FrameContext, ProjectManifest, ShotBlurOverride, TimelineManifest, TimeMapPoint, TransitionState } from '../types';
+import type { BlurProfile, CameraVelocity, FrameContext, ProjectManifest, ShotBlurOverride, TimelineManifest, TransitionState, BlurWindow } from '../types';
 import type { RenderContext } from '../types';
 import { assertFrameContext } from '../core/FrameContext';
 import { EditCamera } from '../camera/EditCamera';
@@ -6,10 +6,13 @@ import { SourceLibrary } from '../source/SourceLibrary';
 import { VelocityEnvelope } from './VelocityEnvelope';
 import { ShotTimeline } from './ShotTimeline';
 import { resolveBlurProfile } from '../compositor/BlurProfile';
+import { mergeQualityConfig, resolveQualityConfig, samplingModeForRender } from '../compositor/QualityProfile';
+import { resolveShotTimeMap } from '../timing/SyncPointResolver';
 
 export class Director {
   private readonly project: ProjectManifest;
   private readonly timeline: ShotTimeline;
+  private readonly timelineManifest: TimelineManifest;
   private readonly sourceLibrary: SourceLibrary;
   private readonly context: RenderContext;
   private readonly warp = new VelocityEnvelope();
@@ -17,6 +20,7 @@ export class Director {
 
   public constructor(project: ProjectManifest, timeline: TimelineManifest, context: RenderContext) {
     this.project = project;
+    this.timelineManifest = timeline;
     this.timeline = new ShotTimeline(timeline.shots);
     this.sourceLibrary = new SourceLibrary(project.sources);
     this.context = context;
@@ -34,10 +38,15 @@ export class Director {
     const shotDuration = shot.end - shot.start;
     const transition = this.transition(shot, progress);
     const velocity = this.camera.velocity(shot.camera, progress, this.context.frameDeltaSeconds, shotDuration);
-    const automaticBlur = resolveBlurProfile(Math.min(1, velocity.magnitude + this.transitionBlur(transition)), this.context);
+    const legacyAutomatic = !this.project.qualityProfile && !this.project.quality && !shot.blurWindows && !shot.interpolation;
+    const automaticBlur = shot.blurWindows?.length
+      ? this.resolveBlurWindows(shot.blurWindows, progress, shot.start, shotDuration)
+      : legacyAutomatic
+        ? resolveBlurProfile(Math.min(1, velocity.magnitude + this.transitionBlur(transition)), this.context)
+        : { strength: 0, samples: 1, shutterSeconds: 0 };
     const blur = this.applyShotBlurOverride(automaticBlur, shot.blur, progress, shotDuration);
     const transformPath = this.transformPath(shot.camera, progress, shotDuration, blur);
-    const postFX = this.applyShotPostFX({ glow: 0.18, chromatic: Math.min(0.006, velocity.magnitude * 0.0035), grain: 0.016, sharpen: velocity.magnitude < 0.15 ? 0.13 : 0.08 }, shot.postFX);
+    const postFX = this.applyShotPostFX(shot.postFX);
     const frame: FrameContext = { time, frameIndex: Math.round(time * this.context.fps), shot, source, sourceTime, transform, transformPath, velocity, blur, transition, postFX };
     return assertFrameContext(frame);
   }
@@ -45,7 +54,7 @@ export class Director {
   private transitionBlur(state: TransitionState): number { return state.kind ? Math.sin(Math.PI * state.progress) * 0.55 : 0; }
 
   private resolveSourceProgress(shot: FrameContext['shot'], outputProgress: number, rangeStart: number, rangeEnd: number): number {
-    const timeMap = shot.timeMap ?? this.deriveTimeMap(shot, rangeStart, rangeEnd);
+    const timeMap = resolveShotTimeMap(shot, this.sourceLibrary.get(shot.source), this.timelineManifest, rangeStart, rangeEnd);
     if (timeMap.length === 0) return this.warp.map(shot.timeWarp, outputProgress);
     const rightIndex = timeMap.findIndex((point) => point.outputProgress >= outputProgress);
     const right = timeMap[rightIndex < 0 ? timeMap.length - 1 : rightIndex]!;
@@ -55,23 +64,27 @@ export class Director {
     return Math.max(0, Math.min(1, left.sourceProgress + (right.sourceProgress - left.sourceProgress) * ratio));
   }
 
-  private deriveTimeMap(shot: FrameContext['shot'], rangeStart: number, rangeEnd: number): readonly TimeMapPoint[] {
-    if (!shot.syncPoints?.length) return [];
-    const points: TimeMapPoint[] = [
-      { outputProgress: 0, sourceProgress: 0 },
-      ...shot.syncPoints.map((point) => ({
-        outputProgress: (point.outputTime - shot.start) / (shot.end - shot.start),
-        sourceProgress: (point.sourceTime - rangeStart) / (rangeEnd - rangeStart),
-      })),
-      { outputProgress: 1, sourceProgress: 1 },
-    ];
-    const deduped: TimeMapPoint[] = [];
-    for (const point of points) {
-      const previous = deduped.at(-1);
-      if (previous && Math.abs(previous.outputProgress - point.outputProgress) < 0.000001) deduped[deduped.length - 1] = point;
-      else deduped.push(point);
-    }
-    return deduped;
+  private resolveBlurWindows(windows: readonly BlurWindow[], progress: number, shotStart: number, shotDurationSeconds: number): BlurProfile {
+    const coordinateSpace = this.project.blurCoordinateSpace ?? 'progress';
+    const active = windows.map((window) => {
+      const start = coordinateSpace === 'progress' ? window.startProgress! : window.startTime!;
+      const end = coordinateSpace === 'progress' ? window.endProgress! : window.endTime!;
+      const position = coordinateSpace === 'progress' ? progress : shotStart + progress * shotDurationSeconds;
+      if (position < start || position > end) return undefined;
+      const fadeIn = window.fadeIn ? Math.min(1, (position - start) / window.fadeIn) : 1;
+      const fadeOut = window.fadeOut ? Math.min(1, (end - position) / window.fadeOut) : 1;
+      return { window, strength: window.strength * Math.min(fadeIn, fadeOut) };
+    }).filter((value): value is { window: BlurWindow; strength: number } => Boolean(value));
+    const selected = active.at(-1);
+    if (!selected || selected.strength <= 0) return { strength: 0, samples: 1, shutterSeconds: 0 };
+    const { window, strength } = selected;
+    const sampleCeiling = Math.min(this.context.blurSamples, window.maxSamples ?? this.context.blurSamples);
+    if (sampleCeiling <= 1) return { strength, samples: 1, shutterSeconds: 0 };
+    return {
+      strength,
+      samples: Math.max(2, Math.min(sampleCeiling, Math.round(2 + strength * (sampleCeiling - 2)))),
+      shutterSeconds: Math.min(window.maxShutterSeconds ?? Infinity, this.context.frameDeltaSeconds * (0.25 + strength * 0.75)),
+    };
   }
 
   /**
@@ -86,7 +99,7 @@ export class Director {
     if (!override) return blur;
     const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
     const sampleCeiling = Math.min(this.context.blurSamples, override.maxSamples ?? this.context.blurSamples);
-    const reconverge = (strength: number): number => (strength <= 0 ? 1 : Math.max(2, Math.min(sampleCeiling, Math.round(2 + strength * (sampleCeiling - 2)))));
+    const reconverge = (strength: number): number => (strength <= 0 || sampleCeiling <= 1 ? 1 : Math.max(2, Math.min(sampleCeiling, Math.round(2 + strength * (sampleCeiling - 2)))));
 
     let strength = blur.strength;
     let shutterSeconds = blur.shutterSeconds;
@@ -132,9 +145,21 @@ export class Director {
     });
   }
 
-  private applyShotPostFX(base: FrameContext['postFX'], override: FrameContext['shot']['postFX']): FrameContext['postFX'] {
-    if (!override) return base;
-    return { glow: override.glow ?? base.glow, chromatic: override.chromatic ?? base.chromatic, grain: override.grain ?? base.grain, sharpen: override.sharpen ?? base.sharpen };
+  private applyShotPostFX(override: FrameContext['shot']['postFX']): FrameContext['postFX'] {
+    const base = resolveQualityConfig(this.project);
+    const merged = mergeQualityConfig(base, override);
+    const sharpen = typeof override?.sharpen === 'number' ? { ...merged.sharpen, amount: override.sharpen } : merged.sharpen;
+    return {
+      ...merged,
+      sharpen,
+      chromatic: merged.chromatic,
+      samplingMode: samplingModeForRender(this.context.mode, merged.samplingMode),
+      // Keep the velocity parameter available to the frame model for reports while avoiding
+      // automatic chromatic/grain injection in the clear profiles.
+      grain: merged.grain,
+      glow: merged.glow,
+      clarity: merged.clarity,
+    };
   }
 
   private transition(shot: FrameContext['shot'], progress: number): TransitionState {

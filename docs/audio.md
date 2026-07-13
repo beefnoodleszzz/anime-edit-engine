@@ -9,6 +9,36 @@ wow.mp4 卡点好，通常不是因为每个镜头都刚好一样长，而是同
 
 只把镜头边界放在 BPM 网格上，只完成了第一层。
 
+## 通用 Audio Event 与 Audio Track
+
+新的项目可以在 `timeline.json` 中声明候选事件：
+
+```json
+{
+  "audioEvents": [
+    { "id": "audio-event-01", "time": 5.038, "type": "accent", "strength": 0.92, "source": "automatic" }
+  ]
+}
+```
+
+音频清单可以使用统一轨道模型，`syncEventRef` 会将轨道起点解析到事件时间：
+
+```json
+{
+  "tracks": [
+    {
+      "id": "sfx-01",
+      "role": "sfx",
+      "file": "assets/audio/event-01.wav",
+      "syncEventRef": "audio-event-01",
+      "gainDb": -3
+    }
+  ]
+}
+```
+
+自动分析结果仅作为候选，`source` 为 `automatic`；人工确认后应改用 `manual` 事件。旧的 `music`、`voice`、`sfx` 字段仍可读取。`render:master` 对最终音频验证 AAC、48kHz、双声道和项目时长。
+
 当前引擎为什么还做不到 wow 那种卡点
 
 现在 timeline.json 虽然有：

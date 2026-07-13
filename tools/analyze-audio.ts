@@ -80,6 +80,14 @@ const accents = onset.flatMap((value, index) => {
   const strength = Math.max(0, Math.min(1, (value - peakFloor) / Math.max(0.000001, peakCeiling - peakFloor)));
   return [{ time: Number(((index * hopSize) / sampleRate).toFixed(6)), strength: Number(strength.toFixed(3)), type: strength > 0.78 ? 'drop' : 'impact', confidence: Number(Math.min(1, 0.5 + strength * 0.5).toFixed(3)) }];
 }).sort((a, b) => b.strength - a.strength).slice(0, 16).sort((a, b) => a.time - b.time);
+const audioEvents = beats.map((time, index) => ({
+  id: `audio-event-${String(index + 1).padStart(4, '0')}`,
+  time,
+  type: index % 4 === 0 ? 'downbeat' : 'beat',
+  strength: index % 4 === 0 ? 0.7 : 0.35,
+  source: 'automatic' as const,
+}));
+for (const [index, accent] of accents.entries()) audioEvents.push({ id: `audio-accent-${String(index + 1).padStart(4, '0')}`, time: accent.time, type: accent.type === 'drop' ? 'drop' : 'accent', strength: accent.strength, source: 'automatic' as const });
 
 const phraseLength = Math.max(1, Math.round(beatFrames * 4));
 const sections: Array<{ start: number; end: number; type: string; confidence: number }> = [];
@@ -106,6 +114,7 @@ const analysis = {
   beats,
   downbeats,
   accents,
+  audioEvents,
   sections,
   note: 'Automatic analysis is a draft. Human-reviewed accent times are authoritative.',
 };

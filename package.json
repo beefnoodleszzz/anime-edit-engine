@@ -29,7 +29,11 @@
     "analyze-audio": "tsx tools/analyze-audio.ts",
     "select-audio-excerpt": "tsx tools/select-audio-excerpt.ts",
     "mix-audio": "tsx tools/mix-audio.ts",
-    "qc:dense": "tsx tools/generate-dense-contact-sheets.ts"
+    "qc:dense": "tsx tools/generate-dense-contact-sheets.ts",
+    "qc:first-frames": "tsx tools/qc-first-frames.ts",
+    "qc:shot-quality": "tsx tools/qc-shot-quality.ts",
+    "qc:sync-report": "tsx tools/qc-sync-report.ts",
+    "render:platform": "tsx tools/render-platform.ts"
   },
   "dependencies": {
     "three": "^0.183.2"

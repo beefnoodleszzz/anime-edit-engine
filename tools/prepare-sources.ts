@@ -8,6 +8,7 @@ import { createRenderContext } from '../engine/core/RenderContext';
 import { PreparedSourcePlanner, type PreparedSourceManifest } from '../engine/source/PreparedSource';
 import { planDecodeJobs } from '../engine/source/DecodePlan';
 import { psnrBetweenPngs } from '../engine/core/PngPixels';
+import { blendPngBuffers } from '../engine/source/TemporalBlend';
 import { resolveProjectId, loadProjectConfig } from './project-io';
 
 /**
@@ -130,7 +131,16 @@ for (const shot of config.timeline.shots) {
   }
   if (valid) continue;
   const staging = `${directory}.tmp`; const frames = join(staging, 'frames'); await rm(staging, { recursive: true, force: true }); await mkdir(frames, { recursive: true });
-  for (const frame of manifest.sourceFrameMap) await linkOrCopy(join(decoded, `frame_${String(frame.sourceFrame + 1).padStart(6, '0')}.png`), join(frames, `frame_${String(frame.outputFrame).padStart(6, '0')}.png`));
+  for (const frame of manifest.sourceFrameMap) {
+    const destination = join(frames, `frame_${String(frame.outputFrame).padStart(6, '0')}.png`);
+    const frameA = frame.sourceFrameA ?? frame.sourceFrame;
+    const frameB = frame.sourceFrameB ?? frame.sourceFrame;
+    const sourceA = join(decoded, `frame_${String(frameA + 1).padStart(6, '0')}.png`);
+    if (manifest.interpolationMode === 'blend' && frameB !== frameA && (frame.blendWeight ?? 0) > 0) {
+      const sourceB = join(decoded, `frame_${String(frameB + 1).padStart(6, '0')}.png`);
+      await writeFile(destination, blendPngBuffers(await readFile(sourceA), await readFile(sourceB), frame.blendWeight ?? 0));
+    } else await linkOrCopy(sourceA, destination);
+  }
   const stagedVideo = join(staging, `${shot.id}.mp4`);
   execFileSync('ffmpeg', ['-y', '-framerate', String(context.fps), '-start_number', '0', '-i', join(frames, 'frame_%06d.png'), '-frames:v', String(manifest.frameCount), '-c:v', 'libx264', '-crf', String(INTERMEDIATE_CRF), '-preset', 'medium', '-g', '1', '-pix_fmt', 'yuv420p', stagedVideo], { stdio: 'inherit' });
   assertPrepared(stagedVideo, manifest);

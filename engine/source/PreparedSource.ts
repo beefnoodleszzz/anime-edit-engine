@@ -1,10 +1,11 @@
 import type { ProjectManifest, RenderContext, TimelineManifest } from '../types';
 import { Director } from '../director/Director';
+import { frameBracket } from './TemporalBlend';
 
-export const PREPARED_SOURCE_COMPILER_VERSION = 3;
+export const PREPARED_SOURCE_COMPILER_VERSION = 4;
 
 export interface PreparedFrame {
-  outputFrame: number; sourceId: string; sourceFile: string; sourceFrame: number; sourceTime: number;
+  outputFrame: number; sourceId: string; sourceFile: string; sourceFrame: number; sourceFrameA?: number; sourceFrameB?: number; blendWeight?: number; sourceTime: number;
   selectedFramePts: number; timeErrorSeconds: number; clamped: boolean; shotId: string;
 }
 export interface PreparedSourceManifest {
@@ -13,6 +14,7 @@ export interface PreparedSourceManifest {
   sourceFrameMap: readonly PreparedFrame[]; sourceFingerprint: string; decodedFrameCount: number;
   heroRange: { start: number; end: number }; timeWarp: string; configFingerprint: string;
   timeErrorSummary: { maxTimeErrorSeconds: number; meanTimeErrorSeconds: number; clampedFrameCount: number };
+  interpolationMode: 'none' | 'blend'; maxInterpolationWeight: number; duplicateFrameRatio: number; blendFrameRatio: number;
 }
 
 const stable = (value: unknown): string => JSON.stringify(value, (_key, nested) => nested && typeof nested === 'object' && !Array.isArray(nested) ? Object.fromEntries(Object.entries(nested).sort(([a], [b]) => a.localeCompare(b))) : nested);
@@ -49,14 +51,17 @@ export class PreparedSourcePlanner {
     const range = source.heroRanges[shot.rangeIndex];
     if (!range) throw new Error(`Hero range missing for ${shot.id}`);
     const director = new Director(project, timeline, context);
+    const interpolation = shot.interpolation?.mode ?? 'none';
+    const maxInterpolationWeight = shot.interpolation?.maxWeight ?? 0.45;
     const frameCount = Math.round((shot.end - shot.start) * context.fps);
     const firstPts = framePts[0]!; const lastPts = framePts[framePts.length - 1]!;
     const sourceFrameMap = Array.from({ length: frameCount }, (_, outputFrame) => {
       const frame = director.resolve(shot.start + outputFrame / context.fps);
       const sourceFrame = nearestFrameIndex(framePts, frame.sourceTime);
+      const bracket = interpolation === 'blend' ? frameBracket(framePts, frame.sourceTime, maxInterpolationWeight) : { lower: sourceFrame, upper: sourceFrame, weight: 0 };
       const selectedFramePts = framePts[sourceFrame]!;
       const clamped = frame.sourceTime <= firstPts || frame.sourceTime >= lastPts;
-      return Object.freeze({ outputFrame, sourceId: source.id, sourceFile: source.file, sourceFrame, sourceTime: frame.sourceTime, selectedFramePts, timeErrorSeconds: Math.abs(selectedFramePts - frame.sourceTime), clamped, shotId: shot.id });
+      return Object.freeze({ outputFrame, sourceId: source.id, sourceFile: source.file, sourceFrame, sourceFrameA: bracket.lower, sourceFrameB: bracket.upper, blendWeight: bracket.weight, sourceTime: frame.sourceTime, selectedFramePts, timeErrorSeconds: Math.abs(selectedFramePts - frame.sourceTime), clamped, shotId: shot.id });
     });
     const interior = sourceFrameMap.filter((frame) => !frame.clamped);
     const timeErrorSummary = {
@@ -68,8 +73,11 @@ export class PreparedSourcePlanner {
       compilerVersion: PREPARED_SOURCE_COMPILER_VERSION, projectId: project.id, shotId: shot.id, sourceId: source.id,
       width: source.width, height: source.height, fps: context.fps, duration: shot.end - shot.start, frameCount,
       sourceFrameMap, sourceFingerprint, decodedFrameCount: framePts.length, heroRange: { start: range.start, end: range.end }, timeWarp: shot.timeWarp,
-      configFingerprint: stable({ shot, source: { id: source.id, width: source.width, height: source.height, fps: source.fps, duration: source.duration }, context: { mode: context.mode, fps: context.fps } }),
+      configFingerprint: stable({ shot, interpolation, maxInterpolationWeight, source: { id: source.id, width: source.width, height: source.height, fps: source.fps, duration: source.duration }, context: { mode: context.mode, fps: context.fps } }),
       timeErrorSummary,
+      interpolationMode: interpolation, maxInterpolationWeight,
+      duplicateFrameRatio: sourceFrameMap.filter((frame) => frame.sourceFrameA === frame.sourceFrameB).length / Math.max(1, sourceFrameMap.length),
+      blendFrameRatio: sourceFrameMap.filter((frame) => (frame.blendWeight ?? 0) > 0 && frame.sourceFrameA !== frame.sourceFrameB).length / Math.max(1, sourceFrameMap.length),
     });
   }
 

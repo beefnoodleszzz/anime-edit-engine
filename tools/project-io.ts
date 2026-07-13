@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import type { ProjectAudioManifest, ProjectManifest, TimelineManifest } from '../engine/types';
+import type { AudioTrack, ProjectAudioManifest, ProjectManifest, TimelineManifest } from '../engine/types';
 
 export const DEFAULT_PROJECT_ID = '001-demo';
 
@@ -24,4 +24,9 @@ export async function loadProjectConfig(projectId: string): Promise<{ project: P
 export async function loadAudioManifest(project: ProjectManifest): Promise<ProjectAudioManifest | undefined> {
   if (project.audioFile) return JSON.parse(await readFile(project.audioFile, 'utf8')) as ProjectAudioManifest;
   return project.audio;
+}
+
+export function listAudioTracks(manifest: ProjectAudioManifest | undefined): AudioTrack[] {
+  if (!manifest) return [];
+  return [...(manifest.tracks ?? []), manifest.music, ...(manifest.voice ?? []), ...(manifest.sfx ?? [])].filter((track): track is AudioTrack => Boolean(track));
 }
