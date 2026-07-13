@@ -1,13 +1,14 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { PNG } from 'pngjs';
 import { assertProductionPng, computeImageQc, cropPng, edgeMap, highestFrequencyCrop } from '../engine/qc/ImageQc';
+import { listImageAssets } from '../engine/qc/ProductionAssets';
 import { loadProjectConfig, resolveProjectId } from './project-io';
 
 const { project } = await loadProjectConfig(resolveProjectId());
 const outputRoot = `projects/${project.id}/qc/first-frames`;
 await mkdir(outputRoot, { recursive: true });
 const assets = [];
-for (const asset of [...(project.images ?? []), ...(project.imageAssets ?? []), ...(project.firstFrames ?? [])]) {
+for (const asset of listImageAssets(project)) {
   const buffer = await readFile(asset.file);
   const png = asset.usage === 'production' ? assertProductionPng(buffer, asset.file) : PNG.sync.read(buffer);
   const regions = asset.qcRegions ?? project.qcRegions ?? [];

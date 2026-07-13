@@ -4,6 +4,18 @@
   "duration": 16,
   "seed": 3013,
   "audioFile": "projects/003-ta-bajian/audio/audio.json",
+  "firstFrames": [
+    {"id": "FF01_D01_throat_standoff", "file": "projects/003-ta-bajian/references/first-frames/FF01_D01_throat_standoff.png", "usage": "production"},
+    {"id": "FF02_M01_male_raise_sword", "file": "projects/003-ta-bajian/references/first-frames/FF02_M01_male_raise_sword.png", "usage": "production"},
+    {"id": "FF03_F01_female_look_up", "file": "projects/003-ta-bajian/references/first-frames/FF03_F01_female_look_up.png", "usage": "production"},
+    {"id": "FF04_M02_male_slash_setup", "file": "projects/003-ta-bajian/references/first-frames/FF04_M02_male_slash_setup.png", "usage": "production"},
+    {"id": "FF05_P01_chain_break_insert", "file": "projects/003-ta-bajian/references/first-frames/FF05_P01_chain_break_insert.png", "usage": "production"},
+    {"id": "FF06_D02_male_turn_protect", "file": "projects/003-ta-bajian/references/first-frames/FF06_D02_male_turn_protect.png", "usage": "production"},
+    {"id": "FF07_M03_male_sword_screen", "file": "projects/003-ta-bajian/references/first-frames/FF07_M03_male_sword_screen.png", "usage": "production"},
+    {"id": "FF08_M04_shield_break_wound", "file": "projects/003-ta-bajian/references/first-frames/FF08_M04_shield_break_wound.png", "usage": "production"},
+    {"id": "FF09_F02_female_awakening_close", "file": "projects/003-ta-bajian/references/first-frames/FF09_F02_female_awakening_close.png", "usage": "production"},
+    {"id": "FF10_D03_female_rise_sword_reverse", "file": "projects/003-ta-bajian/references/first-frames/FF10_D03_female_rise_sword_reverse.png", "usage": "production"}
+  ],
   "renderModes": {
     "draft": {"width": 540, "height": 960, "fps": 30, "blurSamples": 4, "postFX": "reduced"},
     "review": {"width": 1080, "height": 1920, "fps": 60, "blurSamples": 16, "postFX": "full"},

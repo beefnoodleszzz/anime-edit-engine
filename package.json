@@ -31,9 +31,12 @@
     "mix-audio": "tsx tools/mix-audio.ts",
     "qc:dense": "tsx tools/generate-dense-contact-sheets.ts",
     "qc:first-frames": "tsx tools/qc-first-frames.ts",
+    "validate:production-assets": "tsx tools/validate-production-assets.ts",
     "qc:shot-quality": "tsx tools/qc-shot-quality.ts",
     "qc:sync-report": "tsx tools/qc-sync-report.ts",
-    "render:platform": "tsx tools/render-platform.ts"
+    "render:platform": "tsx tools/render-platform.ts",
+    "benchmark:4k-frame": "npm run build && tsx tools/benchmark-4k-frame.ts",
+    "benchmark:4k-3s": "npm run build && tsx tools/benchmark-4k-frame.ts --seconds=3"
   },
   "dependencies": {
     "three": "^0.183.2"

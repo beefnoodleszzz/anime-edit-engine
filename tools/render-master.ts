@@ -4,10 +4,12 @@ import { execFileSync } from 'node:child_process';
 import { createRenderContext } from '../engine/core/RenderContext';
 import { validateMasterStream, validateFirstFrame, validateDeliveryDuration, type ProbeStream } from '../engine/core/MasterValidation';
 import { analyzePngPixels } from '../engine/core/PngPixels';
+import { validateProjectProductionAssets } from '../engine/qc/ProductionAssets';
 import { resolveProjectId, loadAudioManifest, loadProjectConfig, listAudioTracks } from './project-io';
 
 const { project, timeline } = await loadProjectConfig(resolveProjectId());
 const context = createRenderContext(project, 'master'); const frames = 'renders/frames'; const masterDir = `renders/master/${project.id}`;
+await validateProjectProductionAssets(project);
 // Master capture and delivery intentionally share the project's configured 60FPS default.
 // This keeps frame-exact motion, blur, validation, and the final CFR file on one clock instead
 // of rendering a hidden higher-rate intermediate and silently dropping duplicate frames afterward.
@@ -20,11 +22,11 @@ const expectedFrameCount = Math.round(project.duration * context.fps);
 await rm(frames, { recursive: true, force: true }); await mkdir(frames, { recursive: true }); await mkdir(masterDir, { recursive: true });
 execFileSync('npx', ['tsx', 'tools/generate-composition.ts'], { stdio: 'inherit' });
 execFileSync('npx', ['tsx', 'tools/prepare-sources.ts'], { stdio: 'inherit' });
-const entry = 'compositions/.master.render.html'; await mkdir('compositions', { recursive: true }); const reviewEntry = await readFile('index.html', 'utf8');
-const masterEntry = reviewEntry.replace('data-resolution="portrait" data-render-mode="review" data-fps="60"', `data-resolution="portrait-4k" data-render-mode="master" data-fps="${context.fps}"`).replaceAll('width=1080, height=1920', 'width=2160, height=3840').replaceAll('1080px', '2160px').replaceAll('1920px', '3840px').replace('data-width="1080" data-height="1920"', 'data-width="2160" data-height="3840"').replaceAll('src="cache/', 'src="../cache/').replace('src="dist/main.js"', 'src="../dist/main.js"');
+const entry = 'index.html'; const reviewEntry = await readFile(entry, 'utf8');
+const masterEntry = reviewEntry.replace('data-resolution="portrait" data-render-mode="review" data-fps="60"', `data-resolution="portrait-4k" data-render-mode="master" data-fps="${context.fps}"`).replaceAll('width=1080, height=1920', 'width=2160, height=3840').replaceAll('1080px', '2160px').replaceAll('1920px', '3840px').replace('data-width="1080" data-height="1920"', 'data-width="2160" data-height="3840"');
 await writeFile(entry, masterEntry);
 try { execFileSync('npx', ['--yes', 'hyperframes@0.7.49', 'render', '--composition', entry, '--fps', String(context.fps), '--format', 'png-sequence', '--video-frame-format', 'png', '--output', frames], { stdio: 'inherit' }); }
-finally { await rm(entry, { force: true }); }
+finally { await writeFile(entry, reviewEntry); }
 const pngs = (await readdir(frames)).filter((file) => /^frame_\d{6}\.png$/.test(file)).sort();
 if (pngs.length !== expectedFrameCount) throw new Error(`PNG frame count mismatch: expected ${expectedFrameCount}, got ${pngs.length}.`);
 // The HyperFrames CLI's own png-sequence writer numbers frames starting at 1
@@ -84,7 +86,7 @@ const report = {
   rFrameRate: stream.r_frame_rate, avgFrameRate: stream.avg_frame_rate,
   sourceFps: motionReport.sourceFps, duplicateFrameRatio: motionReport.duplicateFrameRatio, blendFrameRatio: motionReport.blendFrameRatio, interpolationMode: motionReport.interpolationMode,
   motion: motionReport, audio: audioValidation,
-  hyperFramesConfig: { composition: 'generated compositions/.master.render.html', width: 2160, height: 3840, fps: context.fps },
+  hyperFramesConfig: { composition: 'temporary 4K index.html', width: 2160, height: 3840, fps: context.fps },
   engineRenderContext: context, preparedSources: project.id, ffprobe, generatedAt: new Date().toISOString(), bytes: (await stat(master)).size,
 };
 await writeFile(`${masterDir}/master-report.json`, `${JSON.stringify(report, null, 2)}\n`);

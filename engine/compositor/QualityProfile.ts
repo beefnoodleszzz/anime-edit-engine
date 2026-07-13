@@ -1,6 +1,10 @@
 import type { PostFXConfig, ProjectManifest, QualityConfig, QualityProfile, ShotPostFXOverride } from '../types';
 
 export const QUALITY_PROFILES: Record<Exclude<QualityProfile, 'custom'>, PostFXConfig> = {
+  legacy: {
+    glow: 0.18, chromatic: 0, grain: 0.016, clarity: 0, contrast: 0, saturation: 0,
+    samplingMode: 'linear', sharpen: { amount: 0.1, threshold: 0, limit: 0.25 },
+  },
   cinematic: {
     glow: 0.18, chromatic: 0, grain: 0.016, clarity: 0, contrast: 0, saturation: 0,
     samplingMode: 'linear', sharpen: { amount: 0.1, threshold: 0, limit: 0.25 },
@@ -18,7 +22,7 @@ export const QUALITY_PROFILES: Record<Exclude<QualityProfile, 'custom'>, PostFXC
 const clone = (config: PostFXConfig): PostFXConfig => ({ ...config, sharpen: { ...config.sharpen } });
 
 export function resolveQualityConfig(project: ProjectManifest): PostFXConfig {
-  const profile = project.qualityProfile ?? 'anime-ultra-clear';
+  const profile = project.qualityProfile ?? 'legacy';
   const base = profile === 'custom' ? QUALITY_PROFILES['anime-ultra-clear'] : QUALITY_PROFILES[profile];
   const quality = project.quality ?? {};
   return mergeQualityConfig(base, quality);

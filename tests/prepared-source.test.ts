@@ -18,6 +18,8 @@ describe('PreparedSourcePlanner', () => {
     expect(manifest.sourceFrameMap[0]?.outputFrame).toBe(0);
     expect(manifest.sourceFrameMap.at(-1)?.outputFrame).toBe(71);
     expect(manifest.sourceFrameMap.every((frame) => frame.sourceFrame >= 0 && frame.sourceFrame < framePts24.length)).toBe(true);
+    expect(manifest.duplicateFrameRatio).toBeGreaterThan(0);
+    expect(manifest.duplicateFrameRatio).toBeLessThan(1);
     planner.assertValid(manifest, typedProject, typedTimeline, context, 'source-fingerprint', framePts24);
   });
   it('rejects a stale prepared manifest', () => {

@@ -1,13 +1,14 @@
 export type SourceType =
   | 'HERO_IDLE' | 'LOOK_BACK' | 'FACE' | 'EYE' | 'HAND_FACE' | 'CAPE_TURN'
-  | 'CAPE_EXIT' | 'HAIR_WIPE' | 'DRAW' | 'SLASH' | 'WALK' | 'SIDE_PROFILE';
+  | 'CAPE_EXIT' | 'HAIR_WIPE' | 'DRAW' | 'SLASH' | 'WALK' | 'SIDE_PROFILE'
+  | 'CUSTOM';
 
 export type RenderModeName = 'draft' | 'review' | 'master';
 export type CameraPresetName = 'HERO_CRASH_IN' | 'FACE_CROSS_LEFT' | 'FACE_CROSS_RIGHT' | 'EYE_PUSH' | 'WHIP_RIGHT' | 'REVERSE_PULL' | 'REVERSE_ORBIT' | 'WARD_PUSH' | 'SLEEVE_PASS';
 export type TimeWarpName = 'crash' | 'steady' | 'hold' | 'accelerate' | 'whip' | 'release' | 'settle';
 export type TransitionName = 'COLOR_BRIDGE_CUT' | 'FOREGROUND_OCCLUSION_WIPE' | 'VELOCITY_CUT' | 'WHIP';
 export type AssetUsage = 'concept' | 'production';
-export type QualityProfile = 'cinematic' | 'anime-ultra-clear' | 'anime-impact' | 'custom';
+export type QualityProfile = 'legacy' | 'cinematic' | 'anime-ultra-clear' | 'anime-impact' | 'custom';
 export type SamplingMode = 'linear' | 'bicubic' | 'bicubic-sharp';
 export type InterpolationMode = 'none' | 'blend';
 export type BlurCoordinateSpace = 'progress' | 'absolute';

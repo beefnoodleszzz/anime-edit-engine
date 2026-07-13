@@ -15,4 +15,12 @@ describe('marker and audio event sync', () => {
     const legacy = { ...shot, syncPoints: [{ kind: 'impact', sourceTime: 1, outputTime: 2.5 }] } as TimelineShot;
     expect(resolveShotTimeMap(legacy, source, timeline, 0, 3)[1]).toEqual({ outputProgress: 0.25, sourceProgress: 1 / 3 });
   });
+  it('preserves explicit start and end anchors over automatic endpoints', () => {
+    const boundary = { ...shot, start: 2, end: 4, syncPoints: [{ kind: 'hold', sourceTime: 0.5, outputTime: 2 }, { kind: 'cut', sourceTime: 2.5, outputTime: 4 }] } as TimelineShot;
+    expect(resolveShotTimeMap(boundary, source, timeline, 0, 3)).toEqual([{ outputProgress: 0, sourceProgress: 0.5 / 3 }, { outputProgress: 1, sourceProgress: 2.5 / 3 }]);
+  });
+  it('keeps the first explicit anchor when output times repeat', () => {
+    const repeated = { ...shot, syncPoints: [{ kind: 'impact', sourceTime: 1, outputTime: 3 }, { kind: 'cut', sourceTime: 2, outputTime: 3 }] } as TimelineShot;
+    expect(resolveShotTimeMap(repeated, source, timeline, 0, 3)[1]).toEqual({ outputProgress: 0.5, sourceProgress: 1 / 3 });
+  });
 });

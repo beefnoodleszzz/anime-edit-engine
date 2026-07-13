@@ -11,6 +11,7 @@ export class ProjectLoader {
     if (timeline.shots.length === 0) throw new Error('Timeline requires at least one shot.');
     this.validateImages(project);
     this.validateAudioEvents(timeline);
+    if (project.qualityProfile !== undefined && !['legacy', 'cinematic', 'anime-ultra-clear', 'anime-impact', 'custom'].includes(project.qualityProfile)) throw new Error(`Invalid qualityProfile: ${project.qualityProfile}.`);
     this.validateQuality(project.quality);
     this.validateAudio(project);
     const sourceIds = new Set(project.sources.map((source) => source.id));

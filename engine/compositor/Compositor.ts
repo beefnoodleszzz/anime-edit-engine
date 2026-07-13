@@ -74,6 +74,7 @@ const fragmentShader = /* glsl */`
   }
   vec3 sampleSource(vec2 uv, int sampleIndex) {
     vec2 coord = sourceUv(uv, sampleIndex);
+    if (uChromatic <= 0.000001) return sampleColor(coord);
     vec2 ca = vec2(uVelocity.x, -uVelocity.y) * uChromatic * 0.11;
     return vec3(sampleColor(coord + ca).r, sampleColor(coord).g, sampleColor(coord - ca).b);
   }
@@ -91,15 +92,25 @@ const fragmentShader = /* glsl */`
     color /= max(weight, 0.0001);
     float glowMask = smoothstep(0.82, 0.98, luma(color)) * smoothstep(0.08, 0.35, max(max(color.r, color.g), color.b) - min(min(color.r, color.g), color.b));
     color += color * glowMask * uGlow;
-    vec2 texel = uSourceTexel;
-    int centerIndex = int(max(0.0, floor((uSamples - 1.0) * 0.5)));
-    vec3 blur = (sampleSource(vUv + vec2(texel.x, 0.0), centerIndex) + sampleSource(vUv - vec2(texel.x, 0.0), centerIndex) + sampleSource(vUv + vec2(0.0, texel.y), centerIndex) + sampleSource(vUv - vec2(0.0, texel.y), centerIndex)) * 0.25;
-    float edge = smoothstep(uSharpenThreshold, uSharpenThreshold + 0.12, abs(luma(color) - luma(blur)));
-    vec3 sharpenDetail = clamp(color - blur, vec3(-uSharpenLimit), vec3(uSharpenLimit));
-    color += sharpenDetail * uSharpen * edge;
-    float localAverage = (luma(sampleSource(vUv + vec2(texel.x, 0.0), centerIndex)) + luma(sampleSource(vUv - vec2(texel.x, 0.0), centerIndex)) + luma(sampleSource(vUv + vec2(0.0, texel.y), centerIndex)) + luma(sampleSource(vUv - vec2(0.0, texel.y), centerIndex))) * 0.25;
-    float detail = luma(color) - localAverage;
-    color += vec3(detail * uClarity * smoothstep(0.015, 0.12, abs(detail)));
+    if (uSharpen > 0.000001 || uClarity > 0.000001) {
+      vec2 texel = uSourceTexel;
+      int centerIndex = int(max(0.0, floor((uSamples - 1.0) * 0.5)));
+      vec3 right = sampleSource(vUv + vec2(texel.x, 0.0), centerIndex);
+      vec3 left = sampleSource(vUv - vec2(texel.x, 0.0), centerIndex);
+      vec3 down = sampleSource(vUv + vec2(0.0, texel.y), centerIndex);
+      vec3 up = sampleSource(vUv - vec2(0.0, texel.y), centerIndex);
+      vec3 blur = (right + left + down + up) * 0.25;
+      if (uSharpen > 0.000001) {
+        float edge = smoothstep(uSharpenThreshold, uSharpenThreshold + 0.12, abs(luma(color) - luma(blur)));
+        vec3 sharpenDetail = clamp(color - blur, vec3(-uSharpenLimit), vec3(uSharpenLimit));
+        color += sharpenDetail * uSharpen * edge;
+      }
+      if (uClarity > 0.000001) {
+        float localAverage = luma(blur);
+        float detail = luma(color) - localAverage;
+        color += vec3(detail * uClarity * smoothstep(0.015, 0.12, abs(detail)));
+      }
+    }
     color = (color - 0.5) * (1.0 + uContrast) + 0.5;
     color = mix(vec3(luma(color)), color, 1.0 + uSaturation);
     color += (hash(vUv * uOutputSize) - 0.5) * uGrain;
